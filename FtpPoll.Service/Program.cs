@@ -1,4 +1,8 @@
-﻿using FtpPoll.Components.Consumers;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using FtpPoll.Components.Consumers;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.ApplicationInsights;
@@ -11,10 +15,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FtpPoll.Service
 {
@@ -40,8 +40,7 @@ namespace FtpPoll.Service
                     config.AddJsonFile("appsettings.json", true);
                     config.AddEnvironmentVariables();
 
-                    if (args != null)
-                        config.AddCommandLine(args);
+                    if (args != null) config.AddCommandLine(args);
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
@@ -73,9 +72,13 @@ namespace FtpPoll.Service
                 });
 
             if (isService)
+            {
                 await builder.UseWindowsService().Build().RunAsync().ConfigureAwait(false);
+            }
             else
+            {
                 await builder.RunConsoleAsync().ConfigureAwait(false);
+            }
 
             _module?.Dispose();
             _telemetryClient?.Flush();

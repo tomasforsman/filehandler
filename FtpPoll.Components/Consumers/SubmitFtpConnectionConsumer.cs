@@ -1,7 +1,8 @@
-﻿using FtpPoll.Contracts;
+﻿using System.Threading.Tasks;
+using FtpPoll.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
+
 
 namespace FtpPoll.Components.Consumers
 {

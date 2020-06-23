@@ -1,8 +1,8 @@
-﻿using FtpPoll.Contracts;
+﻿using System;
+using FtpPoll.Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading.Tasks;
 
 namespace FtpPoll.Controllers
