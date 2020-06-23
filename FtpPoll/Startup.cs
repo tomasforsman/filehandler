@@ -1,3 +1,6 @@
+/// <summary>
+///   FtpPoll is an API that sends put or post requests to FtpPoll.Service using MassTransit and RabbitMQ.
+/// </summary>
 using System;
 using FtpPoll.Contracts;
 using MassTransit;
