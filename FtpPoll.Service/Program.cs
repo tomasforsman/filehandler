@@ -18,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace FtpPoll.Service
 {
-    internal class Program
+    internal static class Program
     {
         private static DependencyTrackingTelemetryModule _module;
         private static TelemetryClient _telemetryClient;
@@ -73,9 +73,9 @@ namespace FtpPoll.Service
                 });
 
             if (isService)
-                await builder.UseWindowsService().Build().RunAsync();
+                await builder.UseWindowsService().Build().RunAsync().ConfigureAwait(false);
             else
-                await builder.RunConsoleAsync();
+                await builder.RunConsoleAsync().ConfigureAwait(false);
 
             _module?.Dispose();
             _telemetryClient?.Flush();
@@ -85,10 +85,7 @@ namespace FtpPoll.Service
 
         private static IBusControl ConfigureBus(IRegistrationContext<IServiceProvider> context)
         {
-            return Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                cfg.ConfigureEndpoints(context);
-            });
+            return Bus.Factory.CreateUsingRabbitMq(cfg => cfg.ConfigureEndpoints(context));
         }
     }
 }

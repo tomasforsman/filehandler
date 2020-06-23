@@ -33,16 +33,16 @@ namespace FtpPoll.Controllers
                 UserName = userName,
                 Password = password,
                 Folder = folder
-            });
+            }).ConfigureAwait(false);
 
             if (accepted.IsCompletedSuccessfully)
             {
-                var response = await accepted;
+                var response = await accepted.ConfigureAwait(false);
                 return Accepted(response);
             }
             else
             {
-                var response = await rejected;
+                var response = await rejected.ConfigureAwait(false);
                 return BadRequest(response.Message);
             }
         }
@@ -50,7 +50,7 @@ namespace FtpPoll.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Guid id, string hostName, string userName, string password, string folder)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-ftp-connection"));
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-ftp-connection")).ConfigureAwait(false);
             await endpoint.Send<SubmitFtpConnection>(new
             {
                 ConnectionId = id,
@@ -59,7 +59,7 @@ namespace FtpPoll.Controllers
                 UserName = userName,
                 Password = password,
                 Folder = folder
-            });
+            }).ConfigureAwait(false);
 
             return Accepted();
         }

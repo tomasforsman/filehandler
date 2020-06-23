@@ -30,7 +30,7 @@ namespace FtpPoll.Components.Consumers
                         context.Message.Password,
                         context.Message.Folder,
                         Reason = $"Unable to submit FTP Connection to TEST host: {context.Message.HostName}"
-                    });
+                    }).ConfigureAwait(false);
                     return;
                 }
             }
@@ -45,7 +45,7 @@ namespace FtpPoll.Components.Consumers
                     context.Message.UserName,
                     context.Message.Password,
                     context.Message.Folder
-                });
+                }).ConfigureAwait(false);
             }
         }
     }
