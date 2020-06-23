@@ -1,6 +1,3 @@
-/// <summary>
-///   FtpPoll is an API that sends put or post requests to FtpPoll.Service using MassTransit and RabbitMQ.
-/// </summary>
 using System;
 using FtpPoll.Contracts;
 using MassTransit;
@@ -15,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace FtpPoll
 {
+    /// <summary>
+    ///   FtpPoll is an API that sends put or post requests to FtpPoll.Service using MassTransit and RabbitMQ.
+    /// </summary>
     public class Startup
     {
         public Startup(IConfiguration configuration)
