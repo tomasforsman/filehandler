@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace FtpPoll
+namespace FileHandler
 {
     public static class Program
     {

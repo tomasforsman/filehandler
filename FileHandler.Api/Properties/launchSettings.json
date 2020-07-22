@@ -12,15 +12,15 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "ftpconnection",
+      "launchUrl": "FileInfo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FtpPoll": {
+    "FileHandler": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "ftpconnection",
+      "launchUrl": "FileInfo",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -29,7 +29,7 @@
     "Docker": {
       "commandName": "Docker",
       "launchBrowser": true,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/ftpconnection",
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/FileInfo",
       "publishAllPorts": true,
       "useSSL": true
     }

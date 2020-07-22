@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30128.74
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtpPoll", "FtpPoll\FtpPoll.csproj", "{45B274D4-BA6C-43A1-B7ED-AE17E9A67B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Api", "FileHandler.Api\FileHandler.Api.csproj", "{45B274D4-BA6C-43A1-B7ED-AE17E9A67B30}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtpPoll.Contracts", "FtpPoll.Contracts\FtpPoll.Contracts.csproj", "{FC531BA3-ABDB-4774-A132-946D87C6AEBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Contracts", "FileHandler.Contracts\FileHandler.Contracts.csproj", "{FC531BA3-ABDB-4774-A132-946D87C6AEBC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtpPoll.Components", "FtpPoll.Components\FtpPoll.Components.csproj", "{CB3335F0-8B73-4373-A638-1D33CF9EB699}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Components", "FileHandler.Components\FileHandler.Components.csproj", "{CB3335F0-8B73-4373-A638-1D33CF9EB699}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FtpPoll.Service", "FtpPoll.Service\FtpPoll.Service.csproj", "{9D7480EE-587F-4BA0-95DA-9083D426565F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Service", "FileHandler.Service\FileHandler.Service.csproj", "{9D7480EE-587F-4BA0-95DA-9083D426565F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

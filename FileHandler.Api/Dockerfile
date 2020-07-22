@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["FtpPoll/FtpPoll.csproj", "FtpPoll/"]
-RUN dotnet restore "FtpPoll/FtpPoll.csproj"
+COPY ["FileHandler/FileHandler.csproj", "FileHandler/"]
+RUN dotnet restore "FileHandler/FileHandler.csproj"
 COPY . .
-WORKDIR "/src/FtpPoll"
-RUN dotnet build "FtpPoll.csproj" -c Release -o /app/build
+WORKDIR "/src/FileHandler"
+RUN dotnet build "FileHandler.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "FtpPoll.csproj" -c Release -o /app/publish
+RUN dotnet publish "FileHandler.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "FtpPoll.dll"]
+ENTRYPOINT ["dotnet", "FileHandler.dll"]

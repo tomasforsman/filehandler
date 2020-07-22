@@ -1,5 +1,5 @@
 using System;
-using FtpPoll.Contracts;
+using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.AspNetCore.Builder;
@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 
-namespace FtpPoll
+namespace FileHandler
 {
     /// <summary>
-    ///   FtpPoll is an API that sends put or post requests to FtpPoll.Service using MassTransit and RabbitMQ.
+    ///   API that sends put or post requests to FileHandler.Service using MassTransit and RabbitMQ.
     /// </summary>
     public class Startup
     {
@@ -34,7 +34,7 @@ namespace FtpPoll
             {
                 cfg.AddBus(provider => Bus.Factory.CreateUsingRabbitMq());
 
-                cfg.AddRequestClient<SubmitFtpConnection>(new Uri("queue:submit-ftp-connection"));
+                cfg.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
             });
 
             services.AddMassTransitHostedService();
@@ -45,7 +45,7 @@ namespace FtpPoll
                 options.Predicate = (check) => check.Tags.Contains("ready");
             });
 
-            services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "Sample FtpPoll API");
+            services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "Sample FileHandler API");
             services.AddControllers();
         }
 

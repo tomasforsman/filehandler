@@ -2,7 +2,8 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using FtpPoll.Components.Consumers;
+using FileHandler.Components.Consumers;
+using FileHandler.Components.StateMachines;
 using MassTransit;
 using MassTransit.Definition;
 using Microsoft.ApplicationInsights;
@@ -16,10 +17,14 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
 
-namespace FtpPoll.Service
+namespace FileHandler.Service
 {
     internal static class Program
     {
+        /// <summary>
+        ///   Service that receives message and does something with it.
+        /// </summary>
+
         private static DependencyTrackingTelemetryModule _module;
         private static TelemetryClient _telemetryClient;
 
@@ -58,7 +63,10 @@ namespace FtpPoll.Service
                     services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
                     services.AddMassTransit(cfg =>
                     {
-                        cfg.AddConsumersFromNamespaceContaining<SubmitFtpConnectionConsumer>();
+                        cfg.AddConsumersFromNamespaceContaining<SubmitFileInfoConsumer>();
+
+                        cfg.AddSagaStateMachine<FileHandlerStateMachine, FileInfoState>()
+                            .RedisRepository();
 
                         cfg.AddBus(ConfigureBus);
                     });
@@ -69,6 +77,7 @@ namespace FtpPoll.Service
                 {
                     logging.AddSerilog(dispose: true);
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConsole();
                 });
 
             if (isService)
@@ -86,9 +95,9 @@ namespace FtpPoll.Service
             Log.CloseAndFlush();
         }
 
-        private static IBusControl ConfigureBus(IRegistrationContext<IServiceProvider> context)
+        private static IBusControl ConfigureBus(IServiceProvider provider)
         {
-            return Bus.Factory.CreateUsingRabbitMq(cfg => cfg.ConfigureEndpoints(context));
+            return Bus.Factory.CreateUsingRabbitMq(cfg => cfg.ConfigureEndpoints(provider));
         }
     }
 }

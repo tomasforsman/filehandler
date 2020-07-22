@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MassTransit" Version="6.2.3" />
+    <PackageReference Include="MassTransit.Analyzers" Version="6.2.3" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="6.2.3" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="6.2.3" />
+    <PackageReference Include="MassTransit.Redis" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FileHandler.Contracts\FileHandler.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
