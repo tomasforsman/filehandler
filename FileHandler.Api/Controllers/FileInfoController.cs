@@ -13,15 +13,28 @@ namespace FileHandler.Api.Controllers
     {
         private readonly ILogger<FileInfoController> _logger;
         private readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
+        private readonly IRequestClient<CheckFileInfo> _checkFileInfoClient;
         private readonly ISendEndpointProvider _sendEndpointProvider;
 
-        public FileInfoController(ILogger<FileInfoController> logger, IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider)
+        public FileInfoController(ILogger<FileInfoController> logger, IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider, IRequestClient<CheckFileInfo> checkFileInfoClient)
         {
             _logger = logger;
             _submitFileInfoRequestClient = submitFileInfoRequestClient;
             _sendEndpointProvider = sendEndpointProvider;
+            _checkFileInfoClient = checkFileInfoClient;
         }
 
+
+        [HttpGet]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var response = await _checkFileInfoClient.GetResponse<FileStatus>(new
+            {
+                FileId = id
+            });
+
+            return Ok(response.Message);
+        }
 
 
         [HttpPost]

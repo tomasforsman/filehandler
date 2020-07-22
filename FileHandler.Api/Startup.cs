@@ -35,6 +35,7 @@ namespace FileHandler
                 cfg.AddBus(provider => Bus.Factory.CreateUsingRabbitMq());
 
                 cfg.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+                cfg.AddRequestClient<CheckFileInfo>();
             });
 
             services.AddMassTransitHostedService();
