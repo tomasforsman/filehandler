@@ -22,15 +22,18 @@ namespace FileHandler.Api.Controllers
             _sendEndpointProvider = sendEndpointProvider;
         }
 
+
+
         [HttpPost]
-        public async Task<IActionResult> Post(Guid id, string fileName, string folder)
+        public async Task<IActionResult> Post(Guid id, string fileName, string folder, string text)
         {
             var (accepted, rejected) = await _submitFileInfoRequestClient.GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
             {
                 FileId = id,
                 InVar.Timestamp,
                 FileName = fileName,
-                Folder = folder
+                Folder = folder,
+                Text = text
             }).ConfigureAwait(false);
 
             if (accepted.IsCompletedSuccessfully)
@@ -46,7 +49,7 @@ namespace FileHandler.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Guid id, string fileName, string folder)
+        public async Task<IActionResult> Put(Guid id, string fileName, string folder, string text)
         {
             var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-ftp-connection")).ConfigureAwait(false);
             await endpoint.Send<SubmitFileInfo>(new
@@ -54,7 +57,8 @@ namespace FileHandler.Api.Controllers
                 FileId = id,
                 InVar.Timestamp,
                 FileName = fileName,
-                Folder = folder
+                Folder = folder,
+                Text = text
             }).ConfigureAwait(false);
 
             return Accepted();

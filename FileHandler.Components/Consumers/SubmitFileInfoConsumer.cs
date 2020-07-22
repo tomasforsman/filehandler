@@ -26,6 +26,7 @@ namespace FileHandler.Components.Consumers
                     context.Message.FileId,
                     context.Message.FileName,
                     context.Message.Folder,
+                    context.Message.Text,
                     Reason = $"Unable to submit File with name containing TEST: {context.Message.FileName}"
                 }).ConfigureAwait(false);
                 return;
@@ -45,7 +46,8 @@ namespace FileHandler.Components.Consumers
                     InVar.Timestamp,
                     context.Message.FileId,
                     context.Message.FileName,
-                    context.Message.Folder
+                    context.Message.Folder,
+                    context.Message.Text
                 }).ConfigureAwait(false);
             }
         }

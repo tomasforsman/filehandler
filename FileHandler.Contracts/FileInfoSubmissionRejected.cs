@@ -13,6 +13,8 @@ namespace FileHandler.Contracts
 
         string Folder { get; }
 
+        string Text { get; }
+
         string Reason { get; set; }
     }
 }

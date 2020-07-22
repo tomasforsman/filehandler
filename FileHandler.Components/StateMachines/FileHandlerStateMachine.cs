@@ -24,6 +24,7 @@ namespace FileHandler.Components.StateMachines
                     {
                         context.Instance.SubmitDate = context.Data.Timestamp;
                         context.Instance.FileName = context.Data.FileName;
+                        context.Instance.Text = context.Data.Text;
                         context.Instance.Updated = DateTime.UtcNow;
                     })
                     .TransitionTo(Submitted));
@@ -32,7 +33,7 @@ namespace FileHandler.Components.StateMachines
                 Ignore(FileInfoSubmitted));
 
 
-            //DuringAny never includes initial or final state, but all others.
+            //DuringAny includes all states except initial and final.
             DuringAny(
                 When(FileInfoSubmitted)
                     .Then(context =>
@@ -60,6 +61,7 @@ namespace FileHandler.Components.StateMachines
         public DateTime? Updated { get; set; }
         public DateTime? SubmitDate { get; set; }
         public string FileName { get; set; }
+        public string Text { get; set; }
 
     }
 }
