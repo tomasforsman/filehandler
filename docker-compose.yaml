@@ -1,0 +1,28 @@
+version: "3.8"
+
+networks:
+    wolf:
+
+services: 
+    rabbitmq:
+        image: jctrimino/rabbitmq-3.8.1:1903
+        networks:
+            - wolf
+        ports:
+            - "5672:5672"
+            - "15672:15672"
+            - "15692:15692"
+        healthcheck:
+            timeout: 5s
+            interval: 5s
+            retries: 10
+            test:
+                - "CMD"
+                - "rabbitmqctl"
+                - "status" 
+    redis:
+        image: redis
+        networks:
+            - wolf
+        ports:
+            - "6379:6379"
