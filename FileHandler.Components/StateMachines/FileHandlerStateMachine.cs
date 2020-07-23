@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Automatonymous;
 using FileHandler.Contracts;
@@ -18,7 +19,17 @@ namespace FileHandler.Components.StateMachines
         public FileHandlerStateMachine()
         {
             Event(()=> FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
-            Event(()=> FileInfoStatusRequested, x => x.CorrelateById(m => m.Message.FileId));
+            Event(()=> FileInfoStatusRequested, x =>
+            {
+                x.CorrelateById(m => m.Message.FileId);
+                x.OnMissingInstance(m => m.ExecuteAsync(async context =>
+                {
+                    if (context.RequestId.HasValue)
+                    {
+                        await context.RespondAsync<FileNotFound>(new {context.Message.FileId});
+                    }
+                }));
+            });
             InstanceState(x => x.CurrentState);
             Initially(
                 When(FileInfoSubmitted)

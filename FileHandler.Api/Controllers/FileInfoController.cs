@@ -28,12 +28,21 @@ namespace FileHandler.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
-            var response = await _checkFileInfoClient.GetResponse<FileStatus>(new
-            {
-                FileId = id
-            });
+            var (status,notFound) = await _checkFileInfoClient.GetResponse<FileStatus, FileNotFound>(new {FileId = id});
 
-            return Ok(response.Message);
+            if (status.IsCompletedSuccessfully)
+            {
+                var response = await status;
+                return Ok(response.Message);
+            }
+            else
+            {
+                var response = await notFound;
+                return NotFound(response.Message);
+            }
+
+
+
         }
 
 
