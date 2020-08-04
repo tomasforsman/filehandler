@@ -4,7 +4,7 @@ using MassTransit.RedisIntegration;
 
 namespace FileHandler.Components.StateMachines
 {
-    public class FileInfoState :
+    public class FileHandlerState :
         SagaStateMachineInstance,
         IVersionedSaga
     {

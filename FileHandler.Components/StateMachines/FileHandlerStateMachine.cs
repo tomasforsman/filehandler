@@ -9,7 +9,7 @@ using MassTransit;
 namespace FileHandler.Components.StateMachines
 {
     public class FileHandlerStateMachine :
-        MassTransitStateMachine<FileInfoState>
+        MassTransitStateMachine<FileHandlerState>
     {
         /// <summary>
         ///   Automatonymous state machine for a MassTransit saga.
