@@ -65,7 +65,7 @@ namespace FileHandler.Service
                     {
                         cfg.AddConsumersFromNamespaceContaining<SubmitFileInfoConsumer>();
 
-                        cfg.AddSagaStateMachine<FileHandlerStateMachine, FileInfoState>()
+                        cfg.AddSagaStateMachine<FileHandlerStateMachine, FileInfoState>(typeof(FileHandlerStateMachineDefinition))
                             .RedisRepository();
 
                         cfg.AddBus(ConfigureBus);
