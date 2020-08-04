@@ -1,7 +1,7 @@
 using System;
 using System.Dynamic;
 
-namespace FileWatcher.Service.Contracts
+namespace FileWatcher.Contracts
 {
     public interface YesItIs
     {

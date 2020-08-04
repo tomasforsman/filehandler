@@ -1,4 +1,4 @@
-namespace FileWatcher.Service.Contracts
+namespace FileWatcher.Contracts
 {
     public interface IsFileExisting
     {

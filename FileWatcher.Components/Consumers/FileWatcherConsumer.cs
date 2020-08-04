@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
-using FileWatcher.Service.Contracts;
+using FileWatcher.Contracts;
 using MassTransit;
 
-namespace FileWatcher.Service
+namespace FileWatcher.Components
 {
     public class FileWatcherConsumer :
         IConsumer<IsFileExisting>
