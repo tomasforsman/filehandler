@@ -1,13 +1,13 @@
 version: "3.8"
 
 networks:
-    wolf:
+    pri:
 
 services: 
     rabbitmq:
         image: jctrimino/rabbitmq-3.8.1:1903
         networks:
-            - wolf
+            - pri
         ports:
             - "5672:5672"
             - "15672:15672"
@@ -23,6 +23,6 @@ services:
     redis:
         image: redis
         networks:
-            - wolf
+            - pri
         ports:
             - "6379:6379"
