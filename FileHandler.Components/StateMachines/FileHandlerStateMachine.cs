@@ -5,7 +5,6 @@ using System.Text;
 using Automatonymous;
 using FileHandler.Contracts;
 using MassTransit;
-using MassTransit.RedisIntegration;
 
 namespace FileHandler.Components.StateMachines
 {
@@ -72,20 +71,5 @@ namespace FileHandler.Components.StateMachines
 
         public Event<FileInfoSubmitted> FileInfoSubmitted { get; private set; }
         public Event<CheckFileInfo> FileInfoStatusRequested { get; private set; }
-    }
-
-    public class FileInfoState :
-        SagaStateMachineInstance,
-        IVersionedSaga
-    {
-        public Guid CorrelationId { get; set; }
-        public int Version { get; set; }
-
-        public string CurrentState { get; set; }
-
-        public DateTime? Updated { get; set; }
-        public DateTime? SubmitDate { get; set; }
-        public string FileName { get; set; }
-        public string Text { get; set; }
     }
 }
