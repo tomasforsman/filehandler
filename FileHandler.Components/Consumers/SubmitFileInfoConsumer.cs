@@ -10,6 +10,10 @@ namespace FileHandler.Components.Consumers
     {
         readonly ILogger<SubmitFileInfoConsumer> _logger;
 
+        public SubmitFileInfoConsumer()
+        {
+        }
+        
         public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger)
         {
             _logger = logger;
@@ -17,7 +21,7 @@ namespace FileHandler.Components.Consumers
 
         public async Task Consume(ConsumeContext<SubmitFileInfo> context)
         {
-            _logger.Log(LogLevel.Debug, "SubmitFileInfoConsumer: {context}", context);
+            _logger?.Log(LogLevel.Debug, "SubmitFileInfoConsumer: {context}", context);
             if (context.Message.FileName.Contains("TEST") && context.RequestId != null)
             {
                 await context.RespondAsync<FileInfoSubmissionRejected>(new

@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher.Components", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher.Contracts", "FileWatcher.Contracts\FileWatcher.Contracts.csproj", "{B60AA3BC-FE24-4F48-8618-F6604E63694F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHandler.Components.Tests", "FileHandler.Components.Tests\FileHandler.Components.Tests.csproj", "{B0938762-45A1-407D-9617-05D599718DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B60AA3BC-FE24-4F48-8618-F6604E63694F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B60AA3BC-FE24-4F48-8618-F6604E63694F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B60AA3BC-FE24-4F48-8618-F6604E63694F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0938762-45A1-407D-9617-05D599718DFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0938762-45A1-407D-9617-05D599718DFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0938762-45A1-407D-9617-05D599718DFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0938762-45A1-407D-9617-05D599718DFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
