@@ -60,5 +60,42 @@ namespace FileHandler.Components.Tests
         }
         
         
+        [Fact]
+        public async Task Should_respond_to_status_checks()
+        {
+            
+            // Arrange (Given)
+            var harness = new InMemoryTestHarness();
+            var fileHandlerStateMachine = new FileHandlerStateMachine();
+            var saga = harness.StateMachineSaga<FileHandlerState, FileHandlerStateMachine>(fileHandlerStateMachine);
+            
+            await harness.Start();
+            try
+            {
+                var fileId = NewId.NextGuid();
+
+                await harness.Bus.Publish<FileInfoSubmitted>(new
+                {
+
+                    FileId = fileId,
+                    Timestamp = InVar.Timestamp,
+                    FileName = "filename.file",
+                    Folder = "c:/folder/",
+                    Text = "Det finns ingen som älskar smärtan i sig"
+                });
+                var instanceID = await saga.Exists(fileId, x => x.Submitted);
+                var instance = saga.Sagas.Contains(instanceID.Value);
+
+                var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
+
+                var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
+                
+                Assert.Equal(response.Message.State, fileHandlerStateMachine.Submitted.Name);
+            }
+            finally
+            {
+                await harness.Stop();
+            }
+        }
     }
 }

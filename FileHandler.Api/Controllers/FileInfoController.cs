@@ -73,7 +73,7 @@ namespace FileHandler.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Guid id, string fileName, string folder, string text)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-ftp-connection")).ConfigureAwait(false);
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-file-info")).ConfigureAwait(false);
             await endpoint.Send<SubmitFileInfo>(new
             {
                 FileId = id,
