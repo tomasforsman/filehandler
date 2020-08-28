@@ -29,6 +29,9 @@ namespace FileHandler.Components.StateMachines
                     }
                 }));
             });
+            Event(() => FileDeleted,
+                x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
+            
             InstanceState(x => x.CurrentState);
             Initially(
                 When(FileInfoSubmitted)
@@ -42,7 +45,9 @@ namespace FileHandler.Components.StateMachines
                     .TransitionTo(Submitted));
 
             During(Submitted,
-                Ignore(FileInfoSubmitted));
+                Ignore(FileInfoSubmitted),
+                When(FileDeleted)
+                    .TransitionTo(FileDeletedFromOriginFolder));
 
 
             //DuringAny includes all states except initial and final.
@@ -68,8 +73,10 @@ namespace FileHandler.Components.StateMachines
         }
 
         public State Submitted { get; private set; }
-
+        public State FileDeletedFromOriginFolder { get; private set; }
+        
         public Event<FileInfoSubmitted> FileInfoSubmitted { get; private set; }
         public Event<CheckFileInfo> FileInfoStatusRequested { get; private set; }
+        public Event<FileDeletedFromOriginFolder> FileDeleted { get; private set; }
     }
 }

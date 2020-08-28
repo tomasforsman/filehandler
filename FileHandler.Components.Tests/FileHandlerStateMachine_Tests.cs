@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -91,6 +92,57 @@ namespace FileHandler.Components.Tests
                 var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
                 
                 Assert.Equal(response.Message.State, fileHandlerStateMachine.Submitted.Name);
+            }
+            finally
+            {
+                await harness.Stop();
+            }
+        }
+        
+        [Fact]
+        public async Task Should_respond_when_file_deleted()
+        {
+            
+            // Arrange (Given)
+            var harness = new InMemoryTestHarness();
+            var fileHandlerStateMachine = new FileHandlerStateMachine();
+            var saga = harness.StateMachineSaga<FileHandlerState, FileHandlerStateMachine>(fileHandlerStateMachine);
+            
+            await harness.Start();
+            try
+            {
+                var fileId = NewId.NextGuid();
+
+                await harness.Bus.Publish<FileInfoSubmitted>(new
+                {
+
+                    FileId = fileId,
+                    Timestamp = InVar.Timestamp,
+                    FileName = "filename.file",
+                    Folder = "c:/folder/",
+                    Text = "Det finns ingen som älskar smärtan i sig"
+                });
+                Assert.True(saga.Created.Select(x => x.CorrelationId == fileId).Any());
+                
+                
+                var instanceId = await saga.Exists(fileId, x => x.Submitted);
+                Assert.NotNull(instanceId);
+                
+                var instance = saga.Sagas.Contains(instanceId.Value);
+                
+                await harness.Bus.Publish<FileDeletedFromOriginFolder>(new
+                {
+                    FileId = fileId,
+                    FileName = "filename.file",
+                    Folder = "c:/folder/"
+                });
+                instanceId = await saga.Exists(fileId, x => x.FileDeletedFromOriginFolder);
+               
+                var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
+                
+                var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
+                
+                Assert.Equal(response.Message.State, fileHandlerStateMachine.FileDeletedFromOriginFolder.Name);
             }
             finally
             {

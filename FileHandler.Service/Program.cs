@@ -6,6 +6,7 @@ using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
 using MassTransit;
 using MassTransit.Definition;
+using MassTransit.MongoDbIntegration;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -66,7 +67,11 @@ namespace FileHandler.Service
                         cfg.AddConsumersFromNamespaceContaining<SubmitFileInfoConsumer>();
 
                         cfg.AddSagaStateMachine<FileHandlerStateMachine, FileHandlerState>(typeof(FileHandlerStateMachineDefinition))
-                            .RedisRepository();
+                            .MongoDbRepository(r =>
+                            {
+                                r.Connection = "mongodb://127.0.0.1";
+                                r.DatabaseName = "filehandlerdb";
+                            });
 
                         cfg.AddBus(ConfigureBus);
                     });

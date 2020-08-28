@@ -46,7 +46,7 @@ namespace FileHandler
                 options.Predicate = (check) => check.Tags.Contains("ready");
             });
 
-            services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "Sample FileHandler API");
+            services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "FileHandler API");
             services.AddControllers();
         }
 
