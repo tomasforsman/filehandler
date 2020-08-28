@@ -1,28 +1,46 @@
 version: "3.8"
 
 networks:
-    pri:
+  pri:
 
-services: 
-    rabbitmq:
-        image: jctrimino/rabbitmq-3.8.1:1903
-        networks:
-            - pri
-        ports:
-            - "5672:5672"
-            - "15672:15672"
-            - "15692:15692"
-        healthcheck:
-            timeout: 5s
-            interval: 5s
-            retries: 10
-            test:
-                - "CMD"
-                - "rabbitmqctl"
-                - "status" 
-    redis:
-        image: redis
-        networks:
-            - pri
-        ports:
-            - "6379:6379"
+services:
+
+  rabbitmq:
+    image: jctrimino/rabbitmq-3.8.1:1903
+    networks:
+      - pri
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    healthcheck:
+      timeout: 5s
+      interval: 5s
+      retries: 10
+      test:
+        - "CMD"
+        - "rabbitmqctl"
+        - "status"
+
+  redis:
+    image: redis
+    networks:
+      - pri
+    ports:
+      - "6379:6379"
+
+
+  mongodb:
+    image: mongo:latest
+    networks:
+      - pri
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+    ports:
+      - 27017:27017
+    volumes:
+      - W:\code\dotnet\microservices\filehandler\data\db:C:\data\db
+      - W:\code\dotnet\microservices\filehandler\data\configdb:C:\data\configdb
+
+
