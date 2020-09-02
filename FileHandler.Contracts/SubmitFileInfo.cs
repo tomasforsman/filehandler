@@ -11,7 +11,5 @@ namespace FileHandler.Contracts
         string FileName { get; }
 
         string Folder { get; }
-
-        string Text { get; }
     }
 }

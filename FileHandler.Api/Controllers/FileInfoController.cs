@@ -11,17 +11,19 @@ namespace FileHandler.Api.Controllers
     [Route("[controller]")]
     public class FileInfoController : ControllerBase
     {
-        private readonly ILogger<FileInfoController> _logger;
-        private readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
-        private readonly IRequestClient<CheckFileInfo> _checkFileInfoClient;
-        private readonly ISendEndpointProvider _sendEndpointProvider;
+        readonly ILogger<FileInfoController> _logger;
+        readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
+        readonly IRequestClient<CheckFileInfo> _checkFileInfoClient;
+        readonly ISendEndpointProvider _sendEndpointProvider;
+        readonly IPublishEndpoint _publishEndpoint;
 
-        public FileInfoController(ILogger<FileInfoController> logger, IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider, IRequestClient<CheckFileInfo> checkFileInfoClient)
+        public FileInfoController(ILogger<FileInfoController> logger, IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider, IRequestClient<CheckFileInfo> checkFileInfoClient, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
             _submitFileInfoRequestClient = submitFileInfoRequestClient;
             _sendEndpointProvider = sendEndpointProvider;
             _checkFileInfoClient = checkFileInfoClient;
+            _publishEndpoint = publishEndpoint;
         }
 
 
@@ -47,7 +49,7 @@ namespace FileHandler.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(Guid id, string fileName, string folder, string text)
+        public async Task<IActionResult> Post(Guid id, string fileName, string folder)
         {
             var (accepted, rejected) = await _submitFileInfoRequestClient.GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
             {
@@ -55,7 +57,6 @@ namespace FileHandler.Api.Controllers
                 InVar.Timestamp,
                 FileName = fileName,
                 Folder = folder,
-                Text = text
             }).ConfigureAwait(false);
 
             if (accepted.IsCompletedSuccessfully)
@@ -71,7 +72,7 @@ namespace FileHandler.Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Guid id, string fileName, string folder, string text)
+        public async Task<IActionResult> Put(Guid id, string fileName, string folder)
         {
             var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-file-info")).ConfigureAwait(false);
             await endpoint.Send<SubmitFileInfo>(new
@@ -80,7 +81,6 @@ namespace FileHandler.Api.Controllers
                 InVar.Timestamp,
                 FileName = fileName,
                 Folder = folder,
-                Text = text
             }).ConfigureAwait(false);
 
             return Accepted();

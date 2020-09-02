@@ -32,7 +32,6 @@ namespace FileHandler.Components.Consumers
                         context.Message.FileId,
                         context.Message.FileName,
                         context.Message.Folder,
-                        context.Message.Text,
                         Reason = $"Unable to submit File with name containing TEST: {context.Message.FileName}"
                     });
                 return;
@@ -45,8 +44,6 @@ namespace FileHandler.Components.Consumers
                 context.Message.Timestamp,
                 context.Message.FileName,
                 context.Message.Folder,
-                context.Message.Text
-
             });
 
             if (context.RequestId != null)
@@ -57,7 +54,6 @@ namespace FileHandler.Components.Consumers
                     context.Message.FileId,
                     context.Message.FileName,
                     context.Message.Folder,
-                    context.Message.Text
                 }).ConfigureAwait(false);
             }
         }

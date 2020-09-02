@@ -22,25 +22,14 @@ services:
         - "rabbitmqctl"
         - "status"
 
-  redis:
-    image: redis
-    networks:
-      - pri
-    ports:
-      - "6379:6379"
-
-
-  mongodb:
-    image: mongo:latest
-    networks:
-      - pri
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-    ports:
-      - 27017:27017
-    volumes:
-      - W:\code\dotnet\microservices\filehandler\data\db:C:\data\db
-      - W:\code\dotnet\microservices\filehandler\data\configdb:C:\data\configdb
+#  mongodb:
+#    image: mongo:latest
+#    networks:
+#      - pri
+#    ports:
+#      - 27017:27017
+#    volumes:
+#      - W:\code\dotnet\microservices\filehandler\data\db:C:\data\db
+#      - W:\code\dotnet\microservices\filehandler\data\configdb:C:\data\configdb
 
 

@@ -2,7 +2,10 @@ using System;
 using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Definition;
+using MassTransit.MongoDbIntegration.MessageData;
+using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,23 +31,37 @@ namespace FileHandler
         {
             services.AddHealthChecks();
 
+            // services.AddApplicationInsightsTelemetry();
+            //
+            // services.ConfigureTelemetryModule<DependencyTrackingTelemetryModule>((module, o) =>
+            // {
+            //     module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+            // });
+
             services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 
-            services.AddMassTransit(cfg =>
+            services.AddMassTransit(mt =>
             {
-                cfg.AddBus(provider => Bus.Factory.CreateUsingRabbitMq());
+                mt.UsingRabbitMq((context, cfg) =>
+                {
 
-                cfg.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
-                cfg.AddRequestClient<CheckFileInfo>();
+                        MessageDataDefaults.ExtraTimeToLive = TimeSpan.FromDays(1);
+                        MessageDataDefaults.Threshold = 2000;
+                        MessageDataDefaults.AlwaysWriteToRepository = false;
+                        cfg.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
+                });
+
+                mt.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+                mt.AddRequestClient<CheckFileInfo>();
             });
-
-            services.AddMassTransitHostedService();
 
             services.Configure<HealthCheckPublisherOptions>(options =>
             {
                 options.Delay = TimeSpan.FromSeconds(2);
                 options.Predicate = (check) => check.Tags.Contains("ready");
             });
+            
+            services.AddMassTransitHostedService();
 
             services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "FileHandler API");
             services.AddControllers();
@@ -66,7 +83,21 @@ namespace FileHandler
 
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => endpoints.MapControllers());
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health/ready", new HealthCheckOptions()
+                {
+                    Predicate = (check) => check.Tags.Contains("ready"),
+                });
+                
+                endpoints.MapHealthChecks("/health/live", new HealthCheckOptions()
+                {
+                    // Exclude all checks and return a 200-Ok.
+                    Predicate = (_) => false
+                });
+                
+            });
         }
     }
 }

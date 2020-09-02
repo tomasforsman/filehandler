@@ -1,15 +1,16 @@
-﻿using GreenPipes;
+﻿namespace FileHandler.Components.StateMachines
+{
+using GreenPipes;
 using MassTransit;
 using MassTransit.Definition;
 
-namespace FileHandler.Components.StateMachines
-{
+
     public class FileHandlerStateMachineDefinition :
         SagaDefinition<FileHandlerState>
     {
         public FileHandlerStateMachineDefinition()
         {
-            ConcurrentMessageLimit = 4;
+            ConcurrentMessageLimit = 12;
         }
         protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator, ISagaConfigurator<FileHandlerState> sagaConfigurator)
         {

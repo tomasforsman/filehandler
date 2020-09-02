@@ -6,12 +6,10 @@ namespace FileHandler.Contracts
     {
         Guid FileId { get; }
 
-        DateTime Timestamp { get; }
+        DateTime Timestamp { get; set; }
 
-        string FileName { get; }
+        string FileName { get; set; }
 
-        string Folder { get; }
-
-        string Text { get; set; }
+        string Folder { get; set; }
     }
 }

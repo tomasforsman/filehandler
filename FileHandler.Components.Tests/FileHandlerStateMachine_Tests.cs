@@ -136,13 +136,13 @@ namespace FileHandler.Components.Tests
                     FileName = "filename.file",
                     Folder = "c:/folder/"
                 });
-                instanceId = await saga.Exists(fileId, x => x.FileDeletedFromOriginFolder);
+                instanceId = await saga.Exists(fileId, x => x.DeletedFromOriginFolder);
                
                 var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
                 
                 var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
                 
-                Assert.Equal(response.Message.State, fileHandlerStateMachine.FileDeletedFromOriginFolder.Name);
+                Assert.Equal(response.Message.State, fileHandlerStateMachine.DeletedFromOriginFolder.Name);
             }
             finally
             {

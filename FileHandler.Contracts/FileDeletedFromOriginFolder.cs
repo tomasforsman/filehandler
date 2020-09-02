@@ -6,8 +6,8 @@ namespace FileHandler.Contracts
     {
         Guid FileId { get; }
 
-        string FileName { get; }
+        string FileName { get; set; }
         
-        string Folder { get; }
+        string Folder { get; set; }
     }
 }

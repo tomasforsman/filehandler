@@ -5,8 +5,11 @@ using System.Threading.Tasks;
 using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
 using MassTransit;
+using MassTransit.Courier.Contracts;
 using MassTransit.Definition;
 using MassTransit.MongoDbIntegration;
+using MassTransit.MongoDbIntegration.MessageData;
+using MassTransit.RabbitMqTransport;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
@@ -20,7 +23,7 @@ using Serilog.Events;
 
 namespace FileHandler.Service
 {
-    internal static class Program
+    class Program
     {
         /// <summary>
         ///   Service that receives message and does something with it.
@@ -69,11 +72,12 @@ namespace FileHandler.Service
                         cfg.AddSagaStateMachine<FileHandlerStateMachine, FileHandlerState>(typeof(FileHandlerStateMachineDefinition))
                             .MongoDbRepository(r =>
                             {
-                                r.Connection = "mongodb://127.0.0.1";
-                                r.DatabaseName = "filehandlerdb";
+                                r.Connection = "mongodb://localhost";
+                                r.DatabaseName = "filedb";
+                                r.CollectionName = "states";
                             });
 
-                        cfg.AddBus(ConfigureBus);
+                        cfg.UsingRabbitMq(ConfigureBus);
                     });
 
                     services.AddHostedService<MassTransitConsoleHostedService>();
@@ -87,11 +91,11 @@ namespace FileHandler.Service
 
             if (isService)
             {
-                await builder.UseWindowsService().Build().RunAsync().ConfigureAwait(false);
+                await builder.UseWindowsService().Build().RunAsync();
             }
             else
             {
-                await builder.RunConsoleAsync().ConfigureAwait(false);
+                await builder.RunConsoleAsync();
             }
 
             _module?.Dispose();
@@ -99,10 +103,13 @@ namespace FileHandler.Service
 
             Log.CloseAndFlush();
         }
-
-        private static IBusControl ConfigureBus(IServiceProvider provider)
+        
+        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
-            return Bus.Factory.CreateUsingRabbitMq(cfg => cfg.ConfigureEndpoints(provider));
+            configurator.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
+            configurator.UseMessageScheduler(new Uri("queue:quartz"));
+            
+            configurator.ConfigureEndpoints(context);
         }
     }
 }

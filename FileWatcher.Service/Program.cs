@@ -76,7 +76,7 @@ namespace FileWatcher.Service
 
         }
 
-        static IBusControl ConfigureBus(IServiceProvider provider)
+        static IBusControl ConfigureBus(IBusRegistrationContext provider)
         {
             AppConfig = provider.GetRequiredService<IOptions<AppConfig>>().Value;
 
@@ -99,23 +99,24 @@ namespace FileWatcher.Service
 
             return Bus.Factory.CreateUsingRabbitMq(cfg =>
             {
-                var host = cfg.Host(AppConfig.Host, AppConfig.VirtualHost, h =>
-                {
-                    h.Username(AppConfig.Username);
-                    h.Password(AppConfig.Password);
-
-                    if (AppConfig.SSLActive)
-                    {
-                        h.UseSsl(ssl =>
-                        {
-                            ssl.ServerName = Dns.GetHostName();
-                            ssl.AllowPolicyErrors(SslPolicyErrors.RemoteCertificateNameMismatch);
-                            ssl.Certificate = x509Certificate2;
-                            ssl.Protocol = SslProtocols.Tls12;
-                            ssl.CertificateSelectionCallback = CertificateSelectionCallback;
-                        });
-                    }
-                });
+                // Todo: Fix this
+                // var host = cfg.Host(AppConfig.Host, AppConfig.VirtualHost, h =>
+                // {
+                //     h.Username(AppConfig.Username);
+                //     h.Password(AppConfig.Password);
+                //
+                //     if (AppConfig.SSLActive)
+                //     {
+                //         h.UseSsl(ssl =>
+                //         {
+                //             ssl.ServerName = Dns.GetHostName();
+                //             ssl.AllowPolicyErrors(SslPolicyErrors.RemoteCertificateNameMismatch);
+                //             ssl.Certificate = x509Certificate2;
+                //             ssl.Protocol = SslProtocols.Tls12;
+                //             ssl.CertificateSelectionCallback = CertificateSelectionCallback;
+                //         });
+                //     }
+                // });
 
                 cfg.ConfigureEndpoints(provider);
             });
