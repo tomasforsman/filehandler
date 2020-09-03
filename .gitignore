@@ -364,3 +364,9 @@ FodyWeavers.xsd
 TestProject1/
 
 data/db/
+
+rabbitmq/data/
+
+rabbitmq/etc/
+
+rabbitmq/rabbitmq/

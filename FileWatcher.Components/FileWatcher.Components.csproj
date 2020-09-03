@@ -6,6 +6,7 @@
     
     <ItemGroup>
         <PackageReference Include="MassTransit" Version="7.0.4-develop.2932" />
+        <PackageReference Include="Swashbuckle" Version="5.6.0" />
     </ItemGroup>
     
     <ItemGroup>

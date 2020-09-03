@@ -11,6 +11,8 @@
     <PackageReference Include="MassTransit.MongoDb" Version="7.0.4-develop.2932" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4-develop.2932" />
     <PackageReference Include="MassTransit.Redis" Version="7.0.4-develop.2932" />
+    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using Swashbuckle.Swagger.Annotations;
 
 namespace FileHandler.Api.Controllers
 {
@@ -25,8 +26,7 @@ namespace FileHandler.Api.Controllers
             _checkFileInfoClient = checkFileInfoClient;
             _publishEndpoint = publishEndpoint;
         }
-
-
+        
         [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
@@ -46,7 +46,6 @@ namespace FileHandler.Api.Controllers
 
 
         }
-
 
         [HttpPost]
         public async Task<IActionResult> Post(Guid id, string fileName, string folder)

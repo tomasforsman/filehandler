@@ -29,8 +29,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
                 
                 // Assert (Then)
@@ -65,8 +64,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -100,8 +98,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "TEST.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -133,8 +130,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "TEST.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -165,8 +161,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
 
                 // Assert (Then)

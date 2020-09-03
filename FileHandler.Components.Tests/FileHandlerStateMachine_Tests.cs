@@ -45,8 +45,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     Timestamp = InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
                 var instanceID = await saga.Exists(fileId, x => x.Submitted);
                 var instance = saga.Sagas.Contains(instanceID.Value);
@@ -81,8 +80,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     Timestamp = InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
                 var instanceID = await saga.Exists(fileId, x => x.Submitted);
                 var instance = saga.Sagas.Contains(instanceID.Value);
@@ -119,8 +117,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     Timestamp = InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/",
-                    Text = "Det finns ingen som älskar smärtan i sig"
+                    Folder = "c:/folder/"
                 });
                 Assert.True(saga.Created.Select(x => x.CorrelationId == fileId).Any());
                 

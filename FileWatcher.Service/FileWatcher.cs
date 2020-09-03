@@ -16,6 +16,10 @@ namespace FileWatcher.Service
     {
         readonly IRequestClient<IsFileExisting> _client;
         Timer _timer;
+        public string FileId = Guid.NewGuid().ToString();
+        public DateTime TimeStamp = DateTime.UtcNow;
+        public string FileName = Guid.NewGuid().ToString();
+        public string Folder = Guid.NewGuid().ToString();
 
         public FileWatcher(IRequestClient<IsFileExisting> client)
         {

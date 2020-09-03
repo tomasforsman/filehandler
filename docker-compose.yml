@@ -4,32 +4,52 @@ networks:
   pri:
 
 services:
-
   rabbitmq:
-    image: jctrimino/rabbitmq-3.8.1:1903
-    networks:
+    build:
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    container_name: rabbitmq
+    restart: always
+    networks: 
       - pri
     ports:
       - "5672:5672"
       - "15672:15672"
       - "15692:15692"
+    volumes:
+      - ./rabbitmq/etc/:/etc/rabbitmq/
+      - ./rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+      - ./rabbitmq/logs/:/var/log/rabbitmq/
+    environment: 
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_NODENAME=rabbitnode@localhost
+      - RABBITMQ_USER=rabbit
+      - RABBITMQ_PASSWORD=rabbit
     healthcheck:
       timeout: 5s
       interval: 5s
       retries: 10
       test:
         - "CMD"
-        - "rabbitmqctl"
         - "status"
+        - "http://localhost:15672"
 
-#  mongodb:
-#    image: mongo:latest
-#    networks:
-#      - pri
-#    ports:
-#      - 27017:27017
-#    volumes:
-#      - W:\code\dotnet\microservices\filehandler\data\db:C:\data\db
-#      - W:\code\dotnet\microservices\filehandler\data\configdb:C:\data\configdb
-
-
+  mongodb_container:
+    build:
+      context: ./mongodb
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    networks:
+      - pri
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodb/data/db
+volumes:
+  rabbitmq:
+  mongodb:
