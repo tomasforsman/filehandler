@@ -4,7 +4,6 @@ using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using Swashbuckle.Swagger.Annotations;
 
 namespace FileHandler.Api.Controllers
 {

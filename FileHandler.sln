@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSender.Contracts", "Fil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{5FAD3A30-AF32-46DC-AFF1-B3D7DDBC0B85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "temptemp", "temptemp\temptemp.csproj", "{8E3DEC35-A8BD-41FE-A935-D8B870387B87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{5FAD3A30-AF32-46DC-AFF1-B3D7DDBC0B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FAD3A30-AF32-46DC-AFF1-B3D7DDBC0B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FAD3A30-AF32-46DC-AFF1-B3D7DDBC0B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,7 +6,10 @@ count=0;
 until timeout 5 rabbitmqctl list_users >/dev/null 2>/dev/null || (( count++ >= 60 )); do sleep 1; done;
 
 # Enable plugins
+rabbitmq-plugins enable rabbitmq_consistent_hash_exchange
+rabbitmq-plugins enable rabbitmq_delayed_message_exchange
 rabbitmq-plugins enable rabbitmq_management
+rabbitmq-plugins enable rabbitmq_prometheus
 rabbitmq-plugins enable rabbitmq_shovel
 rabbitmq-plugins enable rabbitmq_shovel_management
 rabbitmq-plugins enable rabbitmq_tracing

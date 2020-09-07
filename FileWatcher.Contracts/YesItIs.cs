@@ -1,6 +1,4 @@
 using System;
-using System.Dynamic;
-
 namespace FileWatcher.Contracts
 {
     public interface YesItIs

@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +12,10 @@
     <PackageReference Include="MassTransit.MongoDb" Version="7.0.4-develop.2932" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4-develop.2932" />
     <PackageReference Include="MassTransit.Redis" Version="7.0.4-develop.2932" />
-    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-preview.8.20414.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-preview.8.20407.11" />
   </ItemGroup>
 
   <ItemGroup>

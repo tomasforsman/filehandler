@@ -1,11 +1,15 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <LangVersion>9</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-preview.8.20414.8" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-preview.8.20407.11" />
   </ItemGroup>
 
 </Project>
+

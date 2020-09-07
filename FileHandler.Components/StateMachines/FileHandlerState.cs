@@ -1,4 +1,6 @@
-﻿namespace FileHandler.Components.StateMachines
+﻿using MassTransit.Saga;
+
+namespace FileHandler.Components.StateMachines
 {
 using System;
 using Automatonymous;
@@ -7,7 +9,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
     public class FileHandlerState :
         SagaStateMachineInstance,
-        IVersionedSaga
+        ISagaVersion
     {
         [BsonId]
         public Guid CorrelationId { get; set; }

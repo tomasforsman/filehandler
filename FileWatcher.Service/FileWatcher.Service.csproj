@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.4-develop.2932" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4-develop.2932" />
+    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0-preview.8.20407.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0-preview.8.20407.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-preview.8.20407.11" />
@@ -16,7 +17,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="5.0.0-preview.8.20407.11" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-preview.8.20407.11" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0-preview.8.20407.11" />
-    <PackageReference Include="Swashbuckle" Version="5.6.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-preview.8.20414.8" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-preview.8.20407.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +27,7 @@
 
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 
