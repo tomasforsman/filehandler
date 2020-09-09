@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp5.0</TargetFramework>
     <UserSecretsId>c312d5cb-7570-4189-99c9-38751e395605</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-    <LangVersion>9</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

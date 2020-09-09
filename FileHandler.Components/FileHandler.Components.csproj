@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileHandler.Contracts\FileHandler.Contracts.csproj" />
+    <ProjectReference Include="..\FileMover.Contracts\FileMover.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

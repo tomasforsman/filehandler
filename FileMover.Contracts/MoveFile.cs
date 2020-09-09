@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace FileHandler.Contracts
+namespace FileMover.Contracts
 {
-    public interface FileMoved
+    public interface MoveFile
     {
         Guid FileId { get; }
 
@@ -11,6 +11,5 @@ namespace FileHandler.Contracts
         string FromFolder { get; set; }
         
         string ToFolder { get; set; }
-        
     }
 }
