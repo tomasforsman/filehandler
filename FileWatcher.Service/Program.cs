@@ -11,6 +11,7 @@ using FileWatcher.Contracts;
 using FileWatcher.Components;
 using MassTransit;
 using MassTransit.Definition;
+using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -55,8 +56,9 @@ namespace FileWatcher.Service
 
                     services.AddMassTransit(cfg =>
                     {
-                        cfg.AddConsumer<FileWatcherConsumer>();
-                        cfg.AddBus(ConfigureBus);
+                        cfg.AddConsumer<LocalFileWatcherConsumer>();
+                        //cfg.AddBus(ConfigureBus);
+                        cfg.UsingRabbitMq(ConfigureBus);
                         cfg.AddRequestClient<IsFileExisting>(new Uri("queue:file-watcher"));
                     });
 
@@ -84,59 +86,64 @@ namespace FileWatcher.Service
         {
 
         }
-
-        static IBusControl ConfigureBus(IBusRegistrationContext provider)
+        
+        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
-            Settings = provider.GetRequiredService<IOptions<Settings>>().Value;
-
-            X509Certificate2 x509Certificate2 = null;
-
-            X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
-            store.Open(OpenFlags.ReadOnly);
-
-            try
-            {
-                X509Certificate2Collection certificatesInStore = store.Certificates;
-
-                x509Certificate2 = certificatesInStore.OfType<X509Certificate2>()
-                    .FirstOrDefault(cert => cert.Thumbprint?.ToLower() == Settings.AppConfig.RabbitMq.SSLThumbprint?.ToLower());
-            }
-            finally
-            {
-                store.Close();
-            }
-
-            return Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                var RabbitMq = Settings.AppConfig.RabbitMq;
-                cfg.Host(RabbitMq.Host, RabbitMq.VirtualHost, h =>
-                {
-                    h.Username(RabbitMq.Username);
-                    h.Password(RabbitMq.Password);
-
-                    if (RabbitMq.SSLActive)
-                    {
-                        h.UseSsl(ssl =>
-                        {
-                            ssl.ServerName = Dns.GetHostName();
-                            ssl.AllowPolicyErrors(SslPolicyErrors.RemoteCertificateNameMismatch);
-                            ssl.Certificate = x509Certificate2;
-                            ssl.Protocol = SslProtocols.Tls12;
-                            ssl.CertificateSelectionCallback = CertificateSelectionCallback;
-                        });
-                    }
-                });
-
-                cfg.ConfigureEndpoints(provider);
-            });
+            configurator.ConfigureEndpoints(context);
         }
 
-        private static X509Certificate CertificateSelectionCallback(object sender, string targethost, X509CertificateCollection localcertificates, X509Certificate remotecertificate, string[] acceptableissuers)
-        {
-            var serverCertificate = localcertificates.OfType<X509Certificate2>()
-                                    .FirstOrDefault(cert => cert.Thumbprint.ToLower() == Settings.AppConfig.RabbitMq.SSLThumbprint.ToLower());
+        // static IBusControl ConfigureBus(IBusRegistrationContext provider)
+        // {
+        //     Settings = provider.GetRequiredService<IOptions<Settings>>().Value;
+        //
+        //     // X509Certificate2 x509Certificate2 = null;
+        //     //
+        //     // X509Store store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
+        //     // store.Open(OpenFlags.ReadOnly);
+        //     //
+        //     // try
+        //     // {
+        //     //     X509Certificate2Collection certificatesInStore = store.Certificates;
+        //     //
+        //     //     x509Certificate2 = certificatesInStore.OfType<X509Certificate2>()
+        //     //         .FirstOrDefault(cert => cert.Thumbprint?.ToLower() == Settings.AppConfig.RabbitMq.SSLThumbprint?.ToLower());
+        //     // }
+        //     // finally
+        //     // {
+        //     //     store.Close();
+        //     // }
+        //
+        //     return Bus.Factory.CreateUsingRabbitMq(cfg =>
+        //     {
+        //         var RabbitMq = Settings.AppConfig.RabbitMq;
+        //         cfg.Host(RabbitMq.Host, RabbitMq.VirtualHost, h =>
+        //         {
+        //             h.Username(RabbitMq.Username);
+        //             h.Password(RabbitMq.Password);
+        //
+        //             // if (RabbitMq.SSLActive)
+        //             // {
+        //             //     h.UseSsl(ssl =>
+        //             //     {
+        //             //         ssl.ServerName = Dns.GetHostName();
+        //             //         ssl.AllowPolicyErrors(SslPolicyErrors.RemoteCertificateNameMismatch);
+        //             //         //ssl.Certificate = x509Certificate2;
+        //             //         //ssl.Protocol = SslProtocols.Tls12;
+        //             //         ssl.CertificateSelectionCallback = CertificateSelectionCallback;
+        //             //     });
+        //             // }
+        //         });
+        //
+        //         cfg.ConfigureEndpoints(provider);
+        //     });
+        // }
 
-            return serverCertificate ?? throw new Exception("Wrong certificate");
-        }
+        // private static X509Certificate CertificateSelectionCallback(object sender, string targethost, X509CertificateCollection localcertificates, X509Certificate remotecertificate, string[] acceptableissuers)
+        // {
+        //     var serverCertificate = localcertificates.OfType<X509Certificate2>()
+        //                             .FirstOrDefault(cert => cert.Thumbprint.ToLower() == Settings.AppConfig.RabbitMq.SSLThumbprint.ToLower());
+        //
+        //     return serverCertificate ?? throw new Exception("Wrong certificate");
+        // }
     }
 }
