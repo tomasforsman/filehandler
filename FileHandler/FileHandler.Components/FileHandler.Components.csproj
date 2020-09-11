@@ -6,12 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.Analyzers" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.MongoDb" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.Redis" Version="7.0.4-develop.2932" />
+    <PackageReference Include="MassTransit" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.Analyzers" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.MongoDb" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.Redis" Version="7.0.5-develop.2954" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-preview.8.20414.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FileHandler.Contracts\FileHandler.Contracts.csproj" />
-    <ProjectReference Include="..\FileMover.Contracts\FileMover.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

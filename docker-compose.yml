@@ -6,7 +6,7 @@ networks:
 services:
   rabbitmq:
     build:
-      context: ./rabbitmq
+      context: ./Containers/rabbitmq
       dockerfile: Dockerfile
     container_name: rabbitmq
     restart: always
@@ -17,9 +17,9 @@ services:
       - "15672:15672"
       - "15692:15692"
     volumes:
-      - ./rabbitmq/etc/:/etc/rabbitmq/
-      - ./rabbitmq/data/:/var/lib/rabbitmq/mnesia/
-      - ./rabbitmq/logs/:/var/log/rabbitmq/
+      - ./Containers/rabbitmq/etc/:/etc/rabbitmq/
+      - ./Containers/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+      - ./Containers/rabbitmq/logs/:/var/log/rabbitmq/
     environment: 
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
@@ -37,7 +37,7 @@ services:
 
   mongodb_container:
     build:
-      context: ./mongodb
+      context: ./Containers/mongodb
     container_name: mongodb
     image: mongo:latest
     restart: always
@@ -49,7 +49,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./mongodb/data/db
+      - ./Containers/mongodb/data/db:/data/db
 volumes:
   rabbitmq:
   mongodb:

@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.4-develop.2932" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.4-develop.2932" />
+    <PackageReference Include="MassTransit" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2954" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0-preview.8.20407.11" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0-preview.8.20407.11" />

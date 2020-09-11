@@ -6,7 +6,7 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <PackageReference Include="MassTransit" Version="7.0.4-develop.2932" />
+        <PackageReference Include="MassTransit" Version="7.0.5-develop.2954" />
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-preview.8.20414.8" />
         <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-preview.8.20407.11" />
