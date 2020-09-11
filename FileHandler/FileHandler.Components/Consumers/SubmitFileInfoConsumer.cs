@@ -1,20 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FileHandler.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-
 
 namespace FileHandler.Components.Consumers
 {
     public class SubmitFileInfoConsumer : IConsumer<SubmitFileInfo>
     {
-        readonly ILogger<SubmitFileInfoConsumer> _logger;
+        private readonly ILogger<SubmitFileInfoConsumer> _logger;
 
         public SubmitFileInfoConsumer()
         {
         }
-        
+
         public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger)
         {
             _logger = logger;
@@ -36,26 +34,24 @@ namespace FileHandler.Components.Consumers
                     });
                 return;
             }
-            
+
 
             await context.Publish<FileInfoSubmitted>(new
             {
                 context.Message.FileId,
                 context.Message.Timestamp,
                 context.Message.FileName,
-                context.Message.Folder,
+                context.Message.Folder
             });
 
             if (context.RequestId != null)
-            {
                 await context.RespondAsync<FileInfoSubmissionAccepted>(new
                 {
                     InVar.Timestamp,
                     context.Message.FileId,
                     context.Message.FileName,
-                    context.Message.Folder,
+                    context.Message.Folder
                 }).ConfigureAwait(false);
-            }
         }
     }
 }

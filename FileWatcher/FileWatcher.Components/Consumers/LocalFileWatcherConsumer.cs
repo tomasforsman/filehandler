@@ -12,9 +12,7 @@ namespace FileWatcher.Components
         {
             var now = DateTimeOffset.Now;
             if (now.DayOfWeek == DayOfWeek.Thursday && now.Hour >= 13 && now.Minute >= 24)
-            {
                 return context.RespondAsync<YesItIs>(new { });
-            }
 
             return context.RespondAsync<NoNotYet>(new { });
         }

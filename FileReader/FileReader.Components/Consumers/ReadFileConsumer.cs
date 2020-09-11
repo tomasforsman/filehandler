@@ -1,17 +1,17 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using FileReader.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using FileReader.Contracts;
 
 namespace FileReader.Components.Consumers
 {
     public class ReadFileConsumer :
         IConsumer<IsFileExisting>
     {
-        readonly ILogger<ReadFileConsumer> _logger;
-        
+        private readonly ILogger<ReadFileConsumer> _logger;
+
         public ReadFileConsumer()
         {
         }
@@ -20,7 +20,7 @@ namespace FileReader.Components.Consumers
         {
             _logger = logger;
         }
-        
+
 
         public async Task Consume(ConsumeContext<IsFileExisting> context)
         {
@@ -29,10 +29,7 @@ namespace FileReader.Components.Consumers
             async Task CheckTime()
             {
                 var now = DateTimeOffset.Now;
-                if (now.DayOfWeek == DayOfWeek.Thursday && now.Hour >= 13 && now.Minute >= 24)
-                {
-                    Debug.WriteLine("Yes");
-                }
+                if (now.DayOfWeek == DayOfWeek.Thursday && now.Hour >= 13 && now.Minute >= 24) Debug.WriteLine("Yes");
                 Debug.WriteLine("No");
             }
         }

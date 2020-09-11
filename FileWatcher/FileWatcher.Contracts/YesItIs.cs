@@ -1,4 +1,5 @@
 using System;
+
 namespace FileWatcher.Contracts
 {
     public interface YesItIs

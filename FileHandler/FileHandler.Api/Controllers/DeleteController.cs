@@ -10,7 +10,7 @@ namespace FileHandler.Api.Controllers
     [Route("[controller]")]
     public class DeleteController : ControllerBase
     {
-        readonly IPublishEndpoint _publishEndpoint;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public DeleteController(IPublishEndpoint publishEndpoint)
         {

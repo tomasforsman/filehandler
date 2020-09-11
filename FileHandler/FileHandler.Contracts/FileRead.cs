@@ -7,7 +7,7 @@ namespace FileHandler.Contracts
         Guid FileId { get; }
 
         string SenderId { get; set; }
-        
+
         string ReceiverId { get; set; }
     }
 }

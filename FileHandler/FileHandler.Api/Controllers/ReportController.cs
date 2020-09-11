@@ -10,7 +10,7 @@ namespace FileHandler.Api.Controllers
     [Route("[controller]")]
     public class ReportController : ControllerBase
     {
-        readonly IPublishEndpoint _publishEndpoint;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public ReportController(IPublishEndpoint publishEndpoint)
         {
@@ -22,9 +22,9 @@ namespace FileHandler.Api.Controllers
         {
             await _publishEndpoint.Publish<TransactionReported>(new
             {
-                FileId = id,
+                FileId = id
             });
-            
+
             return Ok();
         }
     }

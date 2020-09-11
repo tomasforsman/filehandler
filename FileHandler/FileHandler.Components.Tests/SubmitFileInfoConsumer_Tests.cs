@@ -31,7 +31,7 @@ namespace FileHandler.Components.Tests
                     FileName = "filename.file",
                     Folder = "c:/folder/"
                 });
-                
+
                 // Assert (Then)
                 Assert.True(consumer.Consumed.Select<SubmitFileInfo>().Any());
                 Assert.False(harness.Sent.Select<FileInfoSubmissionAccepted>().Any());
@@ -42,19 +42,17 @@ namespace FileHandler.Components.Tests
                 await harness.Stop();
             }
         }
-        
+
         [Fact]
         public async Task Should_respond_with_acceptance_if_accepted()
         {
-            
             // Arrange (Given)
             var harness = new InMemoryTestHarness();
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-            
+
             await harness.Start();
             try
             {
-                
                 var fileId = NewId.NextGuid();
                 var requestClient = await harness.ConnectRequestClient<SubmitFileInfo>();
 
@@ -68,7 +66,7 @@ namespace FileHandler.Components.Tests
                 });
 
                 // Assert (Then)
-                Assert.Equal<Guid>(response.Message.FileId, fileId);
+                Assert.Equal(response.Message.FileId, fileId);
                 Assert.True(consumer.Consumed.Select<SubmitFileInfo>().Any());
                 Assert.True(harness.Sent.Select<FileInfoSubmissionAccepted>().Any());
             }
@@ -77,18 +75,17 @@ namespace FileHandler.Components.Tests
                 await harness.Stop();
             }
         }
-        
+
         [Fact]
         public async Task Should_respond_with_rejection_if_test_file()
         {
             // Arrange (Given)
             var harness = new InMemoryTestHarness();
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-            
+
             await harness.Start();
             try
             {
-                
                 var fileId = NewId.NextGuid();
                 var requestClient = await harness.ConnectRequestClient<SubmitFileInfo>();
 
@@ -102,7 +99,7 @@ namespace FileHandler.Components.Tests
                 });
 
                 // Assert (Then)
-                Assert.Equal<Guid>(response.Message.FileId, fileId);
+                Assert.Equal(response.Message.FileId, fileId);
                 Assert.True(consumer.Consumed.Select<SubmitFileInfo>().Any());
                 Assert.True(harness.Sent.Select<FileInfoSubmissionRejected>().Any());
             }
@@ -111,20 +108,19 @@ namespace FileHandler.Components.Tests
                 await harness.Stop();
             }
         }
-        
+
         [Fact]
         public async Task Should_not_publish_fileinfo_submitted_event_when_rejected()
         {
             // Arrange (Given)
             var harness = new InMemoryTestHarness {TestTimeout = TimeSpan.FromSeconds(5)};
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-            
+
             await harness.Start();
             try
             {
-                
                 var fileId = NewId.NextGuid();
-    
+
                 await harness.InputQueueSendEndpoint.Send<SubmitFileInfo>(new
                 {
                     FileId = fileId,
@@ -142,20 +138,19 @@ namespace FileHandler.Components.Tests
                 await harness.Stop();
             }
         }
-        
+
         [Fact]
         public async Task Should_publish_fileinfo_submitted_event()
         {
             // Arrange (Given)
             var harness = new InMemoryTestHarness();
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-            
+
             await harness.Start();
             try
             {
-                
                 var fileId = NewId.NextGuid();
-    
+
                 await harness.InputQueueSendEndpoint.Send<SubmitFileInfo>(new
                 {
                     FileId = fileId,

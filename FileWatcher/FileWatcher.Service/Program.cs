@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Net;
-using System.Net.Security;
-using System.Runtime.CompilerServices;
-using System.Security.Authentication;
-using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using FileWatcher.Contracts;
 using FileWatcher.Components;
+using FileWatcher.Contracts;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
@@ -17,17 +12,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 
 namespace FileWatcher.Service
 {
     internal class Program
     {
-
         public static Settings Settings { get; set; }
         //public static AppConfig AppSettings { get; set; }
 
-        static async Task Main(string[] args)
+        private static async Task Main(string[] args)
         {
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", false, true)
@@ -35,7 +28,7 @@ namespace FileWatcher.Service
                 .Build();
 
             var settings = configuration.Get<Settings>();
-            
+
             var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
             var builder = new HostBuilder()
@@ -49,7 +42,6 @@ namespace FileWatcher.Service
                 })
                 .ConfigureServices((hostContext, services) =>
                 {
-
                     services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 
                     services.Configure<Settings.AppConfiguration>(hostContext.Configuration.GetSection("RabbitMq"));
@@ -72,22 +64,17 @@ namespace FileWatcher.Service
                 });
 
             if (isService)
-            {
                 await builder.UseWindowsService().Build().RunAsync();
-                //await builder.UseSystemd().Build().RunAsync(); // For Linux, replace the nuget package: "Microsoft.Extensions.Hosting.WindowsServices" with "Microsoft.Extensions.Hosting.Systemd", and then use this line instead
-            }
+            //await builder.UseSystemd().Build().RunAsync(); // For Linux, replace the nuget package: "Microsoft.Extensions.Hosting.WindowsServices" with "Microsoft.Extensions.Hosting.Systemd", and then use this line instead
             else
-            {
                 await builder.RunConsoleAsync();
-            }
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
-
         }
-        
-        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+
+        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
             configurator.ConfigureEndpoints(context);
         }

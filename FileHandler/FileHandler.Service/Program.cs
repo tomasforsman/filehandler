@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
 using MassTransit;
-using MassTransit.Courier.Contracts;
 using MassTransit.Definition;
-using MassTransit.MongoDbIntegration;
 using MassTransit.MongoDbIntegration.MessageData;
 using MassTransit.RabbitMqTransport;
 using Microsoft.ApplicationInsights;
@@ -23,13 +21,13 @@ using Serilog.Events;
 
 namespace FileHandler.Service
 {
-    class Program
+    internal class Program
     {
         /// <summary>
-        ///   Service that receives message and does something with it.
+        ///     Service that receives message and does something with it.
         /// </summary>
-
         private static DependencyTrackingTelemetryModule _module;
+
         private static TelemetryClient _telemetryClient;
 
         private static async Task Main(string[] args)
@@ -56,7 +54,7 @@ namespace FileHandler.Service
                     _module = new DependencyTrackingTelemetryModule();
                     _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
-                    TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
+                    var configuration = TelemetryConfiguration.CreateDefault();
                     configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449278";
                     configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
@@ -69,7 +67,8 @@ namespace FileHandler.Service
                     {
                         cfg.AddConsumersFromNamespaceContaining<SubmitFileInfoConsumer>();
 
-                        cfg.AddSagaStateMachine<FileHandlerStateMachine, FileHandlerState>(typeof(FileHandlerStateMachineDefinition))
+                        cfg.AddSagaStateMachine<FileHandlerStateMachine, FileHandlerState>(
+                                typeof(FileHandlerStateMachineDefinition))
                             .MongoDbRepository(r =>
                             {
                                 r.Connection = "mongodb://localhost";
@@ -90,25 +89,21 @@ namespace FileHandler.Service
                 });
 
             if (isService)
-            {
                 await builder.UseWindowsService().Build().RunAsync();
-            }
             else
-            {
                 await builder.RunConsoleAsync();
-            }
 
             _module?.Dispose();
             _telemetryClient?.Flush();
 
             Log.CloseAndFlush();
         }
-        
-        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+
+        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
             configurator.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
             configurator.UseMessageScheduler(new Uri("queue:quartz"));
-            
+
             configurator.ConfigureEndpoints(context);
         }
     }

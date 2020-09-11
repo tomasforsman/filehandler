@@ -1,50 +1,46 @@
-﻿using System.Transactions;
-
-namespace FileHandler.Components.StateMachines
-{
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Text;
+﻿using System;
 using Automatonymous;
 using FileHandler.Contracts;
 using MassTransit;
-using MassTransit.Definition;
 
+namespace FileHandler.Components.StateMachines
+{
     public class FileHandlerStateMachine :
         MassTransitStateMachine<FileHandlerState>
     {
         /// <summary>
-        ///   Automatonymous state machine for a MassTransit saga.
+        ///     Automatonymous state machine for a MassTransit saga.
         /// </summary>
-
         public FileHandlerStateMachine()
         {
-            Event(()=> FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
-            Event(()=> FileInfoStatusRequested, x =>
+            Event(() => FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
+            Event(() => FileInfoStatusRequested, x =>
             {
                 x.CorrelateById(m => m.Message.FileId);
                 x.OnMissingInstance(m => m.ExecuteAsync(async context =>
                 {
                     if (context.RequestId.HasValue)
-                    {
                         await context.RespondAsync<FileNotFound>(new {context.Message.FileId});
-                    }
                 }));
             });
-            Event(() => FileDeletedFromOriginFolder, x => x.CorrelateBy((saga, context) => (saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.Folder) || saga.CorrelationId == context.Message.FileId));
-            
-            Event(() => FileMoved, x => x.CorrelateBy((saga, context) => (saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.ToFolder) || saga.CorrelationId == context.Message.FileId));
-                // x => x.CorrelateById(m => m.Message.FileId));
-                // x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
-            
-            Event(()=> FileRead, x => x.CorrelateById(m => m.Message.FileId));
-            Event(()=> FileDestinationFound, x => x.CorrelateById(m => m.Message.FileId));
-            Event(()=> FileSent, x => x.CorrelateById(m => m.Message.FileId));
-            Event(()=> TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
-                
-            
+            Event(() => FileDeletedFromOriginFolder,
+                x => x.CorrelateBy((saga, context) =>
+                    saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.Folder ||
+                    saga.CorrelationId == context.Message.FileId));
+
+            Event(() => FileMoved,
+                x => x.CorrelateBy((saga, context) =>
+                    saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.ToFolder ||
+                    saga.CorrelationId == context.Message.FileId));
+            // x => x.CorrelateById(m => m.Message.FileId));
+            // x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
+
+            Event(() => FileRead, x => x.CorrelateById(m => m.Message.FileId));
+            Event(() => FileDestinationFound, x => x.CorrelateById(m => m.Message.FileId));
+            Event(() => FileSent, x => x.CorrelateById(m => m.Message.FileId));
+            Event(() => TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
+
+
             InstanceState(x => x.CurrentState);
             Initially(
                 When(FileInfoSubmitted)
@@ -60,11 +56,9 @@ using MassTransit.Definition;
             During(Submitted,
                 Ignore(FileInfoSubmitted),
                 When(FileDeletedFromOriginFolder)
-
                     .TransitionTo(DeletedFromOriginFolder));
-            
 
-            
+
             During(DeletedFromOriginFolder,
                 When(FileMoved)
                     .Then(context =>
@@ -75,19 +69,19 @@ using MassTransit.Definition;
                         context.Instance.CurrentFolder = context.Data.ToFolder;
                     })
                     .TransitionTo(Moved));
-            
+
             During(Moved,
                 When(FileRead)
                     .TransitionTo(Read));
-            
+
             During(Read,
                 When(FileDestinationFound)
                     .TransitionTo(DestinationFound));
-            
+
             During(DestinationFound,
                 When(FileSent)
                     .TransitionTo(Sent));
-            
+
             During(Sent,
                 When(TransactionReported)
                     .TransitionTo(Reported));
@@ -113,8 +107,7 @@ using MassTransit.Definition;
                         context.Instance.CurrentFolder = context.Data.Folder;
                     })
                     .TransitionTo(Submitted)
-                );
-
+            );
         }
 
         public State Submitted { get; set; }
@@ -124,7 +117,7 @@ using MassTransit.Definition;
         public State DestinationFound { get; set; }
         public State Sent { get; set; }
         public State Reported { get; set; }
-        
+
         public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
         public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }
         public Event<FileDeletedFromOriginFolder> FileDeletedFromOriginFolder { get; set; }

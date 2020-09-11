@@ -10,7 +10,7 @@ namespace FileHandler.Api.Controllers
     [Route("[controller]")]
     public class MoveController : ControllerBase
     {
-        readonly IPublishEndpoint _publishEndpoint;
+        private readonly IPublishEndpoint _publishEndpoint;
 
         public MoveController(IPublishEndpoint publishEndpoint)
         {

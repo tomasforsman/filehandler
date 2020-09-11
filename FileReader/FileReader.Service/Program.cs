@@ -1,12 +1,10 @@
 using System;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using FileHandler.Service;
 using FileReader.Components.Consumers;
 using MassTransit;
-using MassTransit.Courier.Contracts;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
 using Microsoft.ApplicationInsights;
@@ -43,7 +41,7 @@ namespace FileReader.Service
                 {
                     config.AddJsonFile("appsettings.json", true);
                     config.AddEnvironmentVariables();
-                    
+
                     if (args != null) config.AddCommandLine(args);
                 })
                 .ConfigureServices((hostContext, services) =>
@@ -51,7 +49,7 @@ namespace FileReader.Service
                     _module = new DependencyTrackingTelemetryModule();
                     _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
-                    TelemetryConfiguration configuration = TelemetryConfiguration.CreateDefault();
+                    var configuration = TelemetryConfiguration.CreateDefault();
                     configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449276";
                     configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
@@ -65,7 +63,6 @@ namespace FileReader.Service
                         cfg.UsingRabbitMq(ConfigureBus);
                     });
                     services.AddHostedService<MassTransitConsoleHostedService>();
-
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
@@ -76,13 +73,9 @@ namespace FileReader.Service
             ;
 
             if (isService)
-            {
                 await builder.UseWindowsService().Build().RunAsync();
-            }
             else
-            {
                 await builder.RunConsoleAsync();
-            }
 
             _module?.Dispose();
             _telemetryClient?.Flush();
@@ -90,14 +83,11 @@ namespace FileReader.Service
             Log.CloseAndFlush();
         }
 
-        static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
             var readFileConsumer = new ReadFileConsumer();
             configurator.UseMessageScheduler(new Uri("queue:quartz"));
-            configurator.ReceiveEndpoint("file-watcher", e =>
-            {
-                e.Instance(readFileConsumer);
-            });
+            configurator.ReceiveEndpoint("file-watcher", e => { e.Instance(readFileConsumer); });
         }
     }
 }

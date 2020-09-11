@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Threading.Tasks;
 using FileHandler.Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 
 namespace FileHandler.Api.Controllers
 {
@@ -11,13 +11,15 @@ namespace FileHandler.Api.Controllers
     [Route("[controller]")]
     public class FileInfoController : ControllerBase
     {
-        readonly ILogger<FileInfoController> _logger;
-        readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
-        readonly IRequestClient<CheckFileInfo> _checkFileInfoClient;
-        readonly ISendEndpointProvider _sendEndpointProvider;
-        readonly IPublishEndpoint _publishEndpoint;
+        private readonly IRequestClient<CheckFileInfo> _checkFileInfoClient;
+        private readonly ILogger<FileInfoController> _logger;
+        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ISendEndpointProvider _sendEndpointProvider;
+        private readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
 
-        public FileInfoController(ILogger<FileInfoController> logger, IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider, IRequestClient<CheckFileInfo> checkFileInfoClient, IPublishEndpoint publishEndpoint)
+        public FileInfoController(ILogger<FileInfoController> logger,
+            IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider,
+            IRequestClient<CheckFileInfo> checkFileInfoClient, IPublishEndpoint publishEndpoint)
         {
             _logger = logger;
             _submitFileInfoRequestClient = submitFileInfoRequestClient;
@@ -25,11 +27,12 @@ namespace FileHandler.Api.Controllers
             _checkFileInfoClient = checkFileInfoClient;
             _publishEndpoint = publishEndpoint;
         }
-        
+
         [HttpGet]
         public async Task<IActionResult> Get(Guid id)
         {
-            var (status,notFound) = await _checkFileInfoClient.GetResponse<FileStatus, FileNotFound>(new {FileId = id});
+            var (status, notFound) =
+                await _checkFileInfoClient.GetResponse<FileStatus, FileNotFound>(new {FileId = id});
 
             if (status.IsCompletedSuccessfully)
             {
@@ -41,21 +44,19 @@ namespace FileHandler.Api.Controllers
                 var response = await notFound;
                 return NotFound(response.Message);
             }
-
-
-
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(Guid id, string fileName, string folder)
         {
-            var (accepted, rejected) = await _submitFileInfoRequestClient.GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
-            {
-                FileId = id,
-                InVar.Timestamp,
-                FileName = fileName,
-                Folder = folder,
-            }).ConfigureAwait(false);
+            var (accepted, rejected) = await _submitFileInfoRequestClient
+                .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
+                {
+                    FileId = id,
+                    InVar.Timestamp,
+                    FileName = fileName,
+                    Folder = folder
+                }).ConfigureAwait(false);
 
             if (accepted.IsCompletedSuccessfully)
             {
@@ -72,13 +73,14 @@ namespace FileHandler.Api.Controllers
         [HttpPut]
         public async Task<IActionResult> Put(Guid id, string fileName, string folder)
         {
-            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-file-info")).ConfigureAwait(false);
+            var endpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri("exchange:submit-file-info"))
+                .ConfigureAwait(false);
             await endpoint.Send<SubmitFileInfo>(new
             {
                 FileId = id,
                 InVar.Timestamp,
                 FileName = fileName,
-                Folder = folder,
+                Folder = folder
             }).ConfigureAwait(false);
 
             return Accepted();
