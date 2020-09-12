@@ -16,10 +16,7 @@ namespace FileReader.Components.Consumers
         {
         }
 
-        public ReadFileConsumer(ILogger<ReadFileConsumer> logger)
-        {
-            _logger = logger;
-        }
+        public ReadFileConsumer(ILogger<ReadFileConsumer> logger) => _logger = logger;
 
 
         public async Task Consume(ConsumeContext<IsFileExisting> context)

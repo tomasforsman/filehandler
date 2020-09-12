@@ -12,10 +12,7 @@ namespace FileHandler.Api.Controllers
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public ReadController(IPublishEndpoint publishEndpoint)
-        {
-            _publishEndpoint = publishEndpoint;
-        }
+        public ReadController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
 
         [HttpPatch]
         public async Task<IActionResult> Read(Guid id, string senderid, string receiverid)

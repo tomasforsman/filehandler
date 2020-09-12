@@ -12,10 +12,7 @@ namespace FileHandler.Api.Controllers
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public DeleteController(IPublishEndpoint publishEndpoint)
-        {
-            _publishEndpoint = publishEndpoint;
-        }
+        public DeleteController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
 
         [HttpDelete]
         public async Task<IActionResult> Delete(Guid id, string filename, string folder)

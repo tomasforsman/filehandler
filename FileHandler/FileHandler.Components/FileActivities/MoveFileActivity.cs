@@ -11,10 +11,7 @@ namespace FileHandler.Components.FileActivities
     {
         private readonly IRequestClient<MoveFile> _client;
 
-        public MoveFileActivity(IRequestClient<MoveFile> client)
-        {
-            _client = client;
-        }
+        public MoveFileActivity(IRequestClient<MoveFile> client) => _client = client;
 
         public async Task<ExecutionResult> Execute(ExecuteContext<MoveFileArguments> context)
         {
@@ -37,10 +34,7 @@ namespace FileHandler.Components.FileActivities
             });
         }
 
-        public Task<CompensationResult> Compensate(CompensateContext<MoveFileLog> context)
-        {
-            throw new NotImplementedException();
-        }
+        public Task<CompensationResult> Compensate(CompensateContext<MoveFileLog> context) => throw new NotImplementedException();
     }
 
     public interface MoveFileArguments

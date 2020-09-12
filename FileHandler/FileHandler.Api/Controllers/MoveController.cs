@@ -12,10 +12,7 @@ namespace FileHandler.Api.Controllers
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public MoveController(IPublishEndpoint publishEndpoint)
-        {
-            _publishEndpoint = publishEndpoint;
-        }
+        public MoveController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
 
         [HttpPatch]
         public async Task<IActionResult> Move(Guid id, string filename, string fromfolder, string tofolder)

@@ -13,10 +13,7 @@ namespace FileHandler.Components.Consumers
         {
         }
 
-        public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger)
-        {
-            _logger = logger;
-        }
+        public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger) => _logger = logger;
 
         public async Task Consume(ConsumeContext<SubmitFileInfo> context)
         {

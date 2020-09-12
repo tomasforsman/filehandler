@@ -74,10 +74,7 @@ namespace FileWatcher.Service
         {
         }
 
-        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
-        {
-            configurator.ConfigureEndpoints(context);
-        }
+        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator) => configurator.ConfigureEndpoints(context);
 
         // static IBusControl ConfigureBus(IBusRegistrationContext provider)
         // {

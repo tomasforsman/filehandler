@@ -12,10 +12,7 @@ namespace FileHandler.Api.Controllers
     {
         private readonly IPublishEndpoint _publishEndpoint;
 
-        public ReportController(IPublishEndpoint publishEndpoint)
-        {
-            _publishEndpoint = publishEndpoint;
-        }
+        public ReportController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
 
         [HttpPatch]
         public async Task<IActionResult> Report(Guid id)

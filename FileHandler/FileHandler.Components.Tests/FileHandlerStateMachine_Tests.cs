@@ -13,10 +13,7 @@ namespace FileHandler.Components.Tests
     {
         private readonly ITestOutputHelper output;
 
-        public Submitting_file_info(ITestOutputHelper output)
-        {
-            this.output = output;
-        }
+        public Submitting_file_info(ITestOutputHelper output) => this.output = output;
 
         [Fact]
         public async Task Should_create_a_state_instance()

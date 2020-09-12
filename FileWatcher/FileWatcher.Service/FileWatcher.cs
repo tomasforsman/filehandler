@@ -17,10 +17,7 @@ namespace FileWatcher.Service
         public string Folder = Guid.NewGuid().ToString();
         public DateTime TimeStamp = DateTime.UtcNow;
 
-        public FileWatcher(IRequestClient<IsFileExisting> client)
-        {
-            _client = client;
-        }
+        public FileWatcher(IRequestClient<IsFileExisting> client) => _client = client;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
