@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using FileMover.Contracts;
+﻿using FileMover.Contracts;
 using MassTransit;
+using System.Threading.Tasks;
 
 namespace FileMover.Components.Consumers
 {

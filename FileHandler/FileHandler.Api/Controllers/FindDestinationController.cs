@@ -1,8 +1,8 @@
-using System;
-using System.Threading.Tasks;
 using FileHandler.Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 
 namespace FileHandler.Api.Controllers
 {

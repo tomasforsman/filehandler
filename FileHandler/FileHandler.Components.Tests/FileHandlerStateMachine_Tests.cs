@@ -1,9 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using FileHandler.Components.StateMachines;
+﻿using FileHandler.Components.StateMachines;
 using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Testing;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -76,7 +76,7 @@ namespace FileHandler.Components.Tests
 
                 var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
 
-                var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
+                var response = await requestClient.GetResponse<FileStatus>(new { FileId = fileId });
 
                 Assert.Equal(response.Message.State, fileHandlerStateMachine.Submitted.Name);
             }
@@ -124,7 +124,7 @@ namespace FileHandler.Components.Tests
 
                 var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
 
-                var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
+                var response = await requestClient.GetResponse<FileStatus>(new { FileId = fileId });
 
                 Assert.Equal(response.Message.State, fileHandlerStateMachine.DeletedFromOriginFolder.Name);
             }

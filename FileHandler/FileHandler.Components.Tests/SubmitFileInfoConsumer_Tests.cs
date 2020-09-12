@@ -1,10 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using FileHandler.Components.Consumers;
+﻿using FileHandler.Components.Consumers;
 using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Testing;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace FileHandler.Components.Tests
@@ -15,7 +15,7 @@ namespace FileHandler.Components.Tests
         public async Task Should_consume_submit_fileinfo_commands()
         {
             // Arrange (Given)
-            var harness = new InMemoryTestHarness {TestTimeout = TimeSpan.FromSeconds(5)};
+            var harness = new InMemoryTestHarness { TestTimeout = TimeSpan.FromSeconds(5) };
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
 
             await harness.Start();
@@ -113,7 +113,7 @@ namespace FileHandler.Components.Tests
         public async Task Should_not_publish_fileinfo_submitted_event_when_rejected()
         {
             // Arrange (Given)
-            var harness = new InMemoryTestHarness {TestTimeout = TimeSpan.FromSeconds(5)};
+            var harness = new InMemoryTestHarness { TestTimeout = TimeSpan.FromSeconds(5) };
             var consumer = harness.Consumer<SubmitFileInfoConsumer>();
 
             await harness.Start();

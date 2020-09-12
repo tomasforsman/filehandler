@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using FileHandler.Contracts;
+﻿using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Courier;
+using System;
+using System.Threading.Tasks;
 
 namespace FileHandler.Components.FileActivities
 {

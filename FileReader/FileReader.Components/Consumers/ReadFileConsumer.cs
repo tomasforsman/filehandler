@@ -1,9 +1,9 @@
-using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using FileReader.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace FileReader.Components.Consumers
 {

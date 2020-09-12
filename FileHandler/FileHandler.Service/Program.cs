@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using FileHandler.Components.Consumers;
+﻿using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
 using MassTransit;
 using MassTransit.Definition;
@@ -18,6 +14,10 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FileHandler.Service
 {

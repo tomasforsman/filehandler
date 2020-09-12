@@ -1,7 +1,7 @@
-﻿using System;
-using Automatonymous;
+﻿using Automatonymous;
 using MassTransit.Saga;
 using MongoDB.Bson.Serialization.Attributes;
+using System;
 
 namespace FileHandler.Components.StateMachines
 {

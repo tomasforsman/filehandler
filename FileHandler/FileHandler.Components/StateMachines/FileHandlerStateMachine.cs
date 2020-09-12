@@ -1,7 +1,7 @@
-﻿using System;
-using Automatonymous;
+﻿using Automatonymous;
 using FileHandler.Contracts;
 using MassTransit;
+using System;
 
 namespace FileHandler.Components.StateMachines
 {
@@ -20,7 +20,7 @@ namespace FileHandler.Components.StateMachines
                 x.OnMissingInstance(m => m.ExecuteAsync(async context =>
                 {
                     if (context.RequestId.HasValue)
-                        await context.RespondAsync<FileNotFound>(new {context.Message.FileId});
+                        await context.RespondAsync<FileNotFound>(new { context.Message.FileId });
                 }));
             });
             Event(() => FileDeletedFromOriginFolder,

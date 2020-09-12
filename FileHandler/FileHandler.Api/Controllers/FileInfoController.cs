@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using FileHandler.Contracts;
+﻿using FileHandler.Contracts;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Threading.Tasks;
 
 namespace FileHandler.Api.Controllers
 {
@@ -32,7 +32,7 @@ namespace FileHandler.Api.Controllers
         public async Task<IActionResult> Get(Guid id)
         {
             var (status, notFound) =
-                await _checkFileInfoClient.GetResponse<FileStatus, FileNotFound>(new {FileId = id});
+                await _checkFileInfoClient.GetResponse<FileStatus, FileNotFound>(new { FileId = id });
 
             if (status.IsCompletedSuccessfully)
             {

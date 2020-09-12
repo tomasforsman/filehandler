@@ -1,7 +1,7 @@
-using System;
-using System.Threading.Tasks;
 using FileWatcher.Contracts;
 using MassTransit;
+using System;
+using System.Threading.Tasks;
 
 namespace FileWatcher.Components
 {
