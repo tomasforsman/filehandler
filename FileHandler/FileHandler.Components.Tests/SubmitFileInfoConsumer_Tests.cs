@@ -5,6 +5,7 @@ using MassTransit.Testing;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using PRI.Contracts;
 using Xunit;
 
 namespace FileHandler.Components.Tests

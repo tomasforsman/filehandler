@@ -11,6 +11,8 @@ namespace FileHandler.Contracts
         string FileName { get; }
 
         string Folder { get; }
+        
+        string OriginFolder { get; set; }
 
         string Reason { get; set; }
     }

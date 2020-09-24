@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <None Remove="appsettings.Development.json" />
+    <None Remove="StyleCop.Cache" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2954" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2954" />
-    <PackageReference Include="MassTransit.Redis" Version="7.0.5-develop.2954" />
+    <PackageReference Include="MassTransit" Version="7.0.5-develop.2962" />
+    <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2962" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2962" />
+    <PackageReference Include="MassTransit.Redis" Version="7.0.5-develop.2962" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.15.0-beta3" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0-preview.8.20407.11" />

@@ -11,4 +11,8 @@
       <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-preview.8.20407.11" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="StyleCop.Cache" />
+    </ItemGroup>
+
 </Project>

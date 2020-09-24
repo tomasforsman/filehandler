@@ -17,4 +17,8 @@
       <ProjectReference Include="..\FileReader.Contracts\FileReader.Contracts.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="StyleCop.Cache" />
+    </ItemGroup>
+
 </Project>

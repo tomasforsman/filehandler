@@ -9,9 +9,9 @@ namespace FileHandler.Contracts
         DateTime Timestamp { get; set; }
 
         string FileName { get; set; }
-
-        string OriginFolder { get; set; }
         
+        string OriginFolder { get; set; }
+
         string Folder { get; set; }
     }
 }

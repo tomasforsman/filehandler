@@ -1,17 +1,17 @@
 ﻿using System;
 
-namespace PRI.Contracts
+namespace FileHandler.Contracts
 {
-    public interface SubmitFileInfo
+    public interface FileInfoSubmissionRejected
     {
         Guid FileId { get; }
 
         DateTime Timestamp { get; }
 
         string FileName { get; }
-        
-        string OriginFolder { get; }
 
         string Folder { get; }
+
+        string Reason { get; set; }
     }
 }

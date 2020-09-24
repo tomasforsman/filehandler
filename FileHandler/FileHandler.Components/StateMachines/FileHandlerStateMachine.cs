@@ -48,7 +48,8 @@ namespace FileHandler.Components.StateMachines
                     {
                         context.Instance.SubmitDate = context.Data.Timestamp;
                         context.Instance.FileName = context.Data.FileName;
-                        context.Instance.OriginFolder = context.Data.Folder;
+                        context.Instance.OriginFolder = context.Data.OriginFolder;
+                        
                         context.Instance.Updated = DateTime.UtcNow;
                     })
                     .TransitionTo(Submitted));

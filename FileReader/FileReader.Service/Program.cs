@@ -87,7 +87,7 @@ namespace FileReader.Service
         {
             var readFileConsumer = new ReadFileConsumer();
             configurator.UseMessageScheduler(new Uri("queue:quartz"));
-            configurator.ReceiveEndpoint("file-watcher", e => { e.Instance(readFileConsumer); });
+            configurator.ReceiveEndpoint("file-reader", e => { e.Instance(readFileConsumer); });
         }
     }
 }

@@ -12,6 +12,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FileHandler.Contracts;
+using PRI.Contracts;
 
 namespace FileWatcher.Service
 {
@@ -51,7 +53,7 @@ namespace FileWatcher.Service
                         cfg.AddConsumer<LocalFileWatcherConsumer>();
                         //cfg.AddBus(ConfigureBus);
                         cfg.UsingRabbitMq(ConfigureBus);
-                        cfg.AddRequestClient<IsFileExisting>(new Uri("queue:file-watcher"));
+                        cfg.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
                     });
 
                     services.AddHostedService<MassTransitConsoleHostedService>();

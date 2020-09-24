@@ -101,10 +101,13 @@ namespace FileHandler.Service
 
         private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
         {
+
+            var fileHandlerState = new FileHandlerState();
             configurator.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
             configurator.UseMessageScheduler(new Uri("queue:quartz"));
-
-            configurator.ConfigureEndpoints(context);
+            //var SubmitFileInfoConsumer = new SubmitFileInfoConsumer();
+            //configurator.ReceiveEndpoint("submit-file", e => { e.Instance(SubmitFileInfoConsumer); });
+            configurator.ConfigureEndpoints(context);  //, e => e.Exclude<SubmitFileInfoConsumer>());
         }
     }
 }

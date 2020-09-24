@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using PRI.Contracts;
 
 namespace FileHandler.Components.Consumers
 {
@@ -27,6 +28,7 @@ namespace FileHandler.Components.Consumers
                         context.Message.FileId,
                         context.Message.FileName,
                         context.Message.Folder,
+                        context.Message.OriginFolder,
                         Reason = $"Unable to submit File with name containing TEST: {context.Message.FileName}"
                     });
                 return;
@@ -38,8 +40,11 @@ namespace FileHandler.Components.Consumers
                 context.Message.FileId,
                 context.Message.Timestamp,
                 context.Message.FileName,
+                context.Message.OriginFolder,
                 context.Message.Folder
             });
+
+            // await context.RespondAsync("Ok");
 
             if (context.RequestId != null)
                 await context.RespondAsync<FileInfoSubmissionAccepted>(new
@@ -47,6 +52,7 @@ namespace FileHandler.Components.Consumers
                     InVar.Timestamp,
                     context.Message.FileId,
                     context.Message.FileName,
+                    context.Message.OriginFolder,
                     context.Message.Folder
                 }).ConfigureAwait(false);
         }

@@ -1,0 +1,196 @@
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd">
+<SOAP-ENV:Header>
+<eb:MessageHeader xmlns:eb="http://www.oasis-open.org/committees/ebxml-msg/schema/msg-header-2_0.xsd" SOAP-ENV:mustUnderstand="1" eb:id="20021209133003285">
+<eb:From>
+<eb:PartyId>003707935597</eb:PartyId>
+<eb:Role>Sender</eb:Role>
+</eb:From>
+<eb:From>
+<eb:PartyId>003721291126</eb:PartyId>
+<eb:Role>Intermediator</eb:Role>
+</eb:From>
+<eb:To>
+<eb:PartyId>003723795985</eb:PartyId>
+<eb:Role>Receiver</eb:Role>
+</eb:To>
+<eb:To>
+<eb:PartyId>003721291126</eb:PartyId>
+<eb:Role>Intermediator</eb:Role>
+</eb:To>
+<eb:CPAId>yoursandmycpa</eb:CPAId>
+<eb:ConversationId>nnnnn</eb:ConversationId>
+<eb:Service>Routing</eb:Service>
+<eb:Action>ProcessInvoice</eb:Action>
+<eb:MessageData>
+<eb:MessageId>KF20 - 1008</eb:MessageId>
+<eb:Timestamp>7.8.2020T10:39:05+01</eb:Timestamp>
+<eb:RefToMessageId/>
+</eb:MessageData>
+</eb:MessageHeader>
+</SOAP-ENV:Header>
+<SOAP-ENV:Body>
+<eb:Manifest eb:id="Manifest" eb:version="2.0">
+<eb:Reference eb:id="Finvoice" xlink:href="20020209-133003">
+<eb:schema eb:location="http://www.pankkiyhdistys.fi/verkkolasku/finvoice/finvoice.xsd" eb:version="2.0"/>
+</eb:Reference>
+</eb:Manifest>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!-- Created by Entre (http://www.hantverksdata.se) -->
+<!--Entre:  USERID=KALLE-->
+<?xml-stylesheet type="text/xsl" href="C:\ADM\ENTREFIEOVS01\FINVOICESE12 SV.XSL"?>
+<Finvoice Version="1.3">
+	<MessageTransmissionDetails>
+		<MessageReceiverDetails>
+			<ToIdentifier>003723795985</ToIdentifier>
+			<ToIntermediator>003721291126</ToIntermediator>
+		</MessageReceiverDetails>
+	</MessageTransmissionDetails>
+	<SellerPartyDetails>
+		<SellerPartyIdentifier>0793559-7</SellerPartyIdentifier>
+		<SellerOrganisationName>TS-Kylmä Oy</SellerOrganisationName>
+		<SellerOrganisationTaxCode>07935597</SellerOrganisationTaxCode>
+		<SellerPostalAddressDetails>
+			<SellerStreetName>Vinkkiläntie 106</SellerStreetName>
+			<SellerTownName>Sastamala</SellerTownName>
+			<SellerPostCodeIdentifier>38210</SellerPostCodeIdentifier>
+		</SellerPostalAddressDetails>
+		<SellerContactPersonName>Olli Saarela</SellerContactPersonName>
+		<SellerCommunicationDetails>
+			<SellerPhoneNumberIdentifier>0500 621 055</SellerPhoneNumberIdentifier>
+			<SellerEmailaddressIdentifier>olli.saarela@ts-kylma.fi</SellerEmailaddressIdentifier>
+		</SellerCommunicationDetails>
+	</SellerPartyDetails>
+	<SellerOrganisationUnitNumber>003707935597</SellerOrganisationUnitNumber>
+	<SellerInformationDetails>
+		<SellerHomeTownName>Sastamala</SellerHomeTownName>
+		<SellerVatRegistrationText>Innehar F-skattebevis</SellerVatRegistrationText>
+		<SellerPhoneNumber>0500 621 055</SellerPhoneNumber>
+		<SellerCommonEmailaddressIdentifier>olli.saarela@ts-kylma.fi</SellerCommonEmailaddressIdentifier>
+		<SellerWebaddressIdentifier>www.ts-kylma.fi</SellerWebaddressIdentifier>
+	</SellerInformationDetails>
+	<BuyerPartyDetails>
+		<BuyerOrganisationName>Adven Oy</BuyerOrganisationName>
+		<BuyerOrganisationTaxCode>2379598-5</BuyerOrganisationTaxCode>
+		<BuyerPostalAddressDetails>
+			<BuyerStreetName>PL 100</BuyerStreetName>
+			<BuyerTownName>Kollektor Scan</BuyerTownName>
+			<BuyerPostCodeIdentifier>80020</BuyerPostCodeIdentifier>
+		</BuyerPostalAddressDetails>
+	</BuyerPartyDetails>
+	<BuyerCommunicationDetails/>
+	<DeliveryPartyDetails>
+		<DeliveryPostalAddressDetails/>
+	</DeliveryPartyDetails>
+	<DeliveryDetails>
+		<DeliveryDate Format="CCYYMMDD">20200805</DeliveryDate>
+	</DeliveryDetails>
+	<InvoiceDetails>
+		<InvoiceTypeCode>INV01</InvoiceTypeCode>
+		<InvoiceTypeText>Lasku</InvoiceTypeText>
+		<OriginCode>Copy</OriginCode>
+		<OriginText>Copy</OriginText>
+		<InvoiceNumber>KF20 - 1008</InvoiceNumber>
+		<InvoiceDate Format="CCYYMMDD">20200806</InvoiceDate>
+		<SellerReferenceIdentifier>10015</SellerReferenceIdentifier>
+		<SellersBuyerIdentifier>1414</SellersBuyerIdentifier>
+		<OrderIdentifier>LK324 / HK10 jäähdytykset</OrderIdentifier>
+		<InvoiceTotalVatExcludedAmount AmountCurrencyIdentifier="EUR">644,43</InvoiceTotalVatExcludedAmount>
+		<InvoiceTotalVatAmount AmountCurrencyIdentifier="EUR">154,66</InvoiceTotalVatAmount>
+		<InvoiceTotalVatIncludedAmount AmountCurrencyIdentifier="EUR">799,09</InvoiceTotalVatIncludedAmount>
+		<VatSpecificationDetails>
+			<VatBaseAmount AmountCurrencyIdentifier="EUR">249,24</VatBaseAmount>
+			<VatRatePercent>24</VatRatePercent>
+			<VatRateAmount AmountCurrencyIdentifier="EUR">59,82</VatRateAmount>
+		</VatSpecificationDetails>
+		<VatSpecificationDetails>
+			<VatBaseAmount AmountCurrencyIdentifier="EUR">249,24</VatBaseAmount>
+			<VatRatePercent>24</VatRatePercent>
+			<VatRateAmount AmountCurrencyIdentifier="EUR">59,82</VatRateAmount>
+		</VatSpecificationDetails>
+		<InvoiceFreeText>Kemira Chemicals Äetsä - Sähkötilan jäähdytyslaitteiden huoltotyöt, lauhduttimien pesu/puhdistus.
+Lisätty Sinclair jäähdytyslaitteeseen kylmäainetäytös, koekäyttö ym. tarkistus
+</InvoiceFreeText>
+		<PaymentTermsDetails>
+			<PaymentTermsFreeText>10 pv</PaymentTermsFreeText>
+			<InvoiceDueDate Format="CCYYMMDD">20200816</InvoiceDueDate>
+			<PaymentOverDueFineDetails>
+				<PaymentOverDueFineFreeText>Viivästyskorko</PaymentOverDueFineFreeText>
+				<PaymentOverDueFinePercent>10.0</PaymentOverDueFinePercent>
+			</PaymentOverDueFineDetails>
+		</PaymentTermsDetails>
+	</InvoiceDetails>
+	<PaymentStatusDetails>
+		<PaymentStatusCode>NOTPAID</PaymentStatusCode>
+	</PaymentStatusDetails>
+	<InvoiceRow>
+		<ArticleIdentifier>0011</ArticleIdentifier>
+		<ArticleName>Asennustyö</ArticleName>
+		<DeliveredQuantity>4</DeliveredQuantity>
+		<OrderedQuantity QuantityUnitCode="h">4</OrderedQuantity>
+		<UnitPriceAmount AmountCurrencyIdentifier="EUR">53,00</UnitPriceAmount>
+		<RowDiscountPercent>0</RowDiscountPercent>
+		<RowVatRatePercent>24</RowVatRatePercent>
+		<RowVatAmount AmountCurrencyIdentifier="EUR">50,88</RowVatAmount>
+		<RowVatExcludedAmount AmountCurrencyIdentifier="EUR">212,00</RowVatExcludedAmount>
+		<RowAmount AmountCurrencyIdentifier="EUR">262,88</RowAmount>
+	</InvoiceRow>
+	<InvoiceRow>
+		<ArticleIdentifier>0030</ArticleIdentifier>
+		<ArticleName>Kilometrikorvaus</ArticleName>
+		<DeliveredQuantity>38</DeliveredQuantity>
+		<OrderedQuantity QuantityUnitCode="Km">38</OrderedQuantity>
+		<UnitPriceAmount AmountCurrencyIdentifier="EUR">0,98</UnitPriceAmount>
+		<RowDiscountPercent>0</RowDiscountPercent>
+		<RowVatRatePercent>24</RowVatRatePercent>
+		<RowVatAmount AmountCurrencyIdentifier="EUR">8,94</RowVatAmount>
+		<RowVatExcludedAmount AmountCurrencyIdentifier="EUR">37,24</RowVatExcludedAmount>
+		<RowAmount AmountCurrencyIdentifier="EUR">46,18</RowAmount>
+	</InvoiceRow>
+	<InvoiceRow>
+		<ArticleIdentifier>TYMUU141174</ArticleIdentifier>
+		<ArticleName>Foaming Coil 500ml</ArticleName>
+		<DeliveredQuantity>3</DeliveredQuantity>
+		<OrderedQuantity QuantityUnitCode="kpl">3</OrderedQuantity>
+		<UnitPriceAmount AmountCurrencyIdentifier="EUR">20,25</UnitPriceAmount>
+		<RowDiscountPercent>0</RowDiscountPercent>
+		<RowVatRatePercent>24</RowVatRatePercent>
+		<RowVatAmount AmountCurrencyIdentifier="EUR">14,58</RowVatAmount>
+		<RowVatExcludedAmount AmountCurrencyIdentifier="EUR">60,75</RowVatExcludedAmount>
+		<RowAmount AmountCurrencyIdentifier="EUR">75,33</RowAmount>
+	</InvoiceRow>
+	<InvoiceRow>
+		<ArticleIdentifier>RAINE410A10</ArticleIdentifier>
+		<ArticleName>R410A kylmäaine 10kg</ArticleName>
+		<DeliveredQuantity>3,6</DeliveredQuantity>
+		<OrderedQuantity QuantityUnitCode="kpl">4</OrderedQuantity>
+		<UnitPriceAmount AmountCurrencyIdentifier="EUR">92,90</UnitPriceAmount>
+		<RowDiscountPercent>0</RowDiscountPercent>
+		<RowVatRatePercent>24</RowVatRatePercent>
+		<RowVatAmount AmountCurrencyIdentifier="EUR">80,27</RowVatAmount>
+		<RowVatExcludedAmount AmountCurrencyIdentifier="EUR">334,44</RowVatExcludedAmount>
+		<RowAmount AmountCurrencyIdentifier="EUR">414,71</RowAmount>
+	</InvoiceRow>
+	<EpiDetails>
+		<EpiIdentificationDetails>
+			<EpiDate Format="CCYYMMDD">20200806</EpiDate>
+			<EpiReference>1</EpiReference>
+		</EpiIdentificationDetails>
+		<EpiPartyDetails>
+			<EpiBfiPartyDetails>
+				<EpiBfiIdentifier IdentificationSchemeName="BIC">OKOYFIHH</EpiBfiIdentifier>
+			</EpiBfiPartyDetails>
+			<EpiBeneficiaryPartyDetails>
+				<EpiNameAddressDetails>TS-Kylmä Oy</EpiNameAddressDetails>
+				<EpiAccountID IdentificationSchemeName="IBAN">FI94 5660 0620 0646 91</EpiAccountID>
+			</EpiBeneficiaryPartyDetails>
+		</EpiPartyDetails>
+		<EpiPaymentInstructionDetails>
+			<EpiRemittanceInfoIdentifier IdentificationSchemeName="SPY">141475702010086</EpiRemittanceInfoIdentifier>
+			<EpiInstructedAmount AmountCurrencyIdentifier="EUR">799,09</EpiInstructedAmount>
+			<EpiCharge ChargeOption="SHA">SHA</EpiCharge>
+			<EpiDateOptionDate Format="CCYYMMDD">20200816</EpiDateOptionDate>
+		</EpiPaymentInstructionDetails>
+	</EpiDetails>
+</Finvoice>

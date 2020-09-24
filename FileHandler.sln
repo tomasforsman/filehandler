@@ -59,11 +59,26 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{00DC44A9-8C02-473D-8AFA-10ACED642F2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicListener", "ConsoleBasicListener\ConsoleBasicListener.csproj", "{93A589D1-6320-426B-901D-FD7E11D11CEC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicListener", "Sandbox\ConsoleBasic\ConsoleBasicListener\ConsoleBasicListener.csproj", "{93A589D1-6320-426B-901D-FD7E11D11CEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicPublisher", "ConsoleBasicPublisher\ConsoleBasicPublisher.csproj", "{5847A7E1-F445-470D-B775-099101CCCECD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicPublisher", "Sandbox\ConsoleBasic\ConsoleBasicPublisher\ConsoleBasicPublisher.csproj", "{5847A7E1-F445-470D-B775-099101CCCECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContracts", "SharedContracts\SharedContracts.csproj", "{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContracts", "Sandbox\ConsoleBasic\SharedContracts\SharedContracts.csproj", "{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleBasic", "Sandbox\ConsoleBasic", "{C521030B-CBD1-4A27-87FF-D8487D83F407}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mongodb", "mongodb", "{47D6F4E2-517A-4A1E-A232-4208B89417B0}"
+ProjectSection(SolutionItems) = preProject
+	Containers\mongodb\Dockerfile = Containers\mongodb\Dockerfile
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq", "rabbitmq", "{50AF59C6-1D69-4340-8504-A199B05F440E}"
+ProjectSection(SolutionItems) = preProject
+	Containers\rabbitmq\Dockerfile = Containers\rabbitmq\Dockerfile
+	Containers\rabbitmq\init.sh = Containers\rabbitmq\init.sh
+EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicSender", "Sandbox\ConsoleBasic\ConsoleBasicSender\ConsoleBasicSender.csproj", "{D68F1F69-F24E-45FE-95D6-8477F186C087}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -167,6 +182,10 @@ Global
 		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D68F1F69-F24E-45FE-95D6-8477F186C087}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D68F1F69-F24E-45FE-95D6-8477F186C087}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D68F1F69-F24E-45FE-95D6-8477F186C087}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D68F1F69-F24E-45FE-95D6-8477F186C087}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -195,8 +214,12 @@ Global
 		{B0938762-45A1-407D-9617-05D599718DFE} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
 		{FC531BA3-ABDB-4774-A132-946D87C6AEBC} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
 		{9D7480EE-587F-4BA0-95DA-9083D426565F} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{93A589D1-6320-426B-901D-FD7E11D11CEC} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
-		{5847A7E1-F445-470D-B775-099101CCCECD} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
-		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
+		{C521030B-CBD1-4A27-87FF-D8487D83F407} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
+		{93A589D1-6320-426B-901D-FD7E11D11CEC} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
+		{5847A7E1-F445-470D-B775-099101CCCECD} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
+		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
+		{47D6F4E2-517A-4A1E-A232-4208B89417B0} = {341DF642-CF93-4A56-95E3-700E2A12319B}
+		{50AF59C6-1D69-4340-8504-A199B05F440E} = {341DF642-CF93-4A56-95E3-700E2A12319B}
+		{D68F1F69-F24E-45FE-95D6-8477F186C087} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
 	EndGlobalSection
 EndGlobal

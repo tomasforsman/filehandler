@@ -7,7 +7,7 @@ namespace FileHandler.Components.StateMachines
     public class FileHandlerStateMachineDefinition :
         SagaDefinition<FileHandlerState>
     {
-        public FileHandlerStateMachineDefinition() => ConcurrentMessageLimit = 12;
+        public FileHandlerStateMachineDefinition() => ConcurrentMessageLimit = 200;
 
         protected override void ConfigureSaga(IReceiveEndpointConfigurator endpointConfigurator,
             ISagaConfigurator<FileHandlerState> sagaConfigurator)

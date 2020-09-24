@@ -15,5 +15,9 @@
     <ItemGroup>
         <ProjectReference Include="..\FileWatcher.Contracts\FileWatcher.Contracts.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <None Remove="StyleCop.Cache" />
+    </ItemGroup>
 
 </Project>

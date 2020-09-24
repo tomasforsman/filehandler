@@ -9,9 +9,9 @@ namespace PRI.Contracts
         DateTime Timestamp { get; }
 
         string FileName { get; }
-        
-        string OriginFolder { get; }
 
+        string OriginFolder { get; }
+        
         string Folder { get; }
     }
 }

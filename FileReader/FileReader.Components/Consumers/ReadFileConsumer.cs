@@ -4,11 +4,14 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
 
 namespace FileReader.Components.Consumers
 {
     public class ReadFileConsumer :
-        IConsumer<IsFileExisting>
+        IConsumer<ReadFile>
     {
         private readonly ILogger<ReadFileConsumer> _logger;
 
@@ -19,15 +22,45 @@ namespace FileReader.Components.Consumers
         public ReadFileConsumer(ILogger<ReadFileConsumer> logger) => _logger = logger;
 
 
-        public async Task Consume(ConsumeContext<IsFileExisting> context)
+        public async Task Consume(ConsumeContext<ReadFile> context)
         {
-            await CheckTime();
+            var fileName = context.Message.FileName;
+            var folderName = context.Message.FolderName;
+            
+            Console.WriteLine("Läser Fil: {0}", folderName + fileName);
+            
+            XDocument doc = XDocument.Parse(File.ReadAllText(folderName + fileName));
+            XNamespace cac = "urn:sfti:CommonAggregateComponents:1:0";
+            XNamespace sh = "urn:sfti:documents:StandardBusinessDocumentHeader";
+            var root = doc.Root;
+            var rootName = root.Name.LocalName;
+            //Console.WriteLine("rootName: {0}", rootName);
+            root = rootName != "Invoice" ? root = root.Element("Invoice") : root;
+            
+            var buyerId = await getID("Buyer");
+            var sellerId = await getID("Seller");
+            
+            Console.WriteLine("Buyer ID: {0}", buyerId);
+            Console.WriteLine("Seller ID: {0}", sellerId);
 
-            async Task CheckTime()
+            async Task<string> getID(string party)
             {
-                var now = DateTimeOffset.Now;
-                if (now.DayOfWeek == DayOfWeek.Thursday && now.Hour >= 13 && now.Minute >= 24) Debug.WriteLine("Yes");
-                Debug.WriteLine("No");
+                var IDs = root.Element(cac + party + "Party").Elements(cac + "Party")
+                    .Elements(cac + "PartyIdentification");
+                
+                var result = "";
+                foreach (var ID in IDs)
+                {
+                    var id = ID.Element(cac + "ID");
+                    result = id.Value;
+                    if (id.HasAttributes && (id.Attributes().FirstOrDefault().Name.LocalName) ==
+                        "identificationSchemeAgencyID")
+                    {
+                        break;
+                    }
+                }
+
+                return result;
             }
         }
     }

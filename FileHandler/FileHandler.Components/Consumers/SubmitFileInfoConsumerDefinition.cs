@@ -10,6 +10,6 @@ namespace FileHandler.Components.Consumers
     {
         protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
             IConsumerConfigurator<SubmitFileInfoConsumer> consumerConfigurator) => endpointConfigurator.UseMessageRetry(r =>
-                                                                                     r.Intervals(3, 1000)); // (number of retries, time between each retry)
+                                                                                     r.Intervals(5, 500)); // (number of retries, time between each retry)
     }
 }
