@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace FileHandler.Components.FileActivities
 {
-    public class MoveFileActivity :
+    public class ReadFileActivity :
         IActivity<MoveFileArguments, MoveFileLog>
     {
-        private readonly IRequestClient<MoveFile> _client;
+        private readonly IRequestClient<ReadFile> _client;
 
-        public MoveFileActivity(IRequestClient<MoveFile> client) => _client = client;
+        public ReadFileActivity(IRequestClient<MoveFile> client) => _client = client;
 
         public async Task<ExecutionResult> Execute(ExecuteContext<MoveFileArguments> context)
         {
@@ -20,12 +20,10 @@ namespace FileHandler.Components.FileActivities
             var fromFolder = context.Arguments.FromFolder;
             var toFolder = context.Arguments.ToFolder;
 
-            var response = await _client.GetResponse<FileMoved>(new
+            var response = await _client.GetResponse<FileRead>(new
             {
                 FileId = fileId,
-                FileName = fileName,
-                FromFolder = fromFolder,
-                ToFolder = toFolder
+                
             });
 
             return context.Completed(new
