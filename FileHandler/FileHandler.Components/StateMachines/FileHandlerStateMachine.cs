@@ -49,6 +49,7 @@ namespace FileHandler.Components.StateMachines
                         context.Instance.SubmitDate = context.Data.Timestamp;
                         context.Instance.FileName = context.Data.FileName;
                         context.Instance.OriginFolder = context.Data.OriginFolder;
+                        context.Instance.CurrentFolder = context.Data.Folder;
                         
                         context.Instance.Updated = DateTime.UtcNow;
                     })
@@ -56,25 +57,14 @@ namespace FileHandler.Components.StateMachines
 
             During(Submitted,
                 Ignore(FileInfoSubmitted),
-                When(FileDeletedFromOriginFolder)
-                    .TransitionTo(DeletedFromOriginFolder));
-
-
-            During(DeletedFromOriginFolder,
-                When(FileMoved)
+                When(FileRead)
                     .Then(context =>
                     {
-                        context.Instance.Updated = DateTime.UtcNow;
-                        context.Instance.FileName = context.Data.FileName ?? context.Instance.FileName;
-                        context.Instance.OriginFolder = context.Data.FromFolder;
-                        context.Instance.CurrentFolder = context.Data.ToFolder;
+                        context.Instance.BuyerId = context.Data.BuyerId;
+                        context.Instance.SellerId = context.Data.SellerId;
                     })
-                    .TransitionTo(Moved));
-
-            During(Moved,
-                When(FileRead)
                     .TransitionTo(Read));
-
+            
             During(Read,
                 When(FileDestinationFound)
                     .TransitionTo(DestinationFound));

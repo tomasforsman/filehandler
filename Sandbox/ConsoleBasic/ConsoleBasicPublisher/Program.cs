@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FileReader.Contracts;
 using MassTransit;
+using Pri.Contracts;
 using SharedContracts;
 
 namespace ConsoleBasicPublisher

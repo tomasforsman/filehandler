@@ -73,7 +73,7 @@ namespace FileWatcher.Service
         {
             freeForWork = false;
             var busControl = Bus.Factory.CreateUsingRabbitMq();
-            var cancelsource = new CancellationTokenSource(TimeSpan.FromSeconds(100));
+            var cancelsource = new CancellationTokenSource();
             await busControl.StartAsync(cancelsource.Token); 
             var client = busControl.CreateRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
             try

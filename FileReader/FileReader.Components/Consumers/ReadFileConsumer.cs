@@ -26,11 +26,11 @@ namespace FileReader.Components.Consumers
         public async Task Consume(ConsumeContext<ReadFile> context)
         {
             var fileName = context.Message.FileName;
-            var folderName = context.Message.FolderName;
+            var folder = context.Message.Folder;
             
-            Console.WriteLine("Läser Fil: {0}", folderName + fileName);
+            Console.WriteLine("Läser Fil: {0}", folder + fileName);
             
-            XDocument doc = XDocument.Parse(File.ReadAllText(folderName + fileName));
+            XDocument doc = XDocument.Parse(File.ReadAllText(folder + fileName));
             XNamespace cac = "urn:sfti:CommonAggregateComponents:1:0";
             XNamespace sh = "urn:sfti:documents:StandardBusinessDocumentHeader";
             var root = doc.Root;

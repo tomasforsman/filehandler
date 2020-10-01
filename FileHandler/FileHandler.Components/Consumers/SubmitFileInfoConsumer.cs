@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using System;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using Pri.Contracts;
@@ -32,7 +33,7 @@ namespace FileHandler.Components.Consumers
                     });
                 return;
             }
-
+            
 
             await context.Publish<FileInfoSubmitted>(new
             {
@@ -43,8 +44,19 @@ namespace FileHandler.Components.Consumers
                 context.Message.Folder
             });
 
+            var busControl = Bus.Factory.CreateUsingRabbitMq();
+            var endpoint = await busControl.GetSendEndpoint(new Uri("queue:file-reader"));
+
+            await endpoint.Send<ReadFile>(new
+            {
+                context.Message.FileId,
+                context.Message.FileName,
+                context.Message.Folder
+            });
             // await context.RespondAsync("Ok");
 
+            
+            
             if (context.RequestId != null)
                 await context.RespondAsync<FileInfoSubmissionAccepted>(new
                 {

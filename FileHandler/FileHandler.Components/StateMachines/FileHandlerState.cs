@@ -17,8 +17,8 @@ namespace FileHandler.Components.StateMachines
 
         public string CurrentFolder { get; set; }
 
-        public string SenderId { get; set; }
-        public string ReceiverId { get; set; }
+        public string BuyerId { get; set; }
+        public string SellerId { get; set; }
 
         public string FileDestination { get; set; }
         public int Version { get; set; }

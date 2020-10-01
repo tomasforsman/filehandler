@@ -115,6 +115,18 @@ namespace FileHandler.Service
             //var SubmitFileInfoConsumer = new SubmitFileInfoConsumer();
             //configurator.ReceiveEndpoint("submit-file", e => { e.Instance(SubmitFileInfoConsumer); });
             configurator.ConfigureEndpoints(context);  //, e => e.Exclude<SubmitFileInfoConsumer>());
+            // var submitFileInfoConsumer = new SubmitFileInfoConsumer();
+            // configurator.ReceiveEndpoint("submit-file-info", e =>
+            // {
+            //     e.Instance(submitFileInfoConsumer);
+            // });
+            //
+            // var fileHandlerStateMachine = new FileHandlerStateMachine();
+            // configurator.ReceiveEndpoint("file-handler-state", e =>
+            // {
+            //     e.Instance(fileHandlerStateMachine);
+            // });
+            //
             // configurator.ReceiveEndpoint("submit-file-info", e =>
             // {
             //     e.PrefetchCount = 16;
