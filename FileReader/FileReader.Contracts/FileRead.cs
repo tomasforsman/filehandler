@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace FileReader.Contracts
+namespace Pri.Contracts
 {
     public interface FileRead
     {
         public Guid FileId { get; set; }
-        public string FileName { get; set; }
-        public string FolderName { get; set; }
+        public string BuyerId { get; set; }
+        public string SellerId { get; set; }
     }
 }

@@ -1,50 +1,61 @@
-﻿using FileHandler.Contracts;
+﻿
 using MassTransit;
 using MassTransit.Courier;
 using System;
 using System.Threading.Tasks;
+using Pri.Contracts;
 
 namespace FileHandler.Components.FileActivities
 {
     public class ReadFileActivity :
-        IActivity<MoveFileArguments, MoveFileLog>
+        IActivity<ReadFileArguments, FileRead>
     {
         private readonly IRequestClient<ReadFile> _client;
 
-        public ReadFileActivity(IRequestClient<MoveFile> client) => _client = client;
+        public ReadFileActivity(IRequestClient<ReadFile> client) => _client = client;
 
-        public async Task<ExecutionResult> Execute(ExecuteContext<MoveFileArguments> context)
+        public async Task<ExecutionResult> Execute(ExecuteContext<ReadFileArguments> context)
         {
             var fileId = context.Arguments.FileId;
             var fileName = context.Arguments.FileName;
-            var fromFolder = context.Arguments.FromFolder;
-            var toFolder = context.Arguments.ToFolder;
+            var folder = context.Arguments.Folder;
+            var buyerId = context.Arguments.BuyerId;
+            var sellerId = context.Arguments.SellerId;
 
             var response = await _client.GetResponse<FileRead>(new
             {
                 FileId = fileId,
-                
+                FileName = fileName,
+                Folder = folder
             });
 
             return context.Completed(new
             {
-                FileId = fileId
+                FileId = fileId,
+                BuyerId = buyerId,
+                SellerId = sellerId
             });
         }
 
-        public Task<CompensationResult> Compensate(CompensateContext<MoveFileLog> context) => throw new NotImplementedException();
+        public async Task<CompensationResult> Compensate(CompensateContext<FileRead> context)
+        {
+            return context.Compensated();
+        }
     }
 
-    public interface MoveFileArguments
+    public interface ReadFileArguments
     {
         Guid FileId { get; }
         string FileName { get; }
-        string FromFolder { get; }
-        string ToFolder { get; }
+        string Folder { get; }
+        string BuyerId { get; }
+        string SellerId { get; }
     }
 
-    public interface MoveFileLog
+    public interface FileRead
     {
         Guid FileId { get; }
+        string BuyerId { get; }
+        string SellerId { get; }
     }
 }

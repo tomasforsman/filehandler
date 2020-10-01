@@ -18,6 +18,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FileHandler.Components.Observers;
+using MassTransit.Testing.Observers;
 
 namespace FileHandler.Service
 {
@@ -77,7 +79,12 @@ namespace FileHandler.Service
                             });
 
                         cfg.UsingRabbitMq(ConfigureBus);
+                        
+                        
+                        
                     });
+                    
+                    
 
                     services.AddHostedService<MassTransitConsoleHostedService>();
                 })
@@ -108,6 +115,13 @@ namespace FileHandler.Service
             //var SubmitFileInfoConsumer = new SubmitFileInfoConsumer();
             //configurator.ReceiveEndpoint("submit-file", e => { e.Instance(SubmitFileInfoConsumer); });
             configurator.ConfigureEndpoints(context);  //, e => e.Exclude<SubmitFileInfoConsumer>());
+            // configurator.ReceiveEndpoint("submit-file-info", e =>
+            // {
+            //     e.PrefetchCount = 16;
+            //     e.ConfigureConsumer<SubmitFileInfoConsumer>(context);
+            // });
+            //var observer = new ReceiveObserver();
+            //var handle = configurator.ConnectReceiveObserver(observer);
         }
     }
 }

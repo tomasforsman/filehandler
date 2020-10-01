@@ -2,12 +2,12 @@ using MassTransit;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
+using System.Linq;
 using System.Security.Permissions;
 using System.Threading;
 using System.Threading.Tasks;
-using FileHandler.Contracts;
-using FileWatcher.Contracts;
-using PRI.Contracts;
+
+using Pri.Contracts;
 
 
 namespace FileWatcher.Service
@@ -16,15 +16,49 @@ namespace FileWatcher.Service
         IHostedService
     {
         private Timer _timer;
+        private FileSystemWatcher watcher = new FileSystemWatcher();
+        private string path = @"W:\code\dotnet\microservices\filehandler\data\";
+        private bool freeForWork = true;
+        private CancellationTokenSource cancelFileSubmitter = null;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
-            // var timeInSeconds = 5;
-            // _timer = new Timer(CheckForFile, null, TimeSpan.FromSeconds(timeInSeconds),
-            //     TimeSpan.FromSeconds(timeInSeconds));
+            cancelFileSubmitter = new CancellationTokenSource();
+            
 
-            CheckForFile();
+            TimerCheck(CheckPath, 60);
+            //TimerCheck(CancelFileSubmitter, 30);
             return Task.CompletedTask;
+        }
+
+        private void CancelFileSubmitter(object? state)
+        {
+            cancelFileSubmitter.Cancel();
+        }
+        
+
+        private void TimerCheck(System.Threading.TimerCallback runthis, int timeInSeconds)
+        {
+            
+            _timer = new Timer(runthis, null, TimeSpan.FromSeconds(timeInSeconds), 
+                TimeSpan.FromSeconds(timeInSeconds));
+        }
+
+        public async void CheckPath(object? state)
+        {
+            if (Directory.EnumerateFiles(path) != null && freeForWork)
+            {
+                var fileSubmitterToken = cancelFileSubmitter.Token;
+                try
+                {
+                    await SubmitFilesInPath(fileSubmitterToken);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+            }
         }
 
 
@@ -33,96 +67,58 @@ namespace FileWatcher.Service
             _timer.Dispose();
             return Task.CompletedTask;
         }
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        private async Task CheckForFile()
-        {
-            using (FileSystemWatcher watcher = new FileSystemWatcher())
-            {
-                var watchFolder = "W:\\code\\dotnet\\microservices\\filehandler\\data";
-                watcher.Path = watchFolder;
-                
-
-                // Watch for changes in LastAccess and LastWrite times, and
-                // the renaming of files or directories.
-                watcher.NotifyFilter = NotifyFilters.LastAccess
-                                       | NotifyFilters.LastWrite
-                                       | NotifyFilters.FileName
-                                       | NotifyFilters.DirectoryName;
-
-                // Only watch text files.
-                watcher.Filter = "*.xml";
-
-                // Add event handlers.
-                //watcher.Changed += OnChanged;
-                watcher.Created += OnChanged;
-                //watcher.Deleted += OnChanged;
-                //watcher.Renamed += OnRenamed;
-
-                // Begin watching.
-                watcher.EnableRaisingEvents = true;
-
-                // Wait for the user to quit the program.
-                Console.WriteLine("Press 'q' to quit the sample.");
-                while (Console.Read() != 'q') ;
-            }
-        }
         
-        private async void OnChanged(object source, FileSystemEventArgs e)
+        
+        private async Task SubmitFilesInPath(CancellationToken cancel)
         {
+            freeForWork = false;
             var busControl = Bus.Factory.CreateUsingRabbitMq();
-            var cancelsource = new CancellationTokenSource(TimeSpan.FromSeconds(50));
+            var cancelsource = new CancellationTokenSource(TimeSpan.FromSeconds(100));
             await busControl.StartAsync(cancelsource.Token); 
+            var client = busControl.CreateRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
             try
             {
                 do
                 {
-                    Guid fileId = Guid.NewGuid();
-                    var watchFolder = e.FullPath.Remove(e.FullPath.Length - e.Name.Length);
-                    var newFolder = watchFolder + "moved\\" + fileId.ToString() + "\\";
-                    //var newFolder = @"W:\code\dotnet\microservices\filehandler\data\moved\";
-                    Directory.CreateDirectory(newFolder);
-                    var movedFile = newFolder + e.Name;
-                    File.Move(e.FullPath, movedFile);
+                    foreach (string file in Directory.EnumerateFiles(path).Select(Path.GetFileName))
+                    {
+                        if(cancel.IsCancellationRequested)
+                            cancel.ThrowIfCancellationRequested();
+                        Guid fileId = Guid.NewGuid();
+                        var newPath = path + @"moved\" + fileId.ToString() + @"\";
+                        Directory.CreateDirectory(newPath);
+                        File.Move(path + file, newPath + file);
+                        
+                        var (accepted, rejected) = await client
+                            .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
+                            {
+                                FileId = fileId,
+                                InVar.Timestamp,
+                                FileName = file,
+                                OriginFolder = path,
+                                Folder = newPath //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
+                            }, cancelsource.Token).ConfigureAwait(false);
 
-                    Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
-                    Console.WriteLine($"Moved to: {0}", movedFile);
-                    //var endpoint = await busControl.GetSendEndpoint(new Uri("queue:submit-file-info"));
-                    var client = busControl.CreateRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
 
-                    //await endpoint.Send<FileInfoSubmitted>(new
-                    var (accepted, rejected) = await client
-                        .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
+                        if (accepted.IsCompletedSuccessfully)
                         {
-                            FileId = fileId,
-                            InVar.Timestamp,
-                            FileName = e.Name,
-                            OriginFolder = watchFolder,
-                            Folder = newFolder //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
-                        }, cancelsource.Token).ConfigureAwait(false);
-
-
-                    if (accepted.IsCompletedSuccessfully)
-                    {
-                        var response = await accepted.ConfigureAwait(false);
-                        Console.WriteLine("File Sent: {0}", response.Message.FileName);
-                    }
-                    else
-                    {
-                        var response = await rejected.ConfigureAwait(false);
-                        Console.WriteLine("File Rejected: {0}", response.Message.Reason);
+                            var response = await accepted.ConfigureAwait(false);
+                            Console.WriteLine("File Sent: {0}", response.Message.FileName);
+                        }
+                        else
+                        {
+                            var response = await rejected.ConfigureAwait(false);
+                            Console.WriteLine("File Rejected: {0}", response.Message.Reason);
+                        }
                     }
                     break;
-                } while (true);
+                } while (Directory.EnumerateFiles(path) != null);
             }
             finally
             {
                 await busControl.StopAsync(cancelsource.Token);
+                freeForWork = true;
             }
         }
-
-        private async void OnRenamed(object source, RenamedEventArgs e) =>
-            // Specify what is done when a file is renamed.
-            Console.WriteLine($"File: {e.OldFullPath} renamed to {e.FullPath}");
     }
 }

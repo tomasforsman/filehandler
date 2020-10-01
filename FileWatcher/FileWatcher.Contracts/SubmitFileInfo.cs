@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PRI.Contracts
+namespace Pri.Contracts
 {
     public interface SubmitFileInfo
     {

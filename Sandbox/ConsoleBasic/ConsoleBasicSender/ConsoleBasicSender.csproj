@@ -6,13 +6,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MassTransit" Version="7.0.5-develop.2962" />
-      <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2962" />
+      <PackageReference Include="MassTransit" Version="7.0.5-develop.2965" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2965" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\FileReader\FileReader.Contracts\FileReader.Contracts.csproj" />
-      <ProjectReference Include="..\..\FileReader\FileReader.Contracts\FileReader.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

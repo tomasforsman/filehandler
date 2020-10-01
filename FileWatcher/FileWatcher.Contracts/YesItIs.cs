@@ -1,6 +1,6 @@
 using System;
 
-namespace FileWatcher.Contracts
+namespace Pri.Contracts
 {
     public interface YesItIs
     {

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using Pri.Contracts;
 using PRI.Contracts;
 
 namespace FileHandler.Api.Controllers

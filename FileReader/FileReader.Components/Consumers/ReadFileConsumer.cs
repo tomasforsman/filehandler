@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
+using Pri.Contracts;
 
 namespace FileReader.Components.Consumers
 {
@@ -42,6 +43,13 @@ namespace FileReader.Components.Consumers
             
             Console.WriteLine("Buyer ID: {0}", buyerId);
             Console.WriteLine("Seller ID: {0}", sellerId);
+
+            await context.RespondAsync<FileRead>(new
+            {
+                FileId = context.Message.FileId,
+                BuyerId = buyerId,
+                SellerId = sellerId
+            });
 
             async Task<string> getID(string party)
             {

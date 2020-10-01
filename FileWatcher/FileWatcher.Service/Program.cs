@@ -1,5 +1,4 @@
 ﻿using FileWatcher.Components;
-using FileWatcher.Contracts;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
@@ -12,10 +11,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using FileHandler.Contracts;
-using PRI.Contracts;
+using Pri.Contracts;
 
-namespace FileWatcher.Service
+ namespace FileWatcher.Service
 {
     internal class Program
     {

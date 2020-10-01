@@ -1,7 +1,7 @@
 ﻿using Automatonymous;
-using FileHandler.Contracts;
 using MassTransit;
 using System;
+using Pri.Contracts;
 
 namespace FileHandler.Components.StateMachines
 {

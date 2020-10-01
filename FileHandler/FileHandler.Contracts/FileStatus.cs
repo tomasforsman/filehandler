@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FileHandler.Contracts
+namespace Pri.Contracts
 {
     public interface FileStatus
     {

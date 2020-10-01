@@ -1,6 +1,6 @@
 using System;
 
-namespace FileReader.Contracts
+namespace Pri.Contracts
 {
     public interface ReadFile
     {

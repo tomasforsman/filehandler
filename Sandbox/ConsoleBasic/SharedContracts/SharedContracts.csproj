@@ -4,4 +4,8 @@
         <TargetFramework>net5.0</TargetFramework>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MassTransit.Analyzers" Version="7.0.5-develop.2965" />
+    </ItemGroup>
+
 </Project>

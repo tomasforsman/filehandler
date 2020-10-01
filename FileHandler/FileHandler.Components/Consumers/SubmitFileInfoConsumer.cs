@@ -1,8 +1,7 @@
-﻿using FileHandler.Contracts;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using PRI.Contracts;
+using Pri.Contracts;
 
 namespace FileHandler.Components.Consumers
 {
