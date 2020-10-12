@@ -1,7 +1,6 @@
 ﻿namespace PriWebCommunicator.Components.Consumers
 {
-    public class FindFileDestinationConsumerDefinition
-    {
-        
-    }
+  public class FindFileDestinationConsumerDefinition
+  {
+  }
 }

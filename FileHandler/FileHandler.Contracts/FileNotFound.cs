@@ -2,8 +2,8 @@
 
 namespace Pri.Contracts
 {
-    public interface FileNotFound
-    {
-        Guid FileId { get; }
-    }
+  public interface FileNotFound
+  {
+    Guid FileId { get; }
+  }
 }

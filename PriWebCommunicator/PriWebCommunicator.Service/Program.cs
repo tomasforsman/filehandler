@@ -19,74 +19,74 @@ using System.Threading.Tasks;
 
 namespace PriWebCommunicator.Service
 {
-    public class Program
+  public class Program
+  {
+    private static DependencyTrackingTelemetryModule _module;
+    private static TelemetryClient _telemetryClient;
+
+    public static async Task Main(string[] args)
     {
-        private static DependencyTrackingTelemetryModule _module;
-        private static TelemetryClient _telemetryClient;
+      var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
-        public static async Task Main(string[] args)
+      Log.Logger = new LoggerConfiguration()
+        .MinimumLevel.Debug()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+
+      var builder = new HostBuilder()
+        .ConfigureAppConfiguration((hostingContext, config) =>
         {
-            var isService = !(Debugger.IsAttached || args.Contains("--console"));
+          config.AddJsonFile("appsettings.json", true);
+          config.AddEnvironmentVariables();
 
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .CreateLogger();
-
-            var builder = new HostBuilder()
-                .ConfigureAppConfiguration((hostingContext, config) =>
-                {
-                    config.AddJsonFile("appsettings.json", true);
-                    config.AddEnvironmentVariables();
-
-                    if (args != null) config.AddCommandLine(args);
-                })
-                .ConfigureServices((hostContext, services) =>
-                {
-                    _module = new DependencyTrackingTelemetryModule();
-                    _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-
-                    var configuration = TelemetryConfiguration.CreateDefault();
-                    configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449276";
-                    configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-
-                    _telemetryClient = new TelemetryClient(configuration);
-
-                    services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
-                    services.AddMassTransit(cfg =>
-                    {
-                        cfg.AddConsumersFromNamespaceContaining<FindFileDestinationConsumer>();
-
-                        cfg.UsingRabbitMq(ConfigureBus);
-                    });
-                    services.AddHostedService<MassTransitConsoleHostedService>();
-                })
-                .ConfigureLogging((hostingContext, logging) =>
-                {
-                    logging.AddSerilog(dispose: true);
-                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    logging.AddConsole();
-                });
-            ;
-
-            if (isService)
-                await builder.UseWindowsService().Build().RunAsync();
-            else
-                await builder.RunConsoleAsync();
-
-            _module?.Dispose();
-            _telemetryClient?.Flush();
-
-            Log.CloseAndFlush();
-        }
-
-        private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+          if (args != null) config.AddCommandLine(args);
+        })
+        .ConfigureServices((hostContext, services) =>
         {
-            var findFileDestinationConsumer = new FindFileDestinationConsumer();
-            configurator.UseMessageScheduler(new Uri("queue:quartz"));
-            configurator.ReceiveEndpoint("pri-web-communicator", e => { e.Instance(findFileDestinationConsumer); });
-        }
+          _module = new DependencyTrackingTelemetryModule();
+          _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+
+          var configuration = TelemetryConfiguration.CreateDefault();
+          configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449276";
+          configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+
+          _telemetryClient = new TelemetryClient(configuration);
+
+          services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
+          services.AddMassTransit(cfg =>
+          {
+            cfg.AddConsumersFromNamespaceContaining<FindFileDestinationConsumer>();
+
+            cfg.UsingRabbitMq(ConfigureBus);
+          });
+          services.AddHostedService<MassTransitConsoleHostedService>();
+        })
+        .ConfigureLogging((hostingContext, logging) =>
+        {
+          logging.AddSerilog(dispose: true);
+          logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+          logging.AddConsole();
+        });
+      ;
+
+      if (isService)
+        await builder.UseWindowsService().Build().RunAsync();
+      else
+        await builder.RunConsoleAsync();
+
+      _module?.Dispose();
+      _telemetryClient?.Flush();
+
+      Log.CloseAndFlush();
     }
+
+    private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+    {
+      var findFileDestinationConsumer = new FindFileDestinationConsumer();
+      configurator.UseMessageScheduler(new Uri("queue:quartz"));
+      configurator.ReceiveEndpoint("pri-web-communicator", e => { e.Instance(findFileDestinationConsumer); });
+    }
+  }
 }
