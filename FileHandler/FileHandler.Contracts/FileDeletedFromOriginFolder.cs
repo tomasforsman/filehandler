@@ -8,6 +8,6 @@ namespace Pri.Contracts
 
         string FileName { get; set; }
 
-        string Folder { get; set; }
+        string LocalFolder { get; set; }
     }
 }

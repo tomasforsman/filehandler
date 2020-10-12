@@ -18,7 +18,7 @@ namespace FileHandler.Components.FileActivities
         {
             var fileId = context.Arguments.FileId;
             var fileName = context.Arguments.FileName;
-            var folder = context.Arguments.Folder;
+            var localFolder = context.Arguments.LocalFolder;
             var buyerId = context.Arguments.BuyerId;
             var sellerId = context.Arguments.SellerId;
 
@@ -26,7 +26,7 @@ namespace FileHandler.Components.FileActivities
             {
                 FileId = fileId,
                 FileName = fileName,
-                Folder = folder
+                LocalFolder = localFolder
             });
 
             return context.Completed(new
@@ -47,7 +47,7 @@ namespace FileHandler.Components.FileActivities
     {
         Guid FileId { get; }
         string FileName { get; }
-        string Folder { get; }
+        string LocalFolder { get; }
         string BuyerId { get; }
         string SellerId { get; }
     }

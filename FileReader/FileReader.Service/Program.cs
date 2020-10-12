@@ -1,4 +1,3 @@
-using FileHandler.Service;
 using FileReader.Components.Consumers;
 using MassTransit;
 using MassTransit.Definition;

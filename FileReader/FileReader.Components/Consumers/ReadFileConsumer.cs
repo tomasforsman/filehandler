@@ -26,7 +26,7 @@ namespace FileReader.Components.Consumers
         public async Task Consume(ConsumeContext<ReadFile> context)
         {
             var fileName = context.Message.FileName;
-            var folder = context.Message.Folder;
+            var folder = context.Message.LocalFolder;
             
             Console.WriteLine("Läser Fil: {0}", folder + fileName);
             

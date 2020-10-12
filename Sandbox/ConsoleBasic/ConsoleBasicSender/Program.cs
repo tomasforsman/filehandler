@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FileReader.Contracts;
 using MassTransit;
+using Pri.Contracts;
 
 namespace ConsoleBasicSender
 {
@@ -28,7 +28,7 @@ namespace ConsoleBasicSender
                     {
                         FileId = InVar.Id,
                         FileName = "filnamn.xml",
-                        FolderName = "svefakt"
+                        Folder = "svefakt"
                     },source.Token);
                     break;
                 }

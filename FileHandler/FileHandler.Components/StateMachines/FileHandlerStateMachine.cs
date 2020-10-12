@@ -23,20 +23,12 @@ namespace FileHandler.Components.StateMachines
                         await context.RespondAsync<FileNotFound>(new { context.Message.FileId });
                 }));
             });
-            Event(() => FileDeletedFromOriginFolder,
-                x => x.CorrelateBy((saga, context) =>
-                    saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.Folder ||
-                    saga.CorrelationId == context.Message.FileId));
 
-            Event(() => FileMoved,
-                x => x.CorrelateBy((saga, context) =>
-                    saga.FileName == context.Message.FileName && saga.OriginFolder == context.Message.ToFolder ||
-                    saga.CorrelationId == context.Message.FileId));
             // x => x.CorrelateById(m => m.Message.FileId));
             // x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
 
             Event(() => FileRead, x => x.CorrelateById(m => m.Message.FileId));
-            Event(() => FileDestinationFound, x => x.CorrelateById(m => m.Message.FileId));
+            Event(() => CommunicationSettingsFound, x => x.CorrelateById(m => m.Message.FileId));
             Event(() => FileSent, x => x.CorrelateById(m => m.Message.FileId));
             Event(() => TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
 
@@ -46,10 +38,11 @@ namespace FileHandler.Components.StateMachines
                 When(FileInfoSubmitted)
                     .Then(context =>
                     {
+                        context.Instance.FileId = context.Data.FileId;
                         context.Instance.SubmitDate = context.Data.Timestamp;
                         context.Instance.FileName = context.Data.FileName;
                         context.Instance.OriginFolder = context.Data.OriginFolder;
-                        context.Instance.CurrentFolder = context.Data.Folder;
+                        context.Instance.LocalFolder = context.Data.LocalFolder;
                         
                         context.Instance.Updated = DateTime.UtcNow;
                     })
@@ -63,13 +56,42 @@ namespace FileHandler.Components.StateMachines
                         context.Instance.BuyerId = context.Data.BuyerId;
                         context.Instance.SellerId = context.Data.SellerId;
                     })
+                    .PublishAsync(context => context.Init<Read>(new
+                    {
+                        FileId = context.Instance.FileId,
+                        BuyerId = context.Instance.BuyerId,
+                        SellerId = context.Instance.SellerId
+                    }))
                     .TransitionTo(Read));
             
             During(Read,
-                When(FileDestinationFound)
-                    .TransitionTo(DestinationFound));
+                When(CommunicationSettingsFound)
+                    .Then(context =>
+                    {
+                        context.Instance.Protocol = context.Data.Protocol;
+                        context.Instance.HostName = context.Data.HostName;
+                        context.Instance.RemoteFolder = context.Data.RemoteFolder;
+                        context.Instance.Password = context.Data.Password;
+                        context.Instance.UserName = context.Data.UserName;
+                        context.Instance.Port = context.Data.Port;
+                        context.Instance.SshHostKeyFingerprint = context.Data.SshHostKeyFingerprint;
+                    })
+                    .PublishAsync(context => context.Init<CommunicationSettings>(new
+                    {
+                        FileId = context.Instance.FileId,
+                        FileName = context.Instance.FileName,
+                        LocalFolder = context.Instance.LocalFolder,
+                        Protocol = context.Instance.Protocol,
+                        HostName = context.Instance.HostName,
+                        RemoteFolder = context.Instance.RemoteFolder,
+                        Password = context.Instance.Password,
+                        UserName = context.Instance.UserName,
+                        Port = context.Instance.Port,
+                        SshHostKeyFingerprint = context.Instance.SshHostKeyFingerprint
+                    }))
+                    .TransitionTo(ComSettingsFound));
 
-            During(DestinationFound,
+            During(ComSettingsFound,
                 When(FileSent)
                     .TransitionTo(Sent));
 
@@ -95,26 +117,22 @@ namespace FileHandler.Components.StateMachines
                     {
                         context.Instance.Updated = DateTime.UtcNow;
                         context.Instance.FileName = context.Data.FileName ?? context.Instance.FileName;
-                        context.Instance.CurrentFolder = context.Data.Folder;
+                        context.Instance.LocalFolder = context.Data.LocalFolder;
                     })
                     .TransitionTo(Submitted)
             );
         }
 
         public State Submitted { get; set; }
-        public State DeletedFromOriginFolder { get; set; }
-        public State Moved { get; set; }
         public State Read { get; set; }
-        public State DestinationFound { get; set; }
+        public State ComSettingsFound { get; set; }
         public State Sent { get; set; }
         public State Reported { get; set; }
 
         public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
         public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }
-        public Event<FileDeletedFromOriginFolder> FileDeletedFromOriginFolder { get; set; }
-        public Event<FileMoved> FileMoved { get; set; }
         public Event<FileRead> FileRead { get; set; }
-        public Event<FileDestinationFound> FileDestinationFound { get; set; }
+        public Event<CommunicationSettingsFound> CommunicationSettingsFound { get; set; }
         public Event<FileSent> FileSent { get; set; }
         public Event<TransactionReported> TransactionReported { get; set; }
     }

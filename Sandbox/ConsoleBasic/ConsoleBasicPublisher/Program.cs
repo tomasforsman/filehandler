@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using FileReader.Contracts;
 using MassTransit;
 using Pri.Contracts;
 using SharedContracts;
@@ -42,7 +41,7 @@ namespace ConsoleBasicPublisher
                     });
                     await busControl.Publish<ValueEntered>(new
                     {
-                        ValueEntered = value
+                        Value = value
                     }, source.Token);
                 }
                 while (true);

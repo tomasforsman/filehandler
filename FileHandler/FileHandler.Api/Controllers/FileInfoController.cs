@@ -1,11 +1,9 @@
-﻿using FileHandler.Contracts;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 using Pri.Contracts;
-using PRI.Contracts;
 
 namespace FileHandler.Api.Controllers
 {
@@ -57,7 +55,7 @@ namespace FileHandler.Api.Controllers
                     FileId = id,
                     InVar.Timestamp,
                     FileName = fileName,
-                    Folder = folder
+                    LocalFolder = folder
                 }).ConfigureAwait(false);
 
             if (accepted.IsCompletedSuccessfully)
@@ -82,7 +80,7 @@ namespace FileHandler.Api.Controllers
                 FileId = id,
                 InVar.Timestamp,
                 FileName = fileName,
-                Folder = folder
+                LocalFolder = folder
             }).ConfigureAwait(false);
 
             return Accepted();

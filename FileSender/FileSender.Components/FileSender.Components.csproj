@@ -5,9 +5,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="MassTransit" Version="7.0.5-develop.2976" />
       <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />
       <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
+      <PackageReference Include="WinSCP" Version="5.17.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FileSender.Contracts\FileSender.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

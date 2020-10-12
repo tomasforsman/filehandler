@@ -12,6 +12,6 @@ namespace Pri.Contracts
 
         string OriginFolder { get; set; }
         
-        string Folder { get; set; }
+        string LocalFolder { get; set; }
     }
 }

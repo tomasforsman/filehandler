@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FileHandler.Service
+namespace FileReader.Service
 {
     public class MassTransitConsoleHostedService :
         IHostedService

@@ -1,4 +1,3 @@
-using FileHandler.Contracts;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.MongoDbIntegration.MessageData;
@@ -12,7 +11,6 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using System;
 using Pri.Contracts;
-using PRI.Contracts;
 
 namespace FileHandler
 {

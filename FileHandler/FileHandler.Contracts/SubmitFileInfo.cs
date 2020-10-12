@@ -4,14 +4,14 @@ namespace Pri.Contracts
 {
     public interface SubmitFileInfo
     {
-        Guid FileId { get; }
+        Guid FileId { get; set; }
 
-        DateTime Timestamp { get; }
+        DateTime Timestamp { get; set; }
 
-        string FileName { get; }
+        string FileName { get; set; }
         
-        string OriginFolder { get; }
+        string OriginFolder { get; set; }
 
-        string Folder { get; }
+        string LocalFolder { get; set; }
     }
 }

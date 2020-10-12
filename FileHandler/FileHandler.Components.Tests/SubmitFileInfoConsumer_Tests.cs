@@ -1,11 +1,10 @@
-﻿using FileHandler.Components.Consumers;
-using FileHandler.Contracts;
-using MassTransit;
-using MassTransit.Testing;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using PRI.Contracts;
+using FileHandler.Components.Consumers;
+using MassTransit;
+using MassTransit.Testing;
+using Pri.Contracts;
 using Xunit;
 
 namespace FileHandler.Components.Tests
@@ -30,7 +29,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/"
+                    LocalFolder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -63,7 +62,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/"
+                    LocalFolder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -96,7 +95,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "TEST.file",
-                    Folder = "c:/folder/"
+                    LocalFolder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -127,7 +126,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "TEST.file",
-                    Folder = "c:/folder/"
+                    LocalFolder = "c:/folder/"
                 });
 
                 // Assert (Then)
@@ -157,7 +156,7 @@ namespace FileHandler.Components.Tests
                     FileId = fileId,
                     InVar.Timestamp,
                     FileName = "filename.file",
-                    Folder = "c:/folder/"
+                    LocalFolder = "c:/folder/"
                 });
 
                 // Assert (Then)

@@ -1,8 +1,7 @@
-using FileHandler.Contracts;
-using MassTransit;
-using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using MassTransit;
+using Microsoft.AspNetCore.Mvc;
 using Pri.Contracts;
 
 namespace FileHandler.Api.Controllers
@@ -16,12 +15,17 @@ namespace FileHandler.Api.Controllers
         public FindDestinationController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
 
         [HttpPatch]
-        public async Task<IActionResult> FindDestination(Guid id, string filedestination)
+        public async Task<IActionResult> FindDestination(Guid id, string protocol, string hostname, string remotefolder, string password, string username, string port)
         {
-            await _publishEndpoint.Publish<FileDestinationFound>(new
+            await _publishEndpoint.Publish<CommunicationSettings>(new
             {
                 FileId = id,
-                FileDestination = filedestination
+                Protocol = protocol,
+                HostName = hostname,
+                RemoteFolder = remotefolder,
+                Password = password,
+                UserName = username,
+                Port = port
             });
 
             return Ok();

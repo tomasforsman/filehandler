@@ -6,7 +6,7 @@ using Pri.Contracts;
 
 namespace FileHandler.Components.Consumers
 {
-    public class SubmitFileInfoConsumer : IConsumer<SubmitFileInfo>
+    public class SubmitFileInfoConsumer : IConsumer<Batch<SubmitFileInfo>>
     {
         private readonly ILogger<SubmitFileInfoConsumer> _logger;
 
@@ -16,56 +16,62 @@ namespace FileHandler.Components.Consumers
 
         public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger) => _logger = logger;
 
-        public async Task Consume(ConsumeContext<SubmitFileInfo> context)
+        public async Task Consume(ConsumeContext<Batch<SubmitFileInfo>> context)
         {
-            _logger?.Log(LogLevel.Debug, "SubmitFileInfoConsumer: {context}", context);
-            if (context.Message.FileName.Contains("TEST"))
+            
+            _logger?.Log(LogLevel.Debug, "SubmitFileInfoConsumer: {0}", context);
+            for (int i = 0; i < context.Message.Length; i++)
             {
+                ConsumeContext<SubmitFileInfo> ctx = context.Message[i];
+                
+                if (ctx.Message.FileName.Contains("TEST"))
+                {
+                    if (context.RequestId != null)
+                        await context.RespondAsync<FileInfoSubmissionRejected>(new
+                        {
+                            InVar.Timestamp,
+                            ctx.Message.FileId,
+                            ctx.Message.FileName,
+                            ctx.Message.LocalFolder,
+                            ctx.Message.OriginFolder,
+                            Reason = $"Unable to submit File with name containing TEST: {ctx.Message.FileName}"
+                        });
+                    return;
+                }
+
+
+                await context.Publish<FileInfoSubmitted>(new
+                {
+                    ctx.Message.FileId,
+                    ctx.Message.Timestamp,
+                    ctx.Message.FileName,
+                    ctx.Message.OriginFolder,
+                    ctx.Message.LocalFolder
+                });
+
+                var busControl = Bus.Factory.CreateUsingRabbitMq();
+                var endpoint = await busControl.GetSendEndpoint(new Uri("queue:file-reader"));
+
+                await endpoint.Send<ReadFile>(new
+                {
+                    ctx.Message.FileId,
+                    ctx.Message.FileName,
+                    ctx.Message.LocalFolder
+                });
+                // await context.RespondAsync("Ok");
+
+
+
                 if (context.RequestId != null)
-                    await context.RespondAsync<FileInfoSubmissionRejected>(new
+                    await context.RespondAsync<FileInfoSubmissionAccepted>(new
                     {
                         InVar.Timestamp,
-                        context.Message.FileId,
-                        context.Message.FileName,
-                        context.Message.Folder,
-                        context.Message.OriginFolder,
-                        Reason = $"Unable to submit File with name containing TEST: {context.Message.FileName}"
-                    });
-                return;
+                        ctx.Message.FileId,
+                        ctx.Message.FileName,
+                        ctx.Message.OriginFolder,
+                        ctx.Message.LocalFolder
+                    }).ConfigureAwait(false);
             }
-            
-
-            await context.Publish<FileInfoSubmitted>(new
-            {
-                context.Message.FileId,
-                context.Message.Timestamp,
-                context.Message.FileName,
-                context.Message.OriginFolder,
-                context.Message.Folder
-            });
-
-            var busControl = Bus.Factory.CreateUsingRabbitMq();
-            var endpoint = await busControl.GetSendEndpoint(new Uri("queue:file-reader"));
-
-            await endpoint.Send<ReadFile>(new
-            {
-                context.Message.FileId,
-                context.Message.FileName,
-                context.Message.Folder
-            });
-            // await context.RespondAsync("Ok");
-
-            
-            
-            if (context.RequestId != null)
-                await context.RespondAsync<FileInfoSubmissionAccepted>(new
-                {
-                    InVar.Timestamp,
-                    context.Message.FileId,
-                    context.Message.FileName,
-                    context.Message.OriginFolder,
-                    context.Message.Folder
-                }).ConfigureAwait(false);
         }
     }
 }

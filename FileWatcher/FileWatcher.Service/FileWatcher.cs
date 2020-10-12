@@ -26,7 +26,7 @@ namespace FileWatcher.Service
             cancelFileSubmitter = new CancellationTokenSource();
             
 
-            TimerCheck(CheckPath, 60);
+            TimerCheck(CheckPath, 10);
             //TimerCheck(CancelFileSubmitter, 30);
             return Task.CompletedTask;
         }
@@ -96,7 +96,7 @@ namespace FileWatcher.Service
                                 InVar.Timestamp,
                                 FileName = file,
                                 OriginFolder = path,
-                                Folder = newPath //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
+                                LocalFolder = newPath //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
                             }, cancelsource.Token).ConfigureAwait(false);
 
 
