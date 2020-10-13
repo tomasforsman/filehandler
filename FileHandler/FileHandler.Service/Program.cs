@@ -1,4 +1,8 @@
-﻿using FileHandler.Components.Consumers;
+﻿using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
 using MassTransit;
 using MassTransit.Definition;
@@ -14,12 +18,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Events;
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using FileHandler.Components.Observers;
-using MassTransit.Testing.Observers;
 
 namespace FileHandler.Service
 {
@@ -28,14 +26,16 @@ namespace FileHandler.Service
     /// <summary>
     ///     Service that receives message and does something with it.
     /// </summary>
-    private static DependencyTrackingTelemetryModule _module;
-
-    private static TelemetryClient _telemetryClient;
+    private static DependencyTrackingTelemetryModule module;
+    private static TelemetryClient telemetryClient;
+    private static TelemetryConfiguration configuration;
 
     private static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
 
+
+      
       Log.Logger = new LoggerConfiguration()
         .MinimumLevel.Debug()
         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -53,16 +53,26 @@ namespace FileHandler.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
-          _module = new DependencyTrackingTelemetryModule();
-          _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+          module = new DependencyTrackingTelemetryModule();
+          module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
-          var configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449278";
+          configuration = TelemetryConfiguration.CreateDefault();
+          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
+          //configuration.ConnectionString = "InstrumentationKey=05d55b31-6ab4-40f9-a226-a356f41457c5;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
-          _telemetryClient = new TelemetryClient(configuration);
+          telemetryClient = new TelemetryClient(configuration);
 
-          _module.Initialize(configuration);
+          module.Initialize(configuration);
+          
+          // var loggerOptions = new ApplicationInsightsLoggerOptions();
+          // var applicationInsightsLoggerProvider = new ApplicationInsightsLoggerProvider(Options.Create(configuration),
+          //   Options.Create(loggerOptions));
+          
+          // ILoggerFactory factory = new LoggerFactory();
+          // factory.AddProvider(applicationInsightsLoggerProvider);
+
+          // LogContext.ConfigureCurrentLogContext(factory);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -96,9 +106,9 @@ namespace FileHandler.Service
       else
         await builder.RunConsoleAsync();
 
-      _module?.Dispose();
-      _telemetryClient?.Flush();
-
+      module?.Dispose();
+      telemetryClient?.Flush();
+      // configuration?.Dispose();
       Log.CloseAndFlush();
     }
 

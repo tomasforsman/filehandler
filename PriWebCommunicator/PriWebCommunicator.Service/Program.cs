@@ -23,7 +23,7 @@ namespace PriWebCommunicator.Service
   {
     private static DependencyTrackingTelemetryModule _module;
     private static TelemetryClient _telemetryClient;
-
+    private static TelemetryConfiguration configuration;
     public static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
@@ -48,8 +48,8 @@ namespace PriWebCommunicator.Service
           _module = new DependencyTrackingTelemetryModule();
           _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
-          var configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449276";
+          configuration = TelemetryConfiguration.CreateDefault();
+          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
           _telemetryClient = new TelemetryClient(configuration);
@@ -79,7 +79,9 @@ namespace PriWebCommunicator.Service
       _module?.Dispose();
       _telemetryClient?.Flush();
 
+      await Task.Delay(5000);
       Log.CloseAndFlush();
+      configuration?.Dispose();
     }
 
     private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)

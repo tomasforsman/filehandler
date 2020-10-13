@@ -40,6 +40,7 @@ namespace FileHandler.Components.StateMachines
           {
             context.Instance.FileId = context.Data.FileId;
             context.Instance.SubmitDate = context.Data.Timestamp;
+            context.Instance.Updated = DateTime.UtcNow;
             context.Instance.FileName = context.Data.FileName;
             context.Instance.OriginFolder = context.Data.OriginFolder;
             context.Instance.LocalFolder = context.Data.LocalFolder;
@@ -109,17 +110,6 @@ namespace FileHandler.Components.StateMachines
             FileId = x.Instance.CorrelationId,
             State = x.Instance.CurrentState
           }))
-      );
-
-      DuringAny(
-        When(FileInfoSubmitted)
-          .Then(context =>
-          {
-            context.Instance.Updated = DateTime.UtcNow;
-            context.Instance.FileName = context.Data.FileName ?? context.Instance.FileName;
-            context.Instance.LocalFolder = context.Data.LocalFolder;
-          })
-          .TransitionTo(Submitted)
       );
     }
 

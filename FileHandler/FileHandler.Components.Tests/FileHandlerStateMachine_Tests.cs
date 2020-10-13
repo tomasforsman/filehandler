@@ -1,8 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using Automatonymous.Graphing;
+using Automatonymous.Visualizer;
 using FileHandler.Components.StateMachines;
 using MassTransit;
 using MassTransit.Testing;
+using Microsoft.AspNetCore.Components.Server.Circuits;
 using Pri.Contracts;
 using Xunit;
 using Xunit.Abstractions;
@@ -81,6 +85,20 @@ namespace FileHandler.Components.Tests
       {
         await harness.Stop();
       }
+    }
+
+    [Fact]
+    public void Show_Me_The_StateMachine()
+    {
+      var stateMachine = new FileHandlerStateMachine();
+
+      var graph = stateMachine.GetGraph();
+
+      var generator = new StateMachineGraphvizGenerator(graph);
+
+      string dots = generator.CreateDotFile();
+      
+      Console.WriteLine(dots);
     }
   }
 }

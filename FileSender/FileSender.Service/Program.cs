@@ -49,7 +49,7 @@ namespace FileSender.Service
           _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
           var configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "6b4c6c82-3250-4170-97d3-245ee1449276";
+          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
           _telemetryClient = new TelemetryClient(configuration);

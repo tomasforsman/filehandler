@@ -2,6 +2,9 @@
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -12,16 +15,29 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Pri.Contracts;
+using Serilog;
+using Serilog.Events;
 
 namespace FileWatcher.Service
 {
   internal class Program
   {
+    private static DependencyTrackingTelemetryModule _module;
+    private static TelemetryClient _telemetryClient;
+    
     public static Settings Settings { get; set; }
     //public static AppConfig AppSettings { get; set; }
 
     private static async Task Main(string[] args)
     {
+      Log.Logger = new LoggerConfiguration()
+        .MinimumLevel.Debug()
+        .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+        .Enrich.FromLogContext()
+        .WriteTo.Console()
+        .CreateLogger();
+      
+      
       var configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", false, true)
         .AddEnvironmentVariables()
@@ -42,6 +58,15 @@ namespace FileWatcher.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
+          _module = new DependencyTrackingTelemetryModule();
+          _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+
+          var configuration = TelemetryConfiguration.CreateDefault();
+          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
+          configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+
+          _telemetryClient = new TelemetryClient(configuration);
+          
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 
           services.Configure<Settings.AppConfiguration>(hostContext.Configuration.GetSection("RabbitMq"));
@@ -59,6 +84,7 @@ namespace FileWatcher.Service
         })
         .ConfigureLogging((hostingContext, logging) =>
         {
+          logging.AddSerilog(dispose: true);
           logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
           logging.AddConsole();
         });
@@ -68,6 +94,11 @@ namespace FileWatcher.Service
       //await builder.UseSystemd().Build().RunAsync(); // For Linux, replace the nuget package: "Microsoft.Extensions.Hosting.WindowsServices" with "Microsoft.Extensions.Hosting.Systemd", and then use this line instead
       else
         await builder.RunConsoleAsync();
+      
+      _module?.Dispose();
+      _telemetryClient?.Flush();
+
+      Log.CloseAndFlush();
     }
 
     public void ConfigureServices(IServiceCollection services)
