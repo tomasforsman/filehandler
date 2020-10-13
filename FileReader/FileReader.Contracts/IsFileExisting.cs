@@ -1,6 +1,6 @@
 namespace FileReader.Contracts
 {
-    public interface IsFileExisting
-    {
-    }
+  public interface IsFileExisting
+  {
+  }
 }

@@ -2,16 +2,16 @@
 
 namespace Pri.Contracts
 {
-    public interface SubmitFileInfo
-    {
-        Guid FileId { get; }
+  public interface SubmitFileInfo
+  {
+    Guid FileId { get; }
 
-        DateTime Timestamp { get; }
+    DateTime Timestamp { get; }
 
-        string FileName { get; }
+    string FileName { get; }
 
-        string OriginFolder { get; }
-        
-        string LocalFolder { get; }
-    }
+    string OriginFolder { get; }
+
+    string LocalFolder { get; }
+  }
 }

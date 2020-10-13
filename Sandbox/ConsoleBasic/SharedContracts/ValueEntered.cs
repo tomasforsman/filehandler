@@ -1,7 +1,7 @@
 ﻿namespace SharedContracts
 {
-    public interface ValueEntered
-    {
-        string Value { get; }
-    }
+  public interface ValueEntered
+  {
+    string Value { get; }
+  }
 }

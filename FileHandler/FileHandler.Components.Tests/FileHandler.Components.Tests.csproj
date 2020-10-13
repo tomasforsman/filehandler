@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Automatonymous.Visualizer" Version="5.0.2-develop.140" />
       <PackageReference Include="coverlet.collector" Version="1.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
       <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />

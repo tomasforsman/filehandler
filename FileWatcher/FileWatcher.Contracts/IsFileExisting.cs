@@ -1,6 +1,6 @@
 namespace Pri.Contracts
 {
-    public interface IsFileExisting
-    {
-    }
+  public interface IsFileExisting
+  {
+  }
 }

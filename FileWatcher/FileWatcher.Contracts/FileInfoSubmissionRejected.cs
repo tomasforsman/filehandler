@@ -2,16 +2,16 @@
 
 namespace Pri.Contracts
 {
-    public interface FileInfoSubmissionRejected
-    {
-        Guid FileId { get; }
+  public interface FileInfoSubmissionRejected
+  {
+    Guid FileId { get; }
 
-        DateTime Timestamp { get; }
+    DateTime Timestamp { get; }
 
-        string FileName { get; }
+    string FileName { get; }
 
-        string LocalFolder { get; }
+    string LocalFolder { get; }
 
-        string Reason { get; set; }
-    }
+    string Reason { get; set; }
+  }
 }

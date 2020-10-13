@@ -1,6 +1,6 @@
 namespace FileReader.Contracts
 {
-    public interface NoNotYet
-    {
-    }
+  public interface NoNotYet
+  {
+  }
 }

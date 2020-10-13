@@ -2,8 +2,8 @@
 
 namespace Pri.Contracts
 {
-    public interface CheckFileInfo
-    {
-        Guid FileId { get; }
-    }
+  public interface CheckFileInfo
+  {
+    Guid FileId { get; }
+  }
 }

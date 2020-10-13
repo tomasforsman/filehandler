@@ -16,9 +16,7 @@
     <PackageReference Include="MassTransit.Analyzers" Version="7.0.5-develop.2965" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2965" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2965" />
-    <PackageReference Include="MassTransit.Redis" Version="7.0.5-develop.2965" />
     <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.15.0" />
-    <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20451.14" />
@@ -26,7 +24,6 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Configuration" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0-rc.1.20451.14" />
-    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10281" />
     <PackageReference Include="Serilog.Sinks.ColoredConsole" Version="3.0.1" />
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
