@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Permissions;
 using System.Threading;
 using System.Threading.Tasks;
+using Azure.Storage.Blobs;
 using Pri.Contracts;
 
 
@@ -19,6 +20,9 @@ namespace FileWatcher.Service
     private string path = @"W:\code\dotnet\microservices\filehandler\data\";
     private bool freeForWork = true;
     private CancellationTokenSource cancelFileSubmitter = null;
+
+    
+    
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -86,6 +90,27 @@ namespace FileWatcher.Service
             var newPath = path + @"moved\" + fileId.ToString() + @"\";
             Directory.CreateDirectory(newPath);
             File.Move(path + file, newPath + file);
+            var filePath = newPath + file;
+            
+            string connectionString = "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
+            var container = new BlobContainerClient(connectionString, fileId.ToString());
+            await container.CreateAsync();
+            try
+            {
+              BlobClient blob = container.GetBlobClient(file);
+              blob.Upload(filePath);
+            }
+            catch(Exception e)
+            {
+              Console.WriteLine(e);
+            }
+            finally
+            {
+              //await container.DeleteAsync();
+            }
+            
+            
+            
 
             var (accepted, rejected) = await client
               .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new

@@ -13,29 +13,29 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Service", "File
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileWatcher.Service", "FileWatcher\FileWatcher.Service\FileWatcher.Service.csproj", "{34D9B698-CEB7-4D99-B2ED-D7856ED0AB37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher.Components", "FileWatcher\FileWatcher.Components\FileWatcher.Components.csproj", "{70F9B213-EE17-45F0-99CA-395168EBE4E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileWatcher.Components", "FileWatcher\FileWatcher.Components\FileWatcher.Components.csproj", "{70F9B213-EE17-45F0-99CA-395168EBE4E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileWatcher.Contracts", "FileWatcher\FileWatcher.Contracts\FileWatcher.Contracts.csproj", "{B60AA3BC-FE24-4F48-8618-F6604E63694F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileWatcher.Contracts", "FileWatcher\FileWatcher.Contracts\FileWatcher.Contracts.csproj", "{B60AA3BC-FE24-4F48-8618-F6604E63694F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileHandler.Components.Tests", "FileHandler\FileHandler.Components.Tests\FileHandler.Components.Tests.csproj", "{B0938762-45A1-407D-9617-05D599718DFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileHandler.Components.Tests", "FileHandler\FileHandler.Components.Tests\FileHandler.Components.Tests.csproj", "{B0938762-45A1-407D-9617-05D599718DFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReader.Service", "FileReader\FileReader.Service\FileReader.Service.csproj", "{D8A9AE2D-8484-4AEF-A94D-4DE83C10C1AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileReader.Service", "FileReader\FileReader.Service\FileReader.Service.csproj", "{D8A9AE2D-8484-4AEF-A94D-4DE83C10C1AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriWebCommunicator.Service", "PriWebCommunicator\PriWebCommunicator.Service\PriWebCommunicator.Service.csproj", "{4F857692-7D62-41FF-938B-781A92677D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriWebCommunicator.Service", "PriWebCommunicator\PriWebCommunicator.Service\PriWebCommunicator.Service.csproj", "{4F857692-7D62-41FF-938B-781A92677D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReader.Components", "FileReader\FileReader.Components\FileReader.Components.csproj", "{FA7150B1-CD85-4837-A39B-8EB77DBB4EC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileReader.Components", "FileReader\FileReader.Components\FileReader.Components.csproj", "{FA7150B1-CD85-4837-A39B-8EB77DBB4EC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileReader.Contracts", "FileReader\FileReader.Contracts\FileReader.Contracts.csproj", "{3A69F978-1E25-4DD8-9758-AE389C9CF697}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileReader.Contracts", "FileReader\FileReader.Contracts\FileReader.Contracts.csproj", "{3A69F978-1E25-4DD8-9758-AE389C9CF697}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriWebCommunicator.Components", "PriWebCommunicator\PriWebCommunicator.Components\PriWebCommunicator.Components.csproj", "{E25067F0-7B14-4DD2-A9E8-B5C9EA1DB040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriWebCommunicator.Components", "PriWebCommunicator\PriWebCommunicator.Components\PriWebCommunicator.Components.csproj", "{E25067F0-7B14-4DD2-A9E8-B5C9EA1DB040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriWebCommunicator.Contracts", "PriWebCommunicator\PriWebCommunicator.Contracts\PriWebCommunicator.Contracts.csproj", "{30A26594-C6E7-4CF0-A885-111E49BE3F5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PriWebCommunicator.Contracts", "PriWebCommunicator\PriWebCommunicator.Contracts\PriWebCommunicator.Contracts.csproj", "{30A26594-C6E7-4CF0-A885-111E49BE3F5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSender.Service", "FileSender\FileSender.Service\FileSender.Service.csproj", "{7B74935B-7697-48CA-A401-132759658F41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSender.Service", "FileSender\FileSender.Service\FileSender.Service.csproj", "{7B74935B-7697-48CA-A401-132759658F41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSender.Components", "FileSender\FileSender.Components\FileSender.Components.csproj", "{64E02362-C5BD-4AE2-B243-964C497A428F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSender.Components", "FileSender\FileSender.Components\FileSender.Components.csproj", "{64E02362-C5BD-4AE2-B243-964C497A428F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileSender.Contracts", "FileSender\FileSender.Contracts\FileSender.Contracts.csproj", "{B203EBB1-645D-40A4-AC0C-EC421913EB85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileSender.Contracts", "FileSender\FileSender.Contracts\FileSender.Contracts.csproj", "{B203EBB1-645D-40A4-AC0C-EC421913EB85}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileReader", "FileReader", "{25491627-0E82-43FB-B7D4-C220CAC7589D}"
 EndProject
@@ -51,32 +51,36 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Containers", "Containers", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sandbox", "Sandbox", "{00DC44A9-8C02-473D-8AFA-10ACED642F2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicListener", "Sandbox\ConsoleBasic\ConsoleBasicListener\ConsoleBasicListener.csproj", "{93A589D1-6320-426B-901D-FD7E11D11CEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBasicListener", "Sandbox\ConsoleBasic\ConsoleBasicListener\ConsoleBasicListener.csproj", "{93A589D1-6320-426B-901D-FD7E11D11CEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicPublisher", "Sandbox\ConsoleBasic\ConsoleBasicPublisher\ConsoleBasicPublisher.csproj", "{5847A7E1-F445-470D-B775-099101CCCECD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBasicPublisher", "Sandbox\ConsoleBasic\ConsoleBasicPublisher\ConsoleBasicPublisher.csproj", "{5847A7E1-F445-470D-B775-099101CCCECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedContracts", "Sandbox\ConsoleBasic\SharedContracts\SharedContracts.csproj", "{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharedContracts", "Sandbox\ConsoleBasic\SharedContracts\SharedContracts.csproj", "{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleBasic", "Sandbox\ConsoleBasic", "{C521030B-CBD1-4A27-87FF-D8487D83F407}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConsoleBasic", "ConsoleBasic", "{C521030B-CBD1-4A27-87FF-D8487D83F407}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mongodb", "mongodb", "{47D6F4E2-517A-4A1E-A232-4208B89417B0}"
-ProjectSection(SolutionItems) = preProject
-	Containers\mongodb\Dockerfile = Containers\mongodb\Dockerfile
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		Containers\mongodb\Dockerfile = Containers\mongodb\Dockerfile
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq", "rabbitmq", "{50AF59C6-1D69-4340-8504-A199B05F440E}"
-ProjectSection(SolutionItems) = preProject
-	Containers\rabbitmq\Dockerfile = Containers\rabbitmq\Dockerfile
-	Containers\rabbitmq\init.sh = Containers\rabbitmq\init.sh
-EndProjectSection
+	ProjectSection(SolutionItems) = preProject
+		Containers\rabbitmq\Dockerfile = Containers\rabbitmq\Dockerfile
+		Containers\rabbitmq\init.sh = Containers\rabbitmq\init.sh
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleBasicSender", "Sandbox\ConsoleBasic\ConsoleBasicSender\ConsoleBasicSender.csproj", "{D68F1F69-F24E-45FE-95D6-8477F186C087}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBasicSender", "Sandbox\ConsoleBasic\ConsoleBasicSender\ConsoleBasicSender.csproj", "{D68F1F69-F24E-45FE-95D6-8477F186C087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filehandler.Console", "FileHandler\Filehandler.Console\Filehandler.Console.csproj", "{14D9011F-B647-4D9A-A3A8-E7B98443F8D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filehandler.Console", "FileHandler\Filehandler.Console\Filehandler.Console.csproj", "{14D9011F-B647-4D9A-A3A8-E7B98443F8D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinSCP", "WinSCP", "{69980495-651B-477B-B13A-B39BEF459064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileUpload", "Sandbox\WinSCP\FileUpload\FileUpload.csproj", "{DB87DB0A-435C-49D0-BD0B-26BD9197FC17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUpload", "Sandbox\WinSCP\FileUpload\FileUpload.csproj", "{DB87DB0A-435C-49D0-BD0B-26BD9197FC17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Azure Insights", "Azure Insights", "{39796187-F3E9-40D3-A189-94C6E8DDD7E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure Insights Console", "Azure Insights\Azure Insights Console\Azure Insights Console.csproj", "{BA8FEF06-A7F8-451C-9529-B77274AB1172}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -152,10 +156,6 @@ Global
 		{B203EBB1-645D-40A4-AC0C-EC421913EB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B203EBB1-645D-40A4-AC0C-EC421913EB85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B203EBB1-645D-40A4-AC0C-EC421913EB85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8E3DEC35-A8BD-41FE-A935-D8B870387B87}.Release|Any CPU.Build.0 = Release|Any CPU
 		{93A589D1-6320-426B-901D-FD7E11D11CEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{93A589D1-6320-426B-901D-FD7E11D11CEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{93A589D1-6320-426B-901D-FD7E11D11CEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -180,40 +180,46 @@ Global
 		{DB87DB0A-435C-49D0-BD0B-26BD9197FC17}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB87DB0A-435C-49D0-BD0B-26BD9197FC17}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB87DB0A-435C-49D0-BD0B-26BD9197FC17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA8FEF06-A7F8-451C-9529-B77274AB1172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA8FEF06-A7F8-451C-9529-B77274AB1172}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA8FEF06-A7F8-451C-9529-B77274AB1172}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA8FEF06-A7F8-451C-9529-B77274AB1172}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {84279D56-2F46-4D74-9AF0-A2B82D802D8C}
-	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{FA7150B1-CD85-4837-A39B-8EB77DBB4EC1} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
-		{3A69F978-1E25-4DD8-9758-AE389C9CF697} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
-		{D8A9AE2D-8484-4AEF-A94D-4DE83C10C1AE} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
-		{64E02362-C5BD-4AE2-B243-964C497A428F} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
-		{B203EBB1-645D-40A4-AC0C-EC421913EB85} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
-		{7B74935B-7697-48CA-A401-132759658F41} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
+		{45B274D4-BA6C-43A1-B7ED-AE17E9A67B30} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
+		{FC531BA3-ABDB-4774-A132-946D87C6AEBC} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
+		{CB3335F0-8B73-4373-A638-1D33CF9EB699} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
+		{9D7480EE-587F-4BA0-95DA-9083D426565F} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
+		{34D9B698-CEB7-4D99-B2ED-D7856ED0AB37} = {80B791C1-23AF-4F38-8968-22E9BBA3FBCB}
 		{70F9B213-EE17-45F0-99CA-395168EBE4E4} = {80B791C1-23AF-4F38-8968-22E9BBA3FBCB}
 		{B60AA3BC-FE24-4F48-8618-F6604E63694F} = {80B791C1-23AF-4F38-8968-22E9BBA3FBCB}
-		{34D9B698-CEB7-4D99-B2ED-D7856ED0AB37} = {80B791C1-23AF-4F38-8968-22E9BBA3FBCB}
+		{B0938762-45A1-407D-9617-05D599718DFE} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
+		{D8A9AE2D-8484-4AEF-A94D-4DE83C10C1AE} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
+		{4F857692-7D62-41FF-938B-781A92677D22} = {F619E23D-EA47-4823-834A-998C0D38EF96}
+		{FA7150B1-CD85-4837-A39B-8EB77DBB4EC1} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
+		{3A69F978-1E25-4DD8-9758-AE389C9CF697} = {25491627-0E82-43FB-B7D4-C220CAC7589D}
 		{E25067F0-7B14-4DD2-A9E8-B5C9EA1DB040} = {F619E23D-EA47-4823-834A-998C0D38EF96}
 		{30A26594-C6E7-4CF0-A885-111E49BE3F5F} = {F619E23D-EA47-4823-834A-998C0D38EF96}
-		{4F857692-7D62-41FF-938B-781A92677D22} = {F619E23D-EA47-4823-834A-998C0D38EF96}
-		{45B274D4-BA6C-43A1-B7ED-AE17E9A67B30} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{CB3335F0-8B73-4373-A638-1D33CF9EB699} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{B0938762-45A1-407D-9617-05D599718DFE} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{FC531BA3-ABDB-4774-A132-946D87C6AEBC} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{9D7480EE-587F-4BA0-95DA-9083D426565F} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
-		{C521030B-CBD1-4A27-87FF-D8487D83F407} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
+		{7B74935B-7697-48CA-A401-132759658F41} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
+		{64E02362-C5BD-4AE2-B243-964C497A428F} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
+		{B203EBB1-645D-40A4-AC0C-EC421913EB85} = {D97DDE8F-72C3-401F-851D-75E562280D6B}
 		{93A589D1-6320-426B-901D-FD7E11D11CEC} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
 		{5847A7E1-F445-470D-B775-099101CCCECD} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
 		{AB9BBE8F-7B99-4DFF-B792-6FA8D9B87077} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
+		{C521030B-CBD1-4A27-87FF-D8487D83F407} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
 		{47D6F4E2-517A-4A1E-A232-4208B89417B0} = {341DF642-CF93-4A56-95E3-700E2A12319B}
 		{50AF59C6-1D69-4340-8504-A199B05F440E} = {341DF642-CF93-4A56-95E3-700E2A12319B}
 		{D68F1F69-F24E-45FE-95D6-8477F186C087} = {C521030B-CBD1-4A27-87FF-D8487D83F407}
 		{14D9011F-B647-4D9A-A3A8-E7B98443F8D2} = {A0DFE3C5-9059-48EC-8B33-6178847CBDF1}
 		{69980495-651B-477B-B13A-B39BEF459064} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
 		{DB87DB0A-435C-49D0-BD0B-26BD9197FC17} = {69980495-651B-477B-B13A-B39BEF459064}
+		{39796187-F3E9-40D3-A189-94C6E8DDD7E1} = {00DC44A9-8C02-473D-8AFA-10ACED642F2F}
+		{BA8FEF06-A7F8-451C-9529-B77274AB1172} = {39796187-F3E9-40D3-A189-94C6E8DDD7E1}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84279D56-2F46-4D74-9AF0-A2B82D802D8C}
 	EndGlobalSection
 EndGlobal

@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0-preview.1" />
       <PackageReference Include="MassTransit" Version="7.0.5-develop.2965" />
       <PackageReference Include="MassTransit.Analyzers" Version="7.0.5-develop.2965" />
       <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />

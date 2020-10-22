@@ -49,10 +49,11 @@ namespace FileReader.Service
           _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
           var configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
+          configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
           _telemetryClient = new TelemetryClient(configuration);
+          _module.Initialize(configuration);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>

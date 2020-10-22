@@ -57,7 +57,7 @@ namespace FileHandler.Service
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
 
           configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
+          configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
           //configuration.ConnectionString = "InstrumentationKey=05d55b31-6ab4-40f9-a226-a356f41457c5;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
 
