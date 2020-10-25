@@ -30,11 +30,11 @@ namespace FileReader.Components.Consumers
     public async Task Consume(ConsumeContext<ReadFile> context)
     {
       var fileName = context.Message.FileName;
-      var folder = context.Message.LocalFolder;
+      //var folder = context.Message.LocalFolder;
       var fileId = context.Message.FileId.ToString();
 
       //Console.WriteLine("Läser Fil: {0}", folder + fileName);
-      string downloadPath = folder + @"fromblob\";
+      string downloadPath = @"fromblob\";
       Directory.CreateDirectory(downloadPath);
       BlobContainerClient container = new BlobContainerClient(connectionString, fileId);
       
