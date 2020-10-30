@@ -1,6 +1,8 @@
 ﻿using Automatonymous;
 using MassTransit;
 using System;
+using System.IO;
+using Automatonymous.Binders;
 using Pri.Contracts;
 
 namespace FileHandler.Components.StateMachines
@@ -37,60 +39,20 @@ namespace FileHandler.Components.StateMachines
       InstanceState(x => x.CurrentState);
       Initially(
         When(FileInfoSubmitted)
-          .Then(context =>
-          {
-            context.Instance.FileId = context.Data.FileId;
-            context.Instance.FileName = context.Data.FileName;
-            context.Instance.OriginFolder = context.Data.OriginFolder;
-            context.Instance.SubmitDate = context.Data.Timestamp;
-            context.Instance.Updated = DateTime.UtcNow;
-          })
+          .CopyInfoToInstance()
           .TransitionTo(File_Is_Submitted));
 
       During(File_Is_Submitted,
         Ignore(FileInfoSubmitted),
         When(FileRead)
-          .Then(context =>
-          {
-            context.Instance.BuyerId = context.Data.BuyerId;
-            context.Instance.SellerId = context.Data.SellerId;
-            context.Instance.ReadDate = DateTime.UtcNow;
-            context.Instance.Updated = DateTime.UtcNow;
-          })
-          .PublishAsync(context => context.Init<Read>(new
-          {
-            FileId = context.Instance.FileId,
-            BuyerId = context.Instance.BuyerId,
-            SellerId = context.Instance.SellerId
-          }))
+          .AddFileContentToInstance()
+          .PublishFileContent()
           .TransitionTo(File_Has_Been_Read));
 
       During(File_Has_Been_Read,
         When(CommunicationSettingsFound)
-          .Then(context =>
-          {
-            context.Instance.Protocol = context.Data.Protocol;
-            context.Instance.HostName = context.Data.HostName;
-            context.Instance.RemoteFolder = context.Data.RemoteFolder;
-            context.Instance.Password = context.Data.Password;
-            context.Instance.UserName = context.Data.UserName;
-            context.Instance.Port = context.Data.Port;
-            context.Instance.SshHostKeyFingerprint = context.Data.SshHostKeyFingerprint;
-            context.Instance.FTPSettingsRetrieveDate = DateTime.UtcNow;
-            context.Instance.Updated = DateTime.UtcNow;
-          })
-          .PublishAsync(context => context.Init<CommunicationSettings>(new
-          {
-            FileId = context.Instance.FileId,
-            FileName = context.Instance.FileName,
-            Protocol = context.Instance.Protocol,
-            HostName = context.Instance.HostName,
-            RemoteFolder = context.Instance.RemoteFolder,
-            Password = context.Instance.Password,
-            UserName = context.Instance.UserName,
-            Port = context.Instance.Port,
-            SshHostKeyFingerprint = context.Instance.SshHostKeyFingerprint
-          }))
+          .AddFtpInformationToInstance()
+          .PublishFtpInformationToInstance()
           .TransitionTo(Ftp_Settings_Has_Been_Retrieved));
 
       During(Ftp_Settings_Has_Been_Retrieved,
@@ -134,5 +96,82 @@ namespace FileHandler.Components.StateMachines
     public Event<CommunicationSettingsFound> CommunicationSettingsFound { get; set; }
     public Event<FileSent> FileSent { get; set; }
     public Event<TransactionReported> TransactionReported { get; set; }
+  }
+
+  public static class FileHandlerStateMachineExtensions
+  {
+    
+    // Initially
+    public static EventActivityBinder<FileHandlerState, FileInfoSubmitted> CopyInfoToInstance(this
+      EventActivityBinder<FileHandlerState, FileInfoSubmitted> binder)
+    {
+      return binder.Then(context =>
+      {
+        context.Instance.FileId = context.Data.FileId;
+        context.Instance.FileName = context.Data.FileName;
+        context.Instance.OriginFolder = context.Data.OriginFolder;
+        context.Instance.SubmitDate = context.Data.Timestamp;
+        context.Instance.Updated = DateTime.UtcNow;
+      });
+    }
+    
+    // File_Is_Submitted
+    public static EventActivityBinder<FileHandlerState, FileRead> AddFileContentToInstance(this
+      EventActivityBinder<FileHandlerState, FileRead> binder)
+    {
+      return binder.Then(context =>
+      {
+        context.Instance.BuyerId = context.Data.BuyerId;
+        context.Instance.SellerId = context.Data.SellerId;
+        context.Instance.ReadDate = DateTime.UtcNow;
+        context.Instance.Updated = DateTime.UtcNow;
+      });
+    } 
+    
+    public static EventActivityBinder<FileHandlerState, FileRead> PublishFileContent(this
+      EventActivityBinder<FileHandlerState, FileRead> binder)
+    {
+      return binder.PublishAsync(context => context.Init<Read>(new
+      {
+        FileId = context.Instance.FileId,
+        BuyerId = context.Instance.BuyerId,
+        SellerId = context.Instance.SellerId
+      }));
+    }
+    
+    // File_Has_Been_Read
+    public static EventActivityBinder<FileHandlerState, CommunicationSettingsFound> AddFtpInformationToInstance(this
+      EventActivityBinder<FileHandlerState, CommunicationSettingsFound> binder)
+    {
+      return binder.Then(context =>
+      {
+        context.Instance.Protocol = context.Data.Protocol;
+        context.Instance.HostName = context.Data.HostName;
+        context.Instance.RemoteFolder = context.Data.RemoteFolder;
+        context.Instance.Password = context.Data.Password;
+        context.Instance.UserName = context.Data.UserName;
+        context.Instance.Port = context.Data.Port;
+        context.Instance.SshHostKeyFingerprint = context.Data.SshHostKeyFingerprint;
+        context.Instance.FTPSettingsRetrieveDate = DateTime.UtcNow;
+        context.Instance.Updated = DateTime.UtcNow;
+      });
+    }
+
+    public static EventActivityBinder<FileHandlerState, CommunicationSettingsFound> PublishFtpInformationToInstance(this
+      EventActivityBinder<FileHandlerState, CommunicationSettingsFound> binder)
+    {
+      return binder.PublishAsync(context => context.Init<CommunicationSettings>(new
+      {
+        FileId = context.Instance.FileId,
+        FileName = context.Instance.FileName,
+        Protocol = context.Instance.Protocol,
+        HostName = context.Instance.HostName,
+        RemoteFolder = context.Instance.RemoteFolder,
+        Password = context.Instance.Password,
+        UserName = context.Instance.UserName,
+        Port = context.Instance.Port,
+        SshHostKeyFingerprint = context.Instance.SshHostKeyFingerprint
+      }));
+    }
   }
 }

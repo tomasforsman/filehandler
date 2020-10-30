@@ -375,3 +375,5 @@ temptemp/
 /nuget.exe
 
 data/
+
+FileReader/FileReader.Service/fromblob/
