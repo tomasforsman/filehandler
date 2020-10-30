@@ -39,7 +39,7 @@ namespace FileHandler.Components.Tests
           FileName = "filename.file",
           LocalFolder = "c:/folder/"
         });
-        var instanceID = await saga.Exists(fileId, x => x.Submitted);
+        var instanceID = await saga.Exists(fileId, x => x.File_Is_Submitted);
         var instance = saga.Sagas.Contains(instanceID.Value);
 
         Assert.NotNull(instanceID);
@@ -72,14 +72,14 @@ namespace FileHandler.Components.Tests
           FileName = "filename.file",
           LocalFolder = "c:/folder/"
         });
-        var instanceID = await saga.Exists(fileId, x => x.Submitted);
+        var instanceID = await saga.Exists(fileId, x => x.File_Is_Submitted);
         var instance = saga.Sagas.Contains(instanceID.Value);
 
         var requestClient = await harness.ConnectRequestClient<CheckFileInfo>();
 
         var response = await requestClient.GetResponse<FileStatus>(new {FileId = fileId});
 
-        Assert.Equal(response.Message.State, fileHandlerStateMachine.Submitted.Name);
+        Assert.Equal(response.Message.State, fileHandlerStateMachine.File_Is_Submitted.Name);
       }
       finally
       {

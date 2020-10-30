@@ -81,7 +81,7 @@ namespace FileWatcher.Service
           });
 
           services.AddHostedService<MassTransitConsoleHostedService>();
-          services.AddHostedService<FileWatcher>();
+          services.AddHostedService<Workers.FileWatcher>();
         })
         .ConfigureLogging((hostingContext, logging) =>
         {

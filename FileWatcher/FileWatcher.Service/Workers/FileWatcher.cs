@@ -1,16 +1,14 @@
-using MassTransit;
-using Microsoft.Extensions.Hosting;
 using System;
 using System.IO;
 using System.Linq;
-using System.Security.Permissions;
 using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
+using MassTransit;
+using Microsoft.Extensions.Hosting;
 using Pri.Contracts;
 
-
-namespace FileWatcher.Service
+namespace FileWatcher.Service.Workers
 {
   public class FileWatcher :
     IHostedService
@@ -29,7 +27,7 @@ namespace FileWatcher.Service
       cancelFileSubmitter = new CancellationTokenSource();
 
 
-      TimerCheck(CheckPath, 10);
+      TimerCheck(CheckPath, 2);
       //TimerCheck(CancelFileSubmitter, 30);
       return Task.CompletedTask;
     }

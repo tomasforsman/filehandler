@@ -5,6 +5,7 @@ using Pri.Contracts;
 
 namespace FileHandler.Components.StateMachines
 {
+  // Resharper disable UnassignedGetOnlyAutoProperty MemberCanBePrivate.Global
   public class FileHandlerStateMachine :
     MassTransitStateMachine<FileHandlerState>
   {
@@ -39,23 +40,22 @@ namespace FileHandler.Components.StateMachines
           .Then(context =>
           {
             context.Instance.FileId = context.Data.FileId;
-            context.Instance.SubmitDate = context.Data.Timestamp;
-            context.Instance.Updated = DateTime.UtcNow;
             context.Instance.FileName = context.Data.FileName;
             context.Instance.OriginFolder = context.Data.OriginFolder;
-            context.Instance.LocalFolder = context.Data.LocalFolder;
-
+            context.Instance.SubmitDate = context.Data.Timestamp;
             context.Instance.Updated = DateTime.UtcNow;
           })
-          .TransitionTo(Submitted));
+          .TransitionTo(File_Is_Submitted));
 
-      During(Submitted,
+      During(File_Is_Submitted,
         Ignore(FileInfoSubmitted),
         When(FileRead)
           .Then(context =>
           {
             context.Instance.BuyerId = context.Data.BuyerId;
             context.Instance.SellerId = context.Data.SellerId;
+            context.Instance.ReadDate = DateTime.UtcNow;
+            context.Instance.Updated = DateTime.UtcNow;
           })
           .PublishAsync(context => context.Init<Read>(new
           {
@@ -63,9 +63,9 @@ namespace FileHandler.Components.StateMachines
             BuyerId = context.Instance.BuyerId,
             SellerId = context.Instance.SellerId
           }))
-          .TransitionTo(Read));
+          .TransitionTo(File_Has_Been_Read));
 
-      During(Read,
+      During(File_Has_Been_Read,
         When(CommunicationSettingsFound)
           .Then(context =>
           {
@@ -76,12 +76,13 @@ namespace FileHandler.Components.StateMachines
             context.Instance.UserName = context.Data.UserName;
             context.Instance.Port = context.Data.Port;
             context.Instance.SshHostKeyFingerprint = context.Data.SshHostKeyFingerprint;
+            context.Instance.FTPSettingsRetrieveDate = DateTime.UtcNow;
+            context.Instance.Updated = DateTime.UtcNow;
           })
           .PublishAsync(context => context.Init<CommunicationSettings>(new
           {
             FileId = context.Instance.FileId,
             FileName = context.Instance.FileName,
-            LocalFolder = context.Instance.LocalFolder,
             Protocol = context.Instance.Protocol,
             HostName = context.Instance.HostName,
             RemoteFolder = context.Instance.RemoteFolder,
@@ -90,15 +91,23 @@ namespace FileHandler.Components.StateMachines
             Port = context.Instance.Port,
             SshHostKeyFingerprint = context.Instance.SshHostKeyFingerprint
           }))
-          .TransitionTo(ComSettingsFound));
+          .TransitionTo(Ftp_Settings_Has_Been_Retrieved));
 
-      During(ComSettingsFound,
+      During(Ftp_Settings_Has_Been_Retrieved,
         When(FileSent)
-          .TransitionTo(Sent));
+          .Then(context =>
+            {
+              context.Instance.Updated = DateTime.UtcNow; 
+            })
+          .TransitionTo(File_Is_Sent));
 
-      During(Sent,
+      During(File_Is_Sent,
         When(TransactionReported)
-          .TransitionTo(Reported));
+          .Then(context =>
+          {
+            context.Instance.Updated = DateTime.UtcNow; 
+          })
+          .TransitionTo(Job_Result_Is_Reported));
 
 
       //DuringAny includes all states except initial and final.
@@ -113,11 +122,11 @@ namespace FileHandler.Components.StateMachines
       );
     }
 
-    public State Submitted { get; set; }
-    public State Read { get; set; }
-    public State ComSettingsFound { get; set; }
-    public State Sent { get; set; }
-    public State Reported { get; set; }
+    public State File_Is_Submitted { get; set; }
+    public State File_Has_Been_Read { get; set; }
+    public State Ftp_Settings_Has_Been_Retrieved { get; set; }
+    public State File_Is_Sent { get; set; }
+    public State Job_Result_Is_Reported { get; set; }
 
     public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
     public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }

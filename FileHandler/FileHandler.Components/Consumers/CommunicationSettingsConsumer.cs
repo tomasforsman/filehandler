@@ -25,8 +25,6 @@ namespace FileHandler.Components.Consumers
       await endpoint.Send<SendFile>(new
       {
         context.Message.FileId,
-        context.Message.FileName,
-        context.Message.LocalFolder,
         context.Message.Protocol,
         context.Message.HostName,
         context.Message.RemoteFolder,
