@@ -21,8 +21,9 @@ namespace FileReader.Service
 {
   public class Program
   {
-    private static DependencyTrackingTelemetryModule _module;
-    private static TelemetryClient _telemetryClient;
+    private static DependencyTrackingTelemetryModule module;
+    private static TelemetryClient telemetryClient;
+    private static TelemetryConfiguration configuration;
 
     public static async Task Main(string[] args)
     {
@@ -45,23 +46,21 @@ namespace FileReader.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
-          _module = new DependencyTrackingTelemetryModule();
-          _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-
-          var configuration = TelemetryConfiguration.CreateDefault();
+          module = new DependencyTrackingTelemetryModule();
+          module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+          configuration = TelemetryConfiguration.CreateDefault();
           configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-
-          _telemetryClient = new TelemetryClient(configuration);
-          _module.Initialize(configuration);
+          telemetryClient = new TelemetryClient(configuration);
+          module.Initialize(configuration);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
           {
             cfg.AddConsumersFromNamespaceContaining<ReadFileConsumer>();
-
             cfg.UsingRabbitMq(ConfigureBus);
           });
+          
           services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>
@@ -70,16 +69,14 @@ namespace FileReader.Service
           logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
           logging.AddConsole();
         });
-      ;
 
       if (isService)
         await builder.UseWindowsService().Build().RunAsync();
       else
         await builder.RunConsoleAsync();
 
-      _module?.Dispose();
-      _telemetryClient?.Flush();
-
+      module?.Dispose();
+      telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
 

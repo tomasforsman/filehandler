@@ -33,8 +33,6 @@ namespace FileHandler.Service
     private static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
-
-
       
       Log.Logger = new LoggerConfiguration()
         .MinimumLevel.Debug()
@@ -55,24 +53,11 @@ namespace FileHandler.Service
         {
           module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-
           configuration = TelemetryConfiguration.CreateDefault();
           configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
-          //configuration.ConnectionString = "InstrumentationKey=05d55b31-6ab4-40f9-a226-a356f41457c5;IngestionEndpoint=https://northeurope-0.in.applicationinsights.azure.com/";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-
           telemetryClient = new TelemetryClient(configuration);
-
           module.Initialize(configuration);
-          
-          // var loggerOptions = new ApplicationInsightsLoggerOptions();
-          // var applicationInsightsLoggerProvider = new ApplicationInsightsLoggerProvider(Options.Create(configuration),
-          //   Options.Create(loggerOptions));
-          
-          // ILoggerFactory factory = new LoggerFactory();
-          // factory.AddProvider(applicationInsightsLoggerProvider);
-
-          // LogContext.ConfigureCurrentLogContext(factory);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -90,8 +75,7 @@ namespace FileHandler.Service
 
             cfg.UsingRabbitMq(ConfigureBus);
           });
-
-
+          
           services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>
@@ -108,37 +92,14 @@ namespace FileHandler.Service
 
       module?.Dispose();
       telemetryClient?.Flush();
-      // configuration?.Dispose();
       Log.CloseAndFlush();
     }
 
     private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
     {
-      var fileHandlerState = new FileHandlerState();
       configurator.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
       configurator.UseMessageScheduler(new Uri("queue:quartz"));
-      //var SubmitFileInfoConsumer = new SubmitFileInfoConsumer();
-      //configurator.ReceiveEndpoint("submit-file", e => { e.Instance(SubmitFileInfoConsumer); });
-      configurator.ConfigureEndpoints(context); //, e => e.Exclude<SubmitFileInfoConsumer>());
-      // var submitFileInfoConsumer = new SubmitFileInfoConsumer();
-      // configurator.ReceiveEndpoint("submit-file-info", e =>
-      // {
-      //     e.Instance(submitFileInfoConsumer);
-      // });
-      //
-      // var fileHandlerStateMachine = new FileHandlerStateMachine();
-      // configurator.ReceiveEndpoint("file-handler-state", e =>
-      // {
-      //     e.Instance(fileHandlerStateMachine);
-      // });
-      //
-      // configurator.ReceiveEndpoint("submit-file-info", e =>
-      // {
-      //     e.PrefetchCount = 16;
-      //     e.ConfigureConsumer<SubmitFileInfoConsumer>(context);
-      // });
-      //var observer = new ReceiveObserver();
-      //var handle = configurator.ConnectReceiveObserver(observer);
+      configurator.ConfigureEndpoints(context);
     }
   }
 }

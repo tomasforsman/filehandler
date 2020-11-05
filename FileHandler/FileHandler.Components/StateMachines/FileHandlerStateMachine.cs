@@ -98,9 +98,9 @@ namespace FileHandler.Components.StateMachines
     public Event<TransactionReported> TransactionReported { get; set; }
   }
 
+  
   public static class FileHandlerStateMachineExtensions
   {
-    
     // Initially
     public static EventActivityBinder<FileHandlerState, FileInfoSubmitted> CopyInfoToInstance(this
       EventActivityBinder<FileHandlerState, FileInfoSubmitted> binder)

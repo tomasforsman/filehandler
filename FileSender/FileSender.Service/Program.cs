@@ -21,8 +21,9 @@ namespace FileSender.Service
 {
   public class Program
   {
-    private static DependencyTrackingTelemetryModule _module;
-    private static TelemetryClient _telemetryClient;
+    private static DependencyTrackingTelemetryModule module;
+    private static TelemetryClient telemetryClient;
+    private static TelemetryConfiguration configuration;
 
     public static async Task Main(string[] args)
     {
@@ -45,14 +46,13 @@ namespace FileSender.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
-          _module = new DependencyTrackingTelemetryModule();
-          _module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-
-          var configuration = TelemetryConfiguration.CreateDefault();
+          module = new DependencyTrackingTelemetryModule();
+          module.IncludeDiagnosticSourceActivities.Add("MassTransit");
+          configuration = TelemetryConfiguration.CreateDefault();
           configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-
-          _telemetryClient = new TelemetryClient(configuration);
+          telemetryClient = new TelemetryClient(configuration);
+          module.Initialize(configuration);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -61,6 +61,7 @@ namespace FileSender.Service
 
             cfg.UsingRabbitMq(ConfigureBus);
           });
+          
           services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>
@@ -69,16 +70,14 @@ namespace FileSender.Service
           logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
           logging.AddConsole();
         });
-      ;
 
       if (isService)
         await builder.UseWindowsService().Build().RunAsync();
       else
         await builder.RunConsoleAsync();
 
-      _module?.Dispose();
-      _telemetryClient?.Flush();
-
+      module?.Dispose();
+      telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
 
