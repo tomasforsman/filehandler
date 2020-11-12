@@ -1,0 +1,45 @@
+# tye application configuration file
+# read all about it at https://github.com/dotnet/tye
+#
+# when you've given us a try, we'd love to know what you think:
+#    https://aka.ms/AA7q20u
+#
+name: filehandler
+services:
+# - name: filehandler-api
+#   project: FileHandler/FileHandler.Api/FileHandler.Api.csproj
+- name: filehandler-service
+  project: FileHandler/FileHandler.Service/FileHandler.Service.csproj
+- name: filewatcher-service
+  project: FileWatcher/FileWatcher.Service/FileWatcher.Service.csproj
+- name: filereader-service
+  project: FileReader/FileReader.Service/FileReader.Service.csproj
+- name: priwebcommunicator-service
+  project: PriWebCommunicator/PriWebCommunicator.Service/PriWebCommunicator.Service.csproj
+# - name: filesender-service
+#   project: FileSender/FileSender.Service/FileSender.Service.csproj
+
+
+- name: mongo
+  image: mongo
+  env:
+    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+      value: root
+    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+      value: example
+  bindings:
+    - port: 27017
+  volumes:
+    - source: ./Containers/mongodb/data/db
+      target: /data/db
+- name: mongo-express
+  image: mongo-express
+  bindings:
+    - port: 8081
+      containerPort: 8081
+      protocol: http
+  env:
+    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+      value: root
+    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+      value: rootpassword
