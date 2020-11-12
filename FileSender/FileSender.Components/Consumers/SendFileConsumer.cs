@@ -58,10 +58,8 @@ namespace FileSender.Components.Consumers
           TransferOptions transferOptions = new TransferOptions();
           transferOptions.TransferMode = TransferMode.Binary;
 
-          TransferOperationResult transferResult;
-          transferResult =
-            session.PutFiles(
-              LocalFolder + FileName, "/home/tomas/upload/", false, transferOptions);
+          var transferResult = session.PutFiles(
+            LocalFolder + FileName, "/home/tomas/upload/", false, transferOptions);
 
           foreach (TransferEventArgs transfer in transferResult.Transfers)
           {

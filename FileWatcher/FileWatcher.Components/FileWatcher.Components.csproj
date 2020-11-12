@@ -7,7 +7,7 @@
     
     <ItemGroup>
         <PackageReference Include="MassTransit" Version="7.0.5-develop.2965" />
-        <PackageReference Include="MassTransit.Analyzers" Version="7.0.5-develop.2965" />
+        <PackageReference Include="MassTransit.Analyzers" Version="7.0.7-develop.3022" />
         <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />
         <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />

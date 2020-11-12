@@ -6,6 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MassTransit.Analyzers" Version="7.0.7-develop.3022" />
         <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2968" />
         <PackageReference Include="MassTransit" Version="7.0.5-develop.2968" />
       <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2968" />

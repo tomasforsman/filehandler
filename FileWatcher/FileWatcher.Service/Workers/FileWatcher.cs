@@ -17,7 +17,7 @@ namespace FileWatcher.Service.Workers
     private FileSystemWatcher watcher = new FileSystemWatcher();
     private string path = @"W:\code\dotnet\microservices\filehandler\data\";
     private bool freeForWork = true;
-    private CancellationTokenSource cancelFileSubmitter = null;
+    private CancellationTokenSource cancelFileSubmitter;
 
     
     
@@ -89,16 +89,17 @@ namespace FileWatcher.Service.Workers
             Directory.CreateDirectory(newPath);
             File.Move(path + file, newPath + file);
             var filePath = newPath + file;
-            
-            string connectionString = "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
+
+            string connectionString =
+              "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
             var container = new BlobContainerClient(connectionString, fileId.ToString());
-            await container.CreateAsync();
+            await container.CreateAsync(cancellationToken: cancelsource.Token);
             try
             {
               BlobClient blob = container.GetBlobClient(file);
-              blob.Upload(filePath);
+              await blob.UploadAsync(filePath, cancelsource.Token);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
               Console.WriteLine(e);
             }
@@ -106,9 +107,9 @@ namespace FileWatcher.Service.Workers
             {
               //await container.DeleteAsync();
             }
-            
-            
-            
+
+
+
 
             var (accepted, rejected) = await client
               .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
@@ -134,7 +135,7 @@ namespace FileWatcher.Service.Workers
           }
 
           break;
-        } while (Directory.EnumerateFiles(path) != null);
+        } while (true);
       }
       finally
       {
