@@ -2,6 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using MassTransit.EndpointConfigurators;
 using Pri.Contracts;
 
 namespace FileHandler.Components.Consumers
@@ -50,12 +51,15 @@ namespace FileHandler.Components.Consumers
 
         var busControl = Bus.Factory.CreateUsingRabbitMq();
         var endpoint = await busControl.GetSendEndpoint(new Uri("queue:file-reader"));
+        var faultAddress = await busControl.GetSendEndpoint(new Uri("queue:file-fault"));
+
 
         await endpoint.Send<ReadFile>(new
         {
           ctx.Message.FileId,
           ctx.Message.FileName,
-          ctx.Message.LocalFolder
+          ctx.Message.LocalFolder,
+          __FaultAddress = "queue:file-fault"
         });
         // await context.RespondAsync("Ok");
 

@@ -35,6 +35,9 @@ namespace FileHandler.Components.StateMachines
     public string Port { get; set; }
     public string SshHostKeyFingerprint { get; set; }
     public DateTime? FTPSettingsRetrieveDate { get; set; }
+    
+    public string FaultMessage { get; set; }
+    public string FaultStackTrace { get; set; }
 
   }
 }

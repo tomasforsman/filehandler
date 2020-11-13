@@ -32,6 +32,8 @@ services:
   volumes:
     - source: ./Containers/mongodb/data/db
       target: /data/db
+  tags:
+    - mongo
 - name: mongo-express
   image: mongo-express
   bindings:

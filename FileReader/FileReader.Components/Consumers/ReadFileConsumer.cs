@@ -38,6 +38,8 @@ namespace FileReader.Components.Consumers
       Directory.CreateDirectory(downloadPath);
       BlobContainerClient container = new BlobContainerClient(connectionString, fileId);
       
+
+            //TODO: Read Stream instead of file
       try
       {
         // Get a reference to a blob named "sample-file"
@@ -75,18 +77,18 @@ namespace FileReader.Components.Consumers
       var sellerId = await getID("Seller");
 
       Console.WriteLine("Buyer ID: {0}", buyerId);
-      Console.WriteLine("Seller ID: {0}", sellerId);
-
+      
       await context.RespondAsync<FileRead>(new
       {
         FileId = context.Message.FileId,
         BuyerId = buyerId,
-        SellerId = sellerId
+        SellerId = sellerId,
       });
 
       async Task<string> getID(string party)
       {
         var ID = root.DescendantsAndSelf().Elements().FirstOrDefault(element => element.Name.LocalName == party + "Party").Descendants().FirstOrDefault(element => element.Name.LocalName == "ID").Value;
+
         return ID;
       }
     }

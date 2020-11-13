@@ -17,7 +17,7 @@ namespace FileWatcher.Service
       _bus = bus;
       _logger = loggerFactory.CreateLogger<MassTransitConsoleHostedService>();
     }
-
+    
     public async Task StartAsync(CancellationToken cancellationToken)
     {
       _logger.LogInformation("Starting bus");
