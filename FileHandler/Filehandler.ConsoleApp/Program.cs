@@ -1,19 +1,21 @@
-﻿namespace Client.Console
-{
-  using System;
-  using System.Collections.Generic;
-  using System.Linq;
-  using System.Net;
-  using System.Net.Http;
-  using System.Text;
-  using System.Threading.Tasks;
-  using MassTransit;
-  using Newtonsoft.Json;
+﻿using MassTransit;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System;
 
+namespace FileHandler.ConsoleApp
+{
   //ToDo: Get this to work!
   class Program
   {
     static HttpClient _client;
+
+    static readonly Random _random = new Random();
 
     static async Task Main(string[] args)
     {
@@ -47,10 +49,10 @@
             var file = new FileInfoSubmitted
             {
               FileId = NewId.NextGuid(),
-              Timestamp = DateTime.Now,
               FileName = $"svefakt{i}.xml",
+              Folder = "c:/FileId",
               OriginFolder = "c:/origin",
-              Folder = "c:/FileId"
+              Timestamp = DateTime.Now
             };
 
             tasks.Add(Execute(file));
@@ -66,8 +68,6 @@
         }
       }
     }
-
-    static readonly Random _random = new Random();
 
     static async Task<string> Execute(FileInfoSubmitted file)
     {
@@ -126,11 +126,11 @@
 
   public class FileInfoSubmitted
   {
-    public Guid FileId { get; set; }
     public DateTime Timestamp { get; set; }
+    public Guid FileId { get; set; }
     public string FileName { get; set; }
-    public string OriginFolder { get; set; }
     public string Folder { get; set; }
+    public string OriginFolder { get; set; }
   }
 
 

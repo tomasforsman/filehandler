@@ -24,7 +24,7 @@ namespace PriWebCommunicator.Service
     private static DependencyTrackingTelemetryModule module;
     private static TelemetryClient telemetryClient;
     private static TelemetryConfiguration configuration;
-    
+
     public static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));

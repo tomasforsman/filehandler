@@ -13,11 +13,11 @@ namespace PriWebCommunicator.Components.Consumers
     IConsumer<GetCommunicationSettings>
   {
     private readonly ILogger<FindFileDestinationConsumer> _logger;
-    
+
     public FindFileDestinationConsumer()
     {
     }
-    
+
     public FindFileDestinationConsumer(ILogger<FindFileDestinationConsumer> logger) => _logger = logger;
 
     public async Task Consume(ConsumeContext<GetCommunicationSettings> context)

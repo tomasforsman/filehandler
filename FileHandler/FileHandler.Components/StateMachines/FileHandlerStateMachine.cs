@@ -110,6 +110,5 @@ namespace FileHandler.Components.StateMachines
     public Event<FileRead> FileRead { get; set; }
     public Event<FileSent> FileSent { get; set; }
     public Event<TransactionReported> TransactionReported { get; set; }
-
   }
 }

@@ -27,6 +27,7 @@ namespace FileHandler.Service
     ///     Service that receives message and does something with it.
     /// </summary>
     private static DependencyTrackingTelemetryModule module;
+
     private static TelemetryClient telemetryClient;
     private static TelemetryConfiguration configuration;
 

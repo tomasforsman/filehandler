@@ -13,14 +13,12 @@ namespace FileWatcher.Service.Workers
   public class FileWatcher :
     IHostedService
   {
-    private CancellationTokenSource cancelFileSubmitter;
-    private FileSystemWatcher watcher = new FileSystemWatcher();
     private Timer _timer;
+    private CancellationTokenSource cancelFileSubmitter;
     private bool freeForWork = true;
     private string path = @"W:\code\dotnet\microservices\filehandler\data\";
+    private FileSystemWatcher watcher = new FileSystemWatcher();
 
-    
-    
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -28,6 +26,13 @@ namespace FileWatcher.Service.Workers
 
       TimerCheck(CheckPath, 2);
       //TimerCheck(CancelFileSubmitter, 30);
+      return Task.CompletedTask;
+    }
+
+
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+      _timer.Dispose();
       return Task.CompletedTask;
     }
 
@@ -58,13 +63,6 @@ namespace FileWatcher.Service.Workers
           throw;
         }
       }
-    }
-
-
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-      _timer.Dispose();
-      return Task.CompletedTask;
     }
 
 

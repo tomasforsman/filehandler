@@ -23,7 +23,7 @@ namespace FileHandler.Components.StateMachines
         i.Updated = DateTime.UtcNow;
       });
     }
-    
+
     // File_Is_Submitted
     public static EventActivityBinder<FileHandlerState, FileRead> AddFileContentToInstance(this
       EventActivityBinder<FileHandlerState, FileRead> binder)
@@ -37,8 +37,8 @@ namespace FileHandler.Components.StateMachines
         i.ReadDate = DateTime.UtcNow;
         i.Updated = DateTime.UtcNow;
       });
-    } 
-    
+    }
+
     public static EventActivityBinder<FileHandlerState, FileRead> PublishFileContent(this
       EventActivityBinder<FileHandlerState, FileRead> binder)
     {
@@ -49,7 +49,7 @@ namespace FileHandler.Components.StateMachines
         SellerId = context.Instance.SellerId
       }));
     }
-    
+
     // File_Has_Been_Read
     public static EventActivityBinder<FileHandlerState, CommunicationSettingsFound> AddFtpInformationToInstance(this
       EventActivityBinder<FileHandlerState, CommunicationSettingsFound> binder)
