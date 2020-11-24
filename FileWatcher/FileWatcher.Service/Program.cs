@@ -1,22 +1,22 @@
-﻿using FileWatcher.Components;
-using MassTransit.Definition;
-using MassTransit.RabbitMqTransport;
-using MassTransit;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Pri.Contracts;
-using Serilog.Events;
-using Serilog;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using FileWatcher.Components;
+using MassTransit;
+using MassTransit.Definition;
+using MassTransit.RabbitMqTransport;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Pri.Contracts;
+using Serilog;
+using Serilog.Events;
 
 namespace FileWatcher.Service
 {
@@ -55,7 +55,7 @@ namespace FileWatcher.Service
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
           telemetryClient = new TelemetryClient(configuration);
           module.Initialize(configuration);
-          
+
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
 
           services.AddMassTransit(cfg =>
@@ -79,13 +79,15 @@ namespace FileWatcher.Service
         await builder.UseWindowsService().Build().RunAsync();
       else
         await builder.RunConsoleAsync();
-      
+
       module?.Dispose();
       telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
 
-    private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator) =>
+    private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+    {
       configurator.ConfigureEndpoints(context);
+    }
   }
 }

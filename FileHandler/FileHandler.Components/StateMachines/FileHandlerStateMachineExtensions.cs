@@ -44,9 +44,9 @@ namespace FileHandler.Components.StateMachines
     {
       return binder.PublishAsync(context => context.Init<Read>(new
       {
-        FileId = context.Instance.FileId,
-        BuyerId = context.Instance.BuyerId,
-        SellerId = context.Instance.SellerId
+        context.Instance.FileId,
+        context.Instance.BuyerId,
+        context.Instance.SellerId
       }));
     }
 
@@ -75,15 +75,15 @@ namespace FileHandler.Components.StateMachines
     {
       return binder.PublishAsync(context => context.Init<CommunicationSettings>(new
       {
-        FileId = context.Instance.FileId,
-        FileName = context.Instance.FileName,
-        Protocol = context.Instance.Protocol,
-        HostName = context.Instance.HostName,
-        RemoteFolder = context.Instance.RemoteFolder,
-        Password = context.Instance.Password,
-        UserName = context.Instance.UserName,
-        Port = context.Instance.Port,
-        SshHostKeyFingerprint = context.Instance.SshHostKeyFingerprint
+        context.Instance.FileId,
+        context.Instance.FileName,
+        context.Instance.Protocol,
+        context.Instance.HostName,
+        context.Instance.RemoteFolder,
+        context.Instance.Password,
+        context.Instance.UserName,
+        context.Instance.Port,
+        context.Instance.SshHostKeyFingerprint
       }));
     }
   }

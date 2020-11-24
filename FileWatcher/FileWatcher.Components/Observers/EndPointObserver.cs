@@ -8,7 +8,7 @@ namespace FileWatcher.Components.Observers
   {
     public void EndpointConfigured<T>(T configurator) where T : IReceiveEndpointConfigurator
     {
-      var result = configurator.GetType().FullName.ToString();
+      var result = configurator.GetType().FullName;
       Console.WriteLine("Configurator: {0}", result);
     }
   }

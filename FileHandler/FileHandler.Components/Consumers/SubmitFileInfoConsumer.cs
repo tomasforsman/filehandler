@@ -1,9 +1,8 @@
-﻿using MassTransit.EndpointConfigurators;
+﻿using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Pri.Contracts;
-using System.Threading.Tasks;
-using System;
 
 namespace FileHandler.Components.Consumers
 {
@@ -15,14 +14,17 @@ namespace FileHandler.Components.Consumers
     {
     }
 
-    public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger) => _logger = logger;
+    public SubmitFileInfoConsumer(ILogger<SubmitFileInfoConsumer> logger)
+    {
+      _logger = logger;
+    }
 
     public async Task Consume(ConsumeContext<Batch<SubmitFileInfo>> context)
     {
       _logger?.Log(LogLevel.Debug, "SubmitFileInfoConsumer: {0}", context);
-      for (int i = 0; i < context.Message.Length; i++)
+      for (var i = 0; i < context.Message.Length; i++)
       {
-        ConsumeContext<SubmitFileInfo> ctx = context.Message[i];
+        var ctx = context.Message[i];
 
         if (ctx.Message.FileName.Contains("TEST"))
         {

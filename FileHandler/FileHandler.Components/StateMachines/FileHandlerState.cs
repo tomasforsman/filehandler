@@ -1,7 +1,7 @@
-﻿using Automatonymous;
+using System;
+using Automatonymous;
 using MassTransit.Saga;
 using MongoDB.Bson.Serialization.Attributes;
-using System;
 
 namespace FileHandler.Components.StateMachines
 {
@@ -35,7 +35,7 @@ namespace FileHandler.Components.StateMachines
     public string Port { get; set; }
     public string SshHostKeyFingerprint { get; set; }
     public DateTime? FTPSettingsRetrieveDate { get; set; }
-    
+
     public string FaultMessage { get; set; }
     public string FaultStackTrace { get; set; }
 

@@ -1,21 +1,21 @@
-using FileReader.Components.Consumers;
-using MassTransit.Definition;
-using MassTransit.RabbitMqTransport;
-using MassTransit;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog.Events;
-using Serilog;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using FileReader.Components.Consumers;
+using MassTransit;
+using MassTransit.Definition;
+using MassTransit.RabbitMqTransport;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace FileReader.Service
 {
@@ -60,7 +60,7 @@ namespace FileReader.Service
             cfg.AddConsumersFromNamespaceContaining<ReadFileConsumer>();
             cfg.UsingRabbitMq(ConfigureBus);
           });
-          
+
           services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>

@@ -1,11 +1,9 @@
-﻿using MassTransit;
+﻿using System;
+using System.Data.SQLite;
+using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using Pri.Contracts;
-using System.Data.SQLite;
-using System.Data;
-using System.Net.Sockets;
-using System.Threading.Tasks;
-using System;
 
 namespace PriWebCommunicator.Components.Consumers
 {
@@ -18,7 +16,10 @@ namespace PriWebCommunicator.Components.Consumers
     {
     }
 
-    public FindFileDestinationConsumer(ILogger<FindFileDestinationConsumer> logger) => _logger = logger;
+    public FindFileDestinationConsumer(ILogger<FindFileDestinationConsumer> logger)
+    {
+      _logger = logger;
+    }
 
     public async Task Consume(ConsumeContext<GetCommunicationSettings> context)
     {
@@ -47,17 +48,17 @@ namespace PriWebCommunicator.Components.Consumers
 
             await context.RespondAsync<CommunicationSettingsFound>(new
             {
-                FileId = context.Message.FileId,
-                HostName = hostname,
-                Password = password,
-                Port = port,
-                Protocol = protocol,
-                RemoteFolder = remotefolder,
-                UserName = username,
-                SshHostKeyFingerprint = ""
+              context.Message.FileId,
+              HostName = hostname,
+              Password = password,
+              Port = port,
+              Protocol = protocol,
+              RemoteFolder = remotefolder,
+              UserName = username,
+              SshHostKeyFingerprint = ""
             });
             var message = $"{protocol}:{hostname}:{remotefolder}:{password}:{username}:{port}";
-            Console.WriteLine(message.ToString());
+            Console.WriteLine(message);
           }
         }
       }

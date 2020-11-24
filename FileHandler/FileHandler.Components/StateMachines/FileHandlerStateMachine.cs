@@ -1,7 +1,6 @@
-﻿using Automatonymous;
+﻿using System;
+using Automatonymous;
 using MassTransit;
-using System;
-using System.IO;
 using Pri.Contracts;
 
 namespace FileHandler.Components.StateMachines
@@ -11,7 +10,7 @@ namespace FileHandler.Components.StateMachines
     MassTransitStateMachine<FileHandlerState>
   {
     /// <summary>
-    ///     Automatonymous state machine for a MassTransit saga.
+    ///   Automatonymous state machine for a MassTransit saga.
     /// </summary>
     public FileHandlerStateMachine()
     {
@@ -57,18 +56,12 @@ namespace FileHandler.Components.StateMachines
 
       During(Ftp_Settings_Has_Been_Retrieved,
         When(FileSent)
-          .Then(context =>
-            {
-              context.Instance.Updated = DateTime.UtcNow; 
-            })
+          .Then(context => { context.Instance.Updated = DateTime.UtcNow; })
           .TransitionTo(File_Is_Sent));
 
       During(File_Is_Sent,
         When(TransactionReported)
-          .Then(context =>
-          {
-            context.Instance.Updated = DateTime.UtcNow; 
-          })
+          .Then(context => { context.Instance.Updated = DateTime.UtcNow; })
           .TransitionTo(Job_Result_Is_Reported));
 
 
@@ -82,15 +75,11 @@ namespace FileHandler.Components.StateMachines
             State = x.Instance.CurrentState
           }))
       );
-      
+
       DuringAny(
         When(ReadFileFaulted)
-          .Then(context =>
-          {
-            context.Instance.Updated = DateTime.UtcNow;
-          })
+          .Then(context => { context.Instance.Updated = DateTime.UtcNow; })
           .TransitionTo(Read_File_Has_Faulted));
-      
     }
 
     // State

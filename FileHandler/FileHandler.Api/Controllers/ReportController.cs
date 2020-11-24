@@ -1,8 +1,8 @@
+using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Pri.Contracts;
-using System.Threading.Tasks;
-using System;
 
 namespace FileHandler.Api.Controllers
 {
@@ -12,7 +12,10 @@ namespace FileHandler.Api.Controllers
   {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public ReportController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
+    public ReportController(IPublishEndpoint publishEndpoint)
+    {
+      _publishEndpoint = publishEndpoint;
+    }
 
     [HttpPatch]
     public async Task<IActionResult> Report(Guid id)

@@ -1,12 +1,12 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Pri.Contracts;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Threading;
-using System;
 
 namespace FileWatcher.Service.Workers
 {
@@ -16,8 +16,8 @@ namespace FileWatcher.Service.Workers
     private Timer _timer;
     private CancellationTokenSource cancelFileSubmitter;
     private bool freeForWork = true;
-    private string path = @"W:\code\dotnet\microservices\filehandler\data\";
-    private FileSystemWatcher watcher = new FileSystemWatcher();
+    private readonly string path = @"W:\code\dotnet\microservices\filehandler\data\";
+    private FileSystemWatcher watcher = new();
 
 
     public Task StartAsync(CancellationToken cancellationToken)
@@ -42,7 +42,7 @@ namespace FileWatcher.Service.Workers
     }
 
 
-    private void TimerCheck(System.Threading.TimerCallback runthis, int timeInSeconds)
+    private void TimerCheck(TimerCallback runthis, int timeInSeconds)
     {
       _timer = new Timer(runthis, null, TimeSpan.FromSeconds(timeInSeconds),
         TimeSpan.FromSeconds(timeInSeconds));
@@ -77,32 +77,28 @@ namespace FileWatcher.Service.Workers
       {
         do
         {
-          foreach (string file in Directory.EnumerateFiles(path).Select(Path.GetFileName))
+          foreach (var file in Directory.EnumerateFiles(path).Select(Path.GetFileName))
           {
             if (cancel.IsCancellationRequested)
               cancel.ThrowIfCancellationRequested();
-            Guid fileId = Guid.NewGuid();
-            var newPath = path + @"moved\" + fileId.ToString() + @"\";
+            var fileId = Guid.NewGuid();
+            var newPath = path + @"moved\" + fileId + @"\";
             Directory.CreateDirectory(newPath);
             File.Move(path + file, newPath + file);
             var filePath = newPath + file;
 
-            string connectionString =
+            var connectionString =
               "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
             var container = new BlobContainerClient(connectionString, fileId.ToString());
             await container.CreateAsync(cancellationToken: cancelsource.Token);
             try
             {
-              BlobClient blob = container.GetBlobClient(file);
+              var blob = container.GetBlobClient(file);
               await blob.UploadAsync(filePath, cancelsource.Token);
             }
             catch (Exception e)
             {
               Console.WriteLine(e);
-            }
-            finally
-            {
-              //await container.DeleteAsync();
             }
 
             var (accepted, rejected) = await client

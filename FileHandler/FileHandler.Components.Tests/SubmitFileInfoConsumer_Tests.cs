@@ -1,10 +1,10 @@
-﻿using FileHandler.Components.Consumers;
-using MassTransit.Testing;
-using MassTransit;
-using Pri.Contracts;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using FileHandler.Components.Consumers;
+using MassTransit;
+using MassTransit.Testing;
+using Pri.Contracts;
 using Xunit;
 
 namespace FileHandler.Components.Tests
@@ -17,7 +17,7 @@ namespace FileHandler.Components.Tests
       // Arrange (Given)
       var harness = new InMemoryTestHarness {TestTimeout = TimeSpan.FromSeconds(5)};
       var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-      
+
       await harness.Start();
       try
       {

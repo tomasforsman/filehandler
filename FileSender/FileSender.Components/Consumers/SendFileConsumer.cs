@@ -1,8 +1,8 @@
-﻿using MassTransit;
+﻿using System;
+using System.Threading.Tasks;
+using MassTransit;
 using Microsoft.Extensions.Logging;
 using Pri.Contracts;
-using System.Threading.Tasks;
-using System;
 using WinSCP;
 
 namespace FileSender.Components.Consumers
@@ -16,7 +16,10 @@ namespace FileSender.Components.Consumers
     {
     }
 
-    public SendFileConsumer(ILogger<SendFileConsumer> logger) => _logger = logger;
+    public SendFileConsumer(ILogger<SendFileConsumer> logger)
+    {
+      _logger = logger;
+    }
 
     public async Task Consume(ConsumeContext<SendFile> context)
     {
@@ -37,7 +40,7 @@ namespace FileSender.Components.Consumers
       try
       {
         // Set up session options
-        SessionOptions sessionOptions = new SessionOptions
+        var sessionOptions = new SessionOptions
         {
           //SshHostKeyFingerprint = "ssh-ed25519 255 GToJwUC9DtZLqnuBBmpfGozh3lnKjOqq9ooWYijOck0=",
           GiveUpSecurityAndAcceptAnySshHostKey = true,
@@ -48,23 +51,21 @@ namespace FileSender.Components.Consumers
           UserName = "tomas"
         };
 
-        using (Session session = new Session())
+        using (var session = new Session())
         {
           // Connect
           session.Open(sessionOptions);
 
           // Your code
 
-          TransferOptions transferOptions = new TransferOptions();
+          var transferOptions = new TransferOptions();
           transferOptions.TransferMode = TransferMode.Binary;
 
           var transferResult = session.PutFiles(
             LocalFolder + FileName, "/home/tomas/upload/", false, transferOptions);
 
           foreach (TransferEventArgs transfer in transferResult.Transfers)
-          {
             Console.WriteLine("Upload of {0} succeeded.", transfer.FileName);
-          }
         }
       }
       catch (Exception e)
@@ -75,7 +76,7 @@ namespace FileSender.Components.Consumers
 
       await context.RespondAsync<FileSent>(new
       {
-        FileId = context.Message.FileId,
+        context.Message.FileId
       });
     }
   }

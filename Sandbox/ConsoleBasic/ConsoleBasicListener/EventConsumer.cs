@@ -5,7 +5,7 @@ using SharedContracts;
 
 namespace ConsoleBasicListener
 {
-  class EventConsumer :
+  internal class EventConsumer :
     IConsumer<ValueEntered>
   {
     public async Task Consume(ConsumeContext<ValueEntered> context)

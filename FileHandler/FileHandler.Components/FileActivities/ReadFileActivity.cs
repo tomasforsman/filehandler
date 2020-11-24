@@ -1,8 +1,8 @@
-﻿using MassTransit.Courier;
-using MassTransit;
-using Pri.Contracts;
+﻿using System;
 using System.Threading.Tasks;
-using System;
+using MassTransit;
+using MassTransit.Courier;
+using Pri.Contracts;
 
 namespace FileHandler.Components.FileActivities
 {
@@ -11,7 +11,10 @@ namespace FileHandler.Components.FileActivities
   {
     private readonly IRequestClient<ReadFile> _client;
 
-    public ReadFileActivity(IRequestClient<ReadFile> client) => _client = client;
+    public ReadFileActivity(IRequestClient<ReadFile> client)
+    {
+      _client = client;
+    }
 
     public async Task<ExecutionResult> Execute(ExecuteContext<ReadFileArguments> context)
     {

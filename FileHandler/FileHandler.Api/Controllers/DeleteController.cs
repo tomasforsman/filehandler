@@ -1,8 +1,8 @@
+using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Pri.Contracts;
-using System.Threading.Tasks;
-using System;
 
 namespace FileHandler.Api.Controllers
 {
@@ -12,7 +12,10 @@ namespace FileHandler.Api.Controllers
   {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public DeleteController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
+    public DeleteController(IPublishEndpoint publishEndpoint)
+    {
+      _publishEndpoint = publishEndpoint;
+    }
 
     [HttpDelete]
     public async Task<IActionResult> Delete(Guid id, string filename, string folder)

@@ -1,25 +1,28 @@
+using System;
+using MassTransit;
 using MassTransit.Definition;
 using MassTransit.MongoDbIntegration.MessageData;
-using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Pri.Contracts;
-using System;
 
 namespace FileHandler
 {
   /// <summary>
-  ///     API that sends put or post requests to FileHandler.Service using MassTransit and RabbitMQ.
+  ///   API that sends put or post requests to FileHandler.Service using MassTransit and RabbitMQ.
   /// </summary>
   public class Startup
   {
-    public Startup(IConfiguration configuration) => Configuration = configuration;
+    public Startup(IConfiguration configuration)
+    {
+      Configuration = configuration;
+    }
 
     public IConfiguration Configuration { get; }
 

@@ -1,8 +1,9 @@
+using System;
+using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Pri.Contracts;
-using System.Threading.Tasks;
-using System;
+
 namespace FileHandler.Api.Controllers
 {
   [ApiController]
@@ -11,7 +12,10 @@ namespace FileHandler.Api.Controllers
   {
     private readonly IPublishEndpoint _publishEndpoint;
 
-    public ReadController(IPublishEndpoint publishEndpoint) => _publishEndpoint = publishEndpoint;
+    public ReadController(IPublishEndpoint publishEndpoint)
+    {
+      _publishEndpoint = publishEndpoint;
+    }
 
     [HttpPatch]
     public async Task<IActionResult> Read(Guid id, string sellerid, string buyerid)
@@ -19,7 +23,7 @@ namespace FileHandler.Api.Controllers
       await _publishEndpoint.Publish<FileRead>(new
       {
         FileId = id,
-        SellerId = sellerid,
+        SellerId = sellerid
       });
 
       return Ok();

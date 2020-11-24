@@ -1,30 +1,30 @@
-﻿using FileHandler.Components.Consumers;
-using FileHandler.Components.StateMachines;
-using MassTransit.Definition;
-using MassTransit.MongoDbIntegration.MessageData;
-using MassTransit.RabbitMqTransport;
-using MassTransit;
-using Microsoft.ApplicationInsights.DependencyCollector;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.ApplicationInsights;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Serilog.Events;
-using Serilog;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
+using FileHandler.Components.Consumers;
+using FileHandler.Components.StateMachines;
+using MassTransit;
+using MassTransit.Definition;
+using MassTransit.MongoDbIntegration.MessageData;
+using MassTransit.RabbitMqTransport;
+using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DependencyCollector;
+using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace FileHandler.Service
 {
   internal class Program
   {
     /// <summary>
-    ///     Service that receives message and does something with it.
+    ///   Service that receives message and does something with it.
     /// </summary>
     private static DependencyTrackingTelemetryModule module;
 
@@ -34,7 +34,7 @@ namespace FileHandler.Service
     private static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
-      
+
       Log.Logger = new LoggerConfiguration()
         .MinimumLevel.Debug()
         .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
@@ -76,7 +76,7 @@ namespace FileHandler.Service
 
             cfg.UsingRabbitMq(ConfigureBus);
           });
-          
+
           services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>

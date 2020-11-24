@@ -1,7 +1,7 @@
 ﻿using GreenPipes;
+using MassTransit;
 using MassTransit.ConsumeConfigurators;
 using MassTransit.Definition;
-using MassTransit;
 
 namespace FileHandler.Components.Consumers
 {
@@ -9,8 +9,10 @@ namespace FileHandler.Components.Consumers
     ConsumerDefinition<CommunicationSettingsConsumer>
   {
     protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
-      IConsumerConfigurator<CommunicationSettingsConsumer> consumerConfigurator) =>
+      IConsumerConfigurator<CommunicationSettingsConsumer> consumerConfigurator)
+    {
       endpointConfigurator.UseMessageRetry(r =>
         r.Intervals(5, 500)); // (number of retries, time between each retry)
+    }
   }
 }

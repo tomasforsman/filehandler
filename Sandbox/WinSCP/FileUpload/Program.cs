@@ -3,14 +3,14 @@ using WinSCP;
 
 namespace FileUpload
 {
-  class Program
+  internal class Program
   {
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
       try
       {
         // Set up session options
-        SessionOptions sessionOptions = new SessionOptions
+        var sessionOptions = new SessionOptions
         {
           Protocol = Protocol.Sftp,
           HostName = "192.168.1.55",
@@ -22,13 +22,13 @@ namespace FileUpload
         };
 
 
-        using (Session session = new Session())
+        using (var session = new Session())
         {
           // Connect
           session.Open(sessionOptions);
 
           // Your code
-          TransferOptions transferOptions = new TransferOptions();
+          var transferOptions = new TransferOptions();
           transferOptions.TransferMode = TransferMode.Binary;
 
           TransferOperationResult transferResult;
@@ -38,9 +38,7 @@ namespace FileUpload
               "/home/tomas/upload/", false, transferOptions);
 
           foreach (TransferEventArgs transfer in transferResult.Transfers)
-          {
             Console.WriteLine("Upload of {0} succeeded.", transfer.FileName);
-          }
         }
       }
       catch (Exception e)

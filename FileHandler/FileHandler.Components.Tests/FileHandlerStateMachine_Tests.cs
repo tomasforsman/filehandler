@@ -1,15 +1,14 @@
-﻿using Automatonymous.Graphing;
-using Automatonymous.Visualizer;
-using FileHandler.Components.StateMachines;
-using MassTransit.Testing;
-using MassTransit;
-using Microsoft.AspNetCore.Components.Server.Circuits;
-using Pri.Contracts;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using Xunit.Abstractions;
+using Automatonymous.Graphing;
+using Automatonymous.Visualizer;
+using FileHandler.Components.StateMachines;
+using MassTransit;
+using MassTransit.Testing;
+using Pri.Contracts;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace FileHandler.Components.Tests
 {
@@ -17,7 +16,10 @@ namespace FileHandler.Components.Tests
   {
     private readonly ITestOutputHelper output;
 
-    public Submitting_file_info(ITestOutputHelper output) => this.output = output;
+    public Submitting_file_info(ITestOutputHelper output)
+    {
+      this.output = output;
+    }
 
     [Fact]
     public async Task Should_create_a_state_instance()
@@ -96,8 +98,8 @@ namespace FileHandler.Components.Tests
 
       var generator = new StateMachineGraphvizGenerator(graph);
 
-      string dots = generator.CreateDotFile();
-      
+      var dots = generator.CreateDotFile();
+
       Console.WriteLine(dots);
     }
   }

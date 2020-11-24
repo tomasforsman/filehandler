@@ -10,10 +10,6 @@ namespace FileHandler.Components.Consumers
   {
     private readonly ILogger<ReadConsumer> _logger;
 
-    public ReadConsumer()
-    {
-    }
-
     public async Task Consume(ConsumeContext<Read> context)
     {
       _logger?.Log(LogLevel.Debug, "ReadConsumer: {context}", context);

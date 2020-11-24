@@ -1,23 +1,23 @@
-﻿using MassTransit;
-using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System;
+using MassTransit;
+using Newtonsoft.Json;
 
 namespace FileHandler.ConsoleApp
 {
   //ToDo: Get this to work!
-  class Program
+  internal class Program
   {
-    static HttpClient _client;
+    private static HttpClient _client;
 
-    static readonly Random _random = new Random();
+    private static readonly Random _random = new Random();
 
-    static async Task Main(string[] args)
+    private static async Task Main(string[] args)
     {
       _client = new HttpClient {Timeout = TimeSpan.FromMinutes(1)};
 
@@ -30,15 +30,17 @@ namespace FileHandler.ConsoleApp
           break;
 
         int limit;
-        int loops = 1;
+        var loops = 1;
         var segments = line.Split(',');
         if (segments.Length == 2)
         {
-          loops = int.TryParse(segments[1], out int result) ? result : 1;
+          loops = int.TryParse(segments[1], out var result) ? result : 1;
           limit = int.TryParse(segments[0], out result) ? result : 1;
         }
         else if (!int.TryParse(line, out limit))
+        {
           limit = 1;
+        }
 
         for (var pass = 0; pass < loops; pass++)
         {
@@ -63,20 +65,20 @@ namespace FileHandler.ConsoleApp
           Console.WriteLine();
           Console.WriteLine("Results {0}/{1}", pass + 1, loops);
 
-          foreach (Task<string> task in tasks.Cast<Task<string>>())
+          foreach (var task in tasks.Cast<Task<string>>())
             Console.WriteLine(task.Result);
         }
       }
     }
 
-    static async Task<string> Execute(FileInfoSubmitted file)
+    private static async Task<string> Execute(FileInfoSubmitted file)
     {
       try
       {
         var json = JsonConvert.SerializeObject(file);
         var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-        var responseMessage = await _client.PostAsync($"https://localhost:5001/File", data);
+        var responseMessage = await _client.PostAsync("https://localhost:5001/File", data);
 
         responseMessage.EnsureSuccessStatusCode();
 
