@@ -48,7 +48,7 @@ namespace FileWatcher.Service.Workers
         TimeSpan.FromSeconds(timeInSeconds));
     }
 
-    public async void CheckPath(object? state)
+    private async void CheckPath(object? state)
     {
       if (Directory.EnumerateFiles(path) != null && freeForWork)
       {
