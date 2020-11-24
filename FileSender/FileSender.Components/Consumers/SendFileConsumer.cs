@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using MassTransit;
+﻿using MassTransit;
 using Microsoft.Extensions.Logging;
 using Pri.Contracts;
+using System.Threading.Tasks;
+using System;
 using WinSCP;
 
 namespace FileSender.Components.Consumers
@@ -22,14 +22,14 @@ namespace FileSender.Components.Consumers
     {
       var FileId = context.Message.FileId;
       var FileName = context.Message.FileName;
-      var LocalFolder = context.Message.LocalFolder;
-      var Protocol = context.Message.Protocol;
       var HostName = context.Message.HostName;
-      var RemoteFolder = context.Message.RemoteFolder;
+      var LocalFolder = context.Message.LocalFolder;
       var Password = context.Message.Password;
-      var UserName = context.Message.UserName;
       var Port = context.Message.Port;
+      var Protocol = context.Message.Protocol;
+      var RemoteFolder = context.Message.RemoteFolder;
       var SshHostKeyFingerprint = context.Message.SshHostKeyFingerprint;
+      var UserName = context.Message.UserName;
 
       Console.WriteLine(FileId);
       Console.WriteLine(HostName);
@@ -39,13 +39,13 @@ namespace FileSender.Components.Consumers
         // Set up session options
         SessionOptions sessionOptions = new SessionOptions
         {
-          Protocol = WinSCP.Protocol.Sftp,
-          HostName = "192.168.1.55",
-          PortNumber = 2200,
-          UserName = "tomas",
-          Password = "",
-          GiveUpSecurityAndAcceptAnySshHostKey = true
           //SshHostKeyFingerprint = "ssh-ed25519 255 GToJwUC9DtZLqnuBBmpfGozh3lnKjOqq9ooWYijOck0=",
+          GiveUpSecurityAndAcceptAnySshHostKey = true,
+          HostName = "192.168.1.55",
+          Password = "",
+          PortNumber = 2200,
+          Protocol = WinSCP.Protocol.Sftp,
+          UserName = "tomas"
         };
 
         using (Session session = new Session())

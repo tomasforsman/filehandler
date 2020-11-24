@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using Automatonymous;
+﻿using Automatonymous;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 using Pri.Contracts;
+using System.Threading.Tasks;
+using System;
 
 namespace FileHandler.Components.Consumers
 {

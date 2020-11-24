@@ -1,15 +1,15 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Automatonymous.Graphing;
+﻿using Automatonymous.Graphing;
 using Automatonymous.Visualizer;
 using FileHandler.Components.StateMachines;
-using MassTransit;
 using MassTransit.Testing;
+using MassTransit;
 using Microsoft.AspNetCore.Components.Server.Circuits;
 using Pri.Contracts;
-using Xunit;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
 using Xunit.Abstractions;
+using Xunit;
 
 namespace FileHandler.Components.Tests
 {

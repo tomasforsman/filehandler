@@ -1,7 +1,7 @@
 ﻿using GreenPipes;
-using MassTransit;
 using MassTransit.ConsumeConfigurators;
 using MassTransit.Definition;
+using MassTransit;
 
 namespace FileHandler.Components.Consumers
 {

@@ -1,22 +1,22 @@
 ﻿using FileWatcher.Components;
-using MassTransit;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
-using Microsoft.ApplicationInsights;
+using MassTransit;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
+using Pri.Contracts;
+using Serilog.Events;
+using Serilog;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Pri.Contracts;
-using Serilog;
-using Serilog.Events;
+using System;
 
 namespace FileWatcher.Service
 {

@@ -1,6 +1,6 @@
-﻿using System;
+﻿using MassTransit;
 using System.Threading.Tasks;
-using MassTransit;
+using System;
 
 namespace FileHandler.Components.Observers
 {

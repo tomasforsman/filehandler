@@ -72,7 +72,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rabbitmq", "rabbitmq", "{50
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleBasicSender", "Sandbox\ConsoleBasic\ConsoleBasicSender\ConsoleBasicSender.csproj", "{D68F1F69-F24E-45FE-95D6-8477F186C087}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filehandler.Console", "FileHandler\Filehandler.Console\Filehandler.Console.csproj", "{14D9011F-B647-4D9A-A3A8-E7B98443F8D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filehandler.ConsoleApp", "FileHandler\Filehandler.ConsoleApp\Filehandler.ConsoleApp.csproj", "{14D9011F-B647-4D9A-A3A8-E7B98443F8D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinSCP", "WinSCP", "{69980495-651B-477B-B13A-B39BEF459064}"
 EndProject

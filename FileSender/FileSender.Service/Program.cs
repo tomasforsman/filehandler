@@ -1,21 +1,21 @@
 using FileSender.Components.Consumers;
-using MassTransit;
 using MassTransit.Definition;
 using MassTransit.RabbitMqTransport;
-using Microsoft.ApplicationInsights;
+using MassTransit;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using Serilog.Events;
-using System;
+using Serilog;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FileSender.Service
 {

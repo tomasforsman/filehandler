@@ -1,23 +1,23 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Pri.Contracts;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
+using System;
 
 namespace FileWatcher.Service.Workers
 {
   public class FileWatcher :
     IHostedService
   {
-    private Timer _timer;
-    private FileSystemWatcher watcher = new FileSystemWatcher();
-    private string path = @"W:\code\dotnet\microservices\filehandler\data\";
-    private bool freeForWork = true;
     private CancellationTokenSource cancelFileSubmitter;
+    private FileSystemWatcher watcher = new FileSystemWatcher();
+    private Timer _timer;
+    private bool freeForWork = true;
+    private string path = @"W:\code\dotnet\microservices\filehandler\data\";
 
     
     
@@ -25,7 +25,6 @@ namespace FileWatcher.Service.Workers
     public Task StartAsync(CancellationToken cancellationToken)
     {
       cancelFileSubmitter = new CancellationTokenSource();
-
 
       TimerCheck(CheckPath, 2);
       //TimerCheck(CancelFileSubmitter, 30);
@@ -108,17 +107,14 @@ namespace FileWatcher.Service.Workers
               //await container.DeleteAsync();
             }
 
-
-
-
             var (accepted, rejected) = await client
               .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
               {
                 FileId = fileId,
-                InVar.Timestamp,
                 FileName = file,
-                OriginFolder = path,
-                LocalFolder = newPath //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
+                InVar.Timestamp,
+                LocalFolder = newPath, //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
+                OriginFolder = path
               }, cancelsource.Token).ConfigureAwait(false);
 
 

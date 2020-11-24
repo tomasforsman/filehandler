@@ -15,7 +15,11 @@ namespace FileHandler.Components.StateMachines
     /// </summary>
     public FileHandlerStateMachine()
     {
-      Event(() => FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
+      // x => x.CorrelateById(m => m.Message.FileId));
+      // x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
+      Event(() => CommunicationSettingsFound, x => x.CorrelateById(m => m.Message.FileId));
+      Event(() => FileRead, x => x.CorrelateById(m => m.Message.FileId));
+      Event(() => FileSent, x => x.CorrelateById(m => m.Message.FileId));
       Event(() => FileInfoStatusRequested, x =>
       {
         x.CorrelateById(m => m.Message.FileId);
@@ -25,17 +29,12 @@ namespace FileHandler.Components.StateMachines
             await context.RespondAsync<FileNotFound>(new {context.Message.FileId});
         }));
       });
-
-      // x => x.CorrelateById(m => m.Message.FileId));
-      // x => x.CorrelateBy((saga, context) => saga.FileName == context.Message.FileName));
-
-      Event(() => FileRead, x => x.CorrelateById(m => m.Message.FileId));
-      Event(() => CommunicationSettingsFound, x => x.CorrelateById(m => m.Message.FileId));
-      Event(() => FileSent, x => x.CorrelateById(m => m.Message.FileId));
-      Event(() => TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
+      Event(() => FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
       Event(() => ReadFileFaulted, x => x
         .CorrelateById(m => m.Message.Message.FileId) // Fault<T> includes the original message
         .SelectId(m => m.Message.Message.FileId));
+      Event(() => TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
+
 
       InstanceState(x => x.CurrentState);
       Initially(
@@ -95,21 +94,22 @@ namespace FileHandler.Components.StateMachines
     }
 
     // State
-    public State File_Is_Submitted { get; set; }
     public State File_Has_Been_Read { get; set; }
-    public State Ftp_Settings_Has_Been_Retrieved { get; set; }
     public State File_Is_Sent { get; set; }
+    public State File_Is_Submitted { get; set; }
+    public State Ftp_Settings_Has_Been_Retrieved { get; set; }
     public State Job_Result_Is_Reported { get; set; }
     public State Read_File_Has_Faulted { get; set; }
 
     // Events
-    public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
     public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }
-    public Event<FileRead> FileRead { get; set; }
     public Event<CommunicationSettingsFound> CommunicationSettingsFound { get; set; }
+    public Event<Fault<FaultMessage>> FaultMessageReceived { get; private set; }
+    public Event<Fault<ReadFile>> ReadFileFaulted { get; private set; }
+    public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
+    public Event<FileRead> FileRead { get; set; }
     public Event<FileSent> FileSent { get; set; }
     public Event<TransactionReported> TransactionReported { get; set; }
-    public Event<Fault<ReadFile>> ReadFileFaulted { get; private set; }
 
   }
 }

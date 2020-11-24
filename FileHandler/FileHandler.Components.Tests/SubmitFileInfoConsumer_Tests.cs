@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FileHandler.Components.Consumers;
+using MassTransit.Testing;
+using MassTransit;
+using Pri.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
-using FileHandler.Components.Consumers;
-using MassTransit;
-using MassTransit.Testing;
-using Pri.Contracts;
+using System;
 using Xunit;
 
 namespace FileHandler.Components.Tests
@@ -17,7 +17,7 @@ namespace FileHandler.Components.Tests
       // Arrange (Given)
       var harness = new InMemoryTestHarness {TestTimeout = TimeSpan.FromSeconds(5)};
       var consumer = harness.Consumer<SubmitFileInfoConsumer>();
-
+      
       await harness.Start();
       try
       {
@@ -27,15 +27,15 @@ namespace FileHandler.Components.Tests
         await harness.InputQueueSendEndpoint.Send<SubmitFileInfo>(new
         {
           FileId = fileId,
-          InVar.Timestamp,
           FileName = "filename.file",
+          InVar.Timestamp,
           LocalFolder = "c:/folder/"
         });
 
         // Assert (Then)
-        Assert.True(consumer.Consumed.Select<SubmitFileInfo>().Any());
         Assert.False(harness.Sent.Select<FileInfoSubmissionAccepted>().Any());
         Assert.False(harness.Sent.Select<FileInfoSubmissionRejected>().Any());
+        Assert.True(consumer.Consumed.Select<SubmitFileInfo>().Any());
       }
       finally
       {
@@ -60,8 +60,8 @@ namespace FileHandler.Components.Tests
         var response = await requestClient.GetResponse<FileInfoSubmissionAccepted>(new
         {
           FileId = fileId,
-          InVar.Timestamp,
           FileName = "filename.file",
+          InVar.Timestamp,
           LocalFolder = "c:/folder/"
         });
 
@@ -93,8 +93,8 @@ namespace FileHandler.Components.Tests
         var response = await requestClient.GetResponse<FileInfoSubmissionRejected>(new
         {
           FileId = fileId,
-          InVar.Timestamp,
           FileName = "TEST.file",
+          InVar.Timestamp,
           LocalFolder = "c:/folder/"
         });
 
@@ -124,8 +124,8 @@ namespace FileHandler.Components.Tests
         await harness.InputQueueSendEndpoint.Send<SubmitFileInfo>(new
         {
           FileId = fileId,
-          InVar.Timestamp,
           FileName = "TEST.file",
+          InVar.Timestamp,
           LocalFolder = "c:/folder/"
         });
 
@@ -154,8 +154,8 @@ namespace FileHandler.Components.Tests
         await harness.InputQueueSendEndpoint.Send<SubmitFileInfo>(new
         {
           FileId = fileId,
-          InVar.Timestamp,
           FileName = "filename.file",
+          InVar.Timestamp,
           LocalFolder = "c:/folder/"
         });
 

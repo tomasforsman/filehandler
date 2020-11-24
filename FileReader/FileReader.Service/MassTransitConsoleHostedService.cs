@@ -1,7 +1,7 @@
 using MassTransit;
 using Microsoft.Extensions.Hosting;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FileReader.Service
 {

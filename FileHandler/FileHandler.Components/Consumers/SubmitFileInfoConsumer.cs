@@ -1,9 +1,9 @@
-﻿using System;
+﻿using MassTransit.EndpointConfigurators;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
-using MassTransit.EndpointConfigurators;
 using Pri.Contracts;
+using System.Threading.Tasks;
+using System;
 
 namespace FileHandler.Components.Consumers
 {

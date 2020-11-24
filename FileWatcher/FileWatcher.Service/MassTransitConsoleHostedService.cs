@@ -1,8 +1,8 @@
 using MassTransit;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Threading;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace FileWatcher.Service
 {
@@ -22,6 +22,7 @@ namespace FileWatcher.Service
     {
       _logger.LogInformation("Starting bus");
       await _bus.StartAsync(cancellationToken).ConfigureAwait(false);
+      _logger.LogInformation("bus Started");
     }
 
     public Task StopAsync(CancellationToken cancellationToken)
@@ -29,5 +30,7 @@ namespace FileWatcher.Service
       _logger.LogInformation("Stopping bus");
       return _bus.StopAsync(cancellationToken);
     }
+    
+
   }
 }

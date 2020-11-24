@@ -1,15 +1,15 @@
+using Azure.Storage.Blobs.Models;
+using Azure.Storage.Blobs;
 using FileReader.Contracts;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using System;
+using Pri.Contracts;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
-using Pri.Contracts;
+using System;
 
 namespace FileReader.Components.Consumers
 {
@@ -29,9 +29,9 @@ namespace FileReader.Components.Consumers
 
     public async Task Consume(ConsumeContext<ReadFile> context)
     {
-      var fileName = context.Message.FileName;
       //var folder = context.Message.LocalFolder;
       var fileId = context.Message.FileId.ToString();
+      var fileName = context.Message.FileName;
 
       //Console.WriteLine("Läser Fil: {0}", folder + fileName);
       string downloadPath = @"fromblob\";
@@ -80,8 +80,8 @@ namespace FileReader.Components.Consumers
       
       await context.RespondAsync<FileRead>(new
       {
-        FileId = context.Message.FileId,
         BuyerId = buyerId,
+        FileId = context.Message.FileId,
         SellerId = sellerId,
       });
 
