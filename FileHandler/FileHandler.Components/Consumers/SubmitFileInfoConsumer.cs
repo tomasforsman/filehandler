@@ -34,7 +34,6 @@ namespace FileHandler.Components.Consumers
               InVar.Timestamp,
               ctx.Message.FileId,
               ctx.Message.FileName,
-              ctx.Message.LocalFolder,
               ctx.Message.OriginFolder,
               Reason = $"Unable to submit File with name containing TEST: {ctx.Message.FileName}"
             });
@@ -47,8 +46,7 @@ namespace FileHandler.Components.Consumers
           ctx.Message.FileId,
           ctx.Message.Timestamp,
           ctx.Message.FileName,
-          ctx.Message.OriginFolder,
-          ctx.Message.LocalFolder
+          ctx.Message.OriginFolder
         });
 
         var busControl = Bus.Factory.CreateUsingRabbitMq();
@@ -60,7 +58,6 @@ namespace FileHandler.Components.Consumers
         {
           ctx.Message.FileId,
           ctx.Message.FileName,
-          ctx.Message.LocalFolder,
           __FaultAddress = "queue:file-fault"
         });
         // await context.RespondAsync("Ok");
@@ -72,8 +69,7 @@ namespace FileHandler.Components.Consumers
             InVar.Timestamp,
             ctx.Message.FileId,
             ctx.Message.FileName,
-            ctx.Message.OriginFolder,
-            ctx.Message.LocalFolder
+            ctx.Message.OriginFolder
           }).ConfigureAwait(false);
       }
     }

@@ -83,21 +83,21 @@ namespace FileHandler.Components.StateMachines
     }
 
     // State
-    public State File_Has_Been_Read { get; set; }
-    public State File_Is_Sent { get; set; }
     public State File_Is_Submitted { get; set; }
+    public State File_Has_Been_Read { get; set; }
     public State Ftp_Settings_Has_Been_Retrieved { get; set; }
+    public State File_Is_Sent { get; set; }
     public State Job_Result_Is_Reported { get; set; }
     public State Read_File_Has_Faulted { get; set; }
 
     // Events
-    public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }
-    public Event<CommunicationSettingsFound> CommunicationSettingsFound { get; set; }
-    public Event<Fault<FaultMessage>> FaultMessageReceived { get; private set; }
-    public Event<Fault<ReadFile>> ReadFileFaulted { get; private set; }
     public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }
     public Event<FileRead> FileRead { get; set; }
+    public Event<CommunicationSettingsFound> CommunicationSettingsFound { get; set; }
     public Event<FileSent> FileSent { get; set; }
     public Event<TransactionReported> TransactionReported { get; set; }
+    public Event<CheckFileInfo> FileInfoStatusRequested { get; set; }
+    //public Event<Fault<FaultMessage>> FaultMessageReceived { get; private set; }
+    public Event<Fault<ReadFile>> ReadFileFaulted { get; private set; }
   }
 }

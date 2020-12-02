@@ -21,21 +21,21 @@ namespace FileHandler.Components.FileActivities
       var buyerId = context.Arguments.BuyerId;
       var fileId = context.Arguments.FileId;
       var fileName = context.Arguments.FileName;
-      var localFolder = context.Arguments.LocalFolder;
       var sellerId = context.Arguments.SellerId;
+      var invoiceId = context.Arguments.InvoiceId;
 
       var response = await _client.GetResponse<FileRead>(new
       {
         FileId = fileId,
-        FileName = fileName,
-        LocalFolder = localFolder
+        FileName = fileName
       });
 
       return context.Completed(new
       {
         BuyerId = buyerId,
         FileId = fileId,
-        SellerId = sellerId
+        SellerId = sellerId,
+        InvoiceId = invoiceId
       });
     }
 
@@ -50,8 +50,8 @@ namespace FileHandler.Components.FileActivities
     Guid FileId { get; }
     string BuyerId { get; }
     string FileName { get; }
-    string LocalFolder { get; }
     string SellerId { get; }
+    string InvoiceId { get; }
   }
 
   public interface FileRead

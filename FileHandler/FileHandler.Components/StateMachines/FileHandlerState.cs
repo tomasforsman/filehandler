@@ -24,6 +24,7 @@ namespace FileHandler.Components.StateMachines
     //File_Has_Been_Read
     public string BuyerId { get; set; }
     public string SellerId { get; set; }
+    public string InvoiceId { get; set; }
     public DateTime? ReadDate { get; set; }
 
     //FTP_Settings_Has_Been_Retrieved

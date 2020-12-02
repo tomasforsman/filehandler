@@ -7,5 +7,6 @@ namespace Pri.Contracts
     public Guid FileId { get; set; }
     public string BuyerId { get; set; }
     public string SellerId { get; set; }
+    public string InvoiceId { get; set; }
   }
 }

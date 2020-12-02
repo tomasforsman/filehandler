@@ -34,6 +34,7 @@ namespace FileHandler.Components.StateMachines
         var d = context.Data;
         i.BuyerId = d.BuyerId;
         i.SellerId = d.SellerId;
+        i.InvoiceId = d.InvoiceId;
         i.ReadDate = DateTime.UtcNow;
         i.Updated = DateTime.UtcNow;
       });

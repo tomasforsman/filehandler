@@ -20,28 +20,3 @@ services:
 #   project: FileSender/FileSender.Service/FileSender.Service.csproj
 
 
-- name: mongo
-  image: mongo
-  env:
-    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
-      value: root
-    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
-      value: example
-  bindings:
-    - port: 27017
-  volumes:
-    - source: ./Containers/mongodb/data/db
-      target: /data/db
-  tags:
-    - mongo
-- name: mongo-express
-  image: mongo-express
-  bindings:
-    - port: 8081
-      containerPort: 8081
-      protocol: http
-  env:
-    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
-      value: root
-    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
-      value: rootpassword

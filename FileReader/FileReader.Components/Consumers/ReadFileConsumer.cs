@@ -73,6 +73,7 @@ namespace FileReader.Components.Consumers
 
       var buyerId = await getID("Buyer");
       var sellerId = await getID("Seller");
+      var invoiceId = await getInvoiceID();
 
       Console.WriteLine("Buyer ID: {0}", buyerId);
 
@@ -80,10 +81,11 @@ namespace FileReader.Components.Consumers
       {
         BuyerId = buyerId,
         context.Message.FileId,
-        SellerId = sellerId
+        SellerId = sellerId,
+        InvoiceId = invoiceId
       });
 
-      async Task<string> getID(string party)
+      async ValueTask<string> getID(string party)
       {
         var ID = root.DescendantsAndSelf().Elements()
           .FirstOrDefault(element => element.Name.LocalName == party + "Party").Descendants()
@@ -91,6 +93,18 @@ namespace FileReader.Components.Consumers
 
         return ID;
       }
+      
+      async ValueTask<string> getInvoiceID()
+      {
+        var ID = root.DescendantsAndSelf().Elements()
+          .FirstOrDefault(element => element.Name.LocalName == "Invoice").Descendants()
+          .FirstOrDefault(element => element.Name.LocalName == "ID").Value;
+
+        return ID;
+      }
+      
     }
+
+
   }
 }

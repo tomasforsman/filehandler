@@ -5,7 +5,6 @@ namespace Pri.Contracts
   public interface ReadFile
   {
     public Guid FileId { get; }
-    public string FileName { get; set; }
-    public string LocalFolder { get; set; }
+    public string FileName { get; }
   }
 }

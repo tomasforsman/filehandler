@@ -6,6 +6,5 @@ namespace Pri.Contracts
   {
     public Guid FileId { get; }
     public string FileName { get; set; }
-    public string LocalFolder { get; set; }
   }
 }
