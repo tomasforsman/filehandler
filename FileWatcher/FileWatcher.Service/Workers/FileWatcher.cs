@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using MassTransit;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Pri.Contracts;
 
@@ -17,13 +18,10 @@ namespace FileWatcher.Service.Workers
     private CancellationTokenSource cancelFileSubmitter;
     private bool freeForWork = true;
     private readonly string path = @"W:\code\dotnet\microservices\filehandler\data\";
-    private FileSystemWatcher watcher = new();
-
-
+    
     public Task StartAsync(CancellationToken cancellationToken)
     {
       cancelFileSubmitter = new CancellationTokenSource();
-
       TimerCheck(CheckPath, 2);
       //TimerCheck(CancelFileSubmitter, 30);
       return Task.CompletedTask;
@@ -50,7 +48,7 @@ namespace FileWatcher.Service.Workers
 
     private async void CheckPath(object? state)
     {
-      if (Directory.EnumerateFiles(path) != null && freeForWork)
+      if (Directory.GetFiles(path, "*.xml").Length != 0 && freeForWork)
       {
         var fileSubmitterToken = cancelFileSubmitter.Token;
         try
@@ -72,7 +70,8 @@ namespace FileWatcher.Service.Workers
       var busControl = Bus.Factory.CreateUsingRabbitMq();
       var cancelsource = new CancellationTokenSource();
       await busControl.StartAsync(cancelsource.Token);
-      var client = busControl.CreateRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+     // var client = busControl.CreateRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+      var client = await busControl.GetSendEndpoint(new Uri("queue:submit-file-info"));
       try
       {
         do
@@ -101,27 +100,28 @@ namespace FileWatcher.Service.Workers
               Console.WriteLine(e);
             }
 
-            var (accepted, rejected) = await client
-              .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
+            // var (accepted, rejected) = await client
+              // .GetResponse<FileInfoSubmissionAccepted, FileInfoSubmissionRejected>(new
+              await client.Send<SubmitFileInfo>(new
               {
                 FileId = fileId,
                 FileName = file,
                 InVar.Timestamp,
                 LocalFolder = newPath, //e.FullPath.Remove(e.FullPath.Length-e.Name.Length)
                 OriginFolder = path
-              }, cancelsource.Token).ConfigureAwait(false);
+              }, cancelsource.Token);
 
 
-            if (accepted.IsCompletedSuccessfully)
-            {
-              var response = await accepted.ConfigureAwait(false);
-              Console.WriteLine("File Sent: {0}", response.Message.FileName);
-            }
-            else
-            {
-              var response = await rejected.ConfigureAwait(false);
-              Console.WriteLine("File Rejected: {0}", response.Message.Reason);
-            }
+            // if (accepted.IsCompletedSuccessfully)
+            // {
+            //   var response = await accepted.ConfigureAwait(false);
+            //   Console.WriteLine("File Sent: {0}", response.Message.FileName);
+            // }
+            // else
+            // {
+            //   var response = await rejected.ConfigureAwait(false);
+            //   Console.WriteLine("File Rejected: {0}", response.Message.Reason);
+            // }
           }
 
           break;

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<productCategory xmlns:sh="urn:sfti:documents:StandardBusinessDocumentHeader" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <categoryName>Category 1</categoryName>
+    <categoryDescription>Category for sports</categoryDescription>
+    <launchDate>2012-08-29</launchDate>
+    <products>
+        <product id="1">
+            <productName>Bat</productName>
+            <productWeight>2</productWeight>
+            <productPrice>20.39</productPrice>
+        </product>
+        <product id="2">
+            <productName>Ball</productName>
+            <productWeight>1</productWeight>
+            <productPrice>2.90</productPrice>
+        </product>
+        <product id="3">
+            <productName>Stumps</productName>
+            <productWeight>3</productWeight>
+            <productPrice>50.70</productPrice>
+        </product>
+    </products>
+</productCategory>

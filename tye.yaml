@@ -4,18 +4,26 @@
 # when you've given us a try, we'd love to know what you think:
 #    https://aka.ms/AA7q20u
 #
+registry: tomasforsman
+network: pri
 name: filehandler
 services:
 # - name: filehandler-api
 #   project: FileHandler/FileHandler.Api/FileHandler.Api.csproj
 - name: filehandler-service
   project: FileHandler/FileHandler.Service/FileHandler.Service.csproj
+  replicas: 4
 - name: filewatcher-service
   project: FileWatcher/FileWatcher.Service/FileWatcher.Service.csproj
+  env:
+    - name: DOTNET_USE_POLLING_FILE_WATCHER
+      value: 1
 - name: filereader-service
   project: FileReader/FileReader.Service/FileReader.Service.csproj
+  replicas: 4
 - name: priwebcommunicator-service
   project: PriWebCommunicator/PriWebCommunicator.Service/PriWebCommunicator.Service.csproj
+  replicas: 4
 # - name: filesender-service
 #   project: FileSender/FileSender.Service/FileSender.Service.csproj
 

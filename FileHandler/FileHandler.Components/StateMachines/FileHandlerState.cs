@@ -1,5 +1,6 @@
 using System;
 using Automatonymous;
+using MassTransit;
 using MassTransit.Saga;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -37,7 +38,8 @@ namespace FileHandler.Components.StateMachines
     public string SshHostKeyFingerprint { get; set; }
     public DateTime? FTPSettingsRetrieveDate { get; set; }
 
-    public string FaultMessage { get; set; }
+    //A fault has occured
+    public ExceptionInfo[] FaultMessage { get; set; }
     public string FaultStackTrace { get; set; }
 
   }

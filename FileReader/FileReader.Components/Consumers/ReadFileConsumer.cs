@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Azure;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using MassTransit;
@@ -45,11 +46,11 @@ namespace FileReader.Components.Consumers
       //TODO: Read Stream instead of file
       try
       {
-        // Get a reference to a blob named "sample-file"
+        
         var blob = container.GetBlobClient(fileName);
 
         // Download the blob's contents and save it to a file
-        BlobDownloadInfo download = blob.Download();
+        BlobDownloadInfo download = blob.Download(new HttpRange(0, 10000));
         using (var file = File.OpenWrite(downloadPath + fileName))
         {
           download.Content.CopyTo(file);
@@ -64,16 +65,26 @@ namespace FileReader.Components.Consumers
       Console.WriteLine("Läser Fil: {0}", downloadPath + fileName);
 
       var doc = XDocument.Parse(File.ReadAllText(downloadPath + fileName));
+     
       XNamespace cac = "urn:sfti:CommonAggregateComponents:1:0";
       XNamespace sh = "urn:sfti:documents:StandardBusinessDocumentHeader";
       var root = doc.Root;
       var rootName = root.Name.LocalName;
       //Console.WriteLine("rootName: {0}", rootName);
       //root = rootName != "Invoice" ? root = root.Element("Invoice") : root;
-
-      var buyerId = await getID("Buyer");
-      var sellerId = await getID("Seller");
-      var invoiceId = await getInvoiceID();
+      string buyerId;
+      string sellerId;
+      string invoiceId;
+      try
+      {
+        buyerId = await getID("BuyerParty");
+        sellerId = await getID("SellerParty");
+        invoiceId = await getID("Invoice");
+      }
+      catch (Exception e)
+      {
+        throw new InvalidOperationException("Not able to retrieve ID" + e.Message);
+      }
 
       Console.WriteLine("Buyer ID: {0}", buyerId);
 
@@ -85,24 +96,22 @@ namespace FileReader.Components.Consumers
         InvoiceId = invoiceId
       });
 
-      async ValueTask<string> getID(string party)
+      async ValueTask<string> getID(string target)
       {
-        var ID = root.DescendantsAndSelf().Elements()
-          .FirstOrDefault(element => element.Name.LocalName == party + "Party").Descendants()
-          .FirstOrDefault(element => element.Name.LocalName == "ID").Value;
-
+        string ID;
+        try{
+          ID = root.DescendantsAndSelf().Elements()
+          .FirstOrDefault(element => element.Name.LocalName == target)
+          ?.Descendants()
+          .FirstOrDefault(element => element.Name.LocalName == "ID")
+          ?.Value;
+        }
+        catch (Exception e)
+        {
+          throw new InvalidOperationException("Not able to retrieve ID" + e.Message);
+        }
         return ID;
       }
-      
-      async ValueTask<string> getInvoiceID()
-      {
-        var ID = root.DescendantsAndSelf().Elements()
-          .FirstOrDefault(element => element.Name.LocalName == "Invoice").Descendants()
-          .FirstOrDefault(element => element.Name.LocalName == "ID").Value;
-
-        return ID;
-      }
-      
     }
 
 

@@ -2,8 +2,15 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp5.0</TargetFramework>
+        <TargetFramework>net5.0</TargetFramework>
         <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <DockerfileContext>..\..</DockerfileContext>
+        <PackageVersion>1.0.1</PackageVersion>
+        <Version>1.0.1</Version>
+        <Title>Reader</Title>
+        <Authors>tomasforsman</Authors>
     </PropertyGroup>
 
     <ItemGroup>
@@ -30,6 +37,7 @@
         <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10281" />
         <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
+        <PackageReference Include="System.Security.Permissions" Version="6.0.0-alpha.1.20420.3" />
         <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
     </ItemGroup>
 

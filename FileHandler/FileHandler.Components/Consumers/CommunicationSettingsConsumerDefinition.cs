@@ -8,6 +8,11 @@ namespace FileHandler.Components.Consumers
   public class CommunicationSettingsConsumerDefinition :
     ConsumerDefinition<CommunicationSettingsConsumer>
   {
+    public CommunicationSettingsConsumerDefinition()
+    {
+      Endpoint(x => x.PrefetchCount = 50);
+    }
+    
     protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
       IConsumerConfigurator<CommunicationSettingsConsumer> consumerConfigurator)
     {
