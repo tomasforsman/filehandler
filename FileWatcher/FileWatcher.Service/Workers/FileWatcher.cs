@@ -18,6 +18,7 @@ namespace FileWatcher.Service.Workers
     private CancellationTokenSource cancelFileSubmitter;
     private bool freeForWork = true;
     private readonly string path = @"W:\code\dotnet\microservices\filehandler\data\";
+    private string blobContainerName = "Invoice";
     
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -88,11 +89,12 @@ namespace FileWatcher.Service.Workers
 
             var connectionString =
               "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
-            var container = new BlobContainerClient(connectionString, fileId.ToString());
-            await container.CreateAsync(cancellationToken: cancelsource.Token);
+            var container = new BlobContainerClient(connectionString, "Invoice");
+            if(!container.Exists())
+              await container.CreateAsync(cancellationToken: cancelsource.Token);
             try
             {
-              var blob = container.GetBlobClient(file);
+              var blob = container.GetBlobClient(fileId.ToString());
               await blob.UploadAsync(filePath, cancelsource.Token);
             }
             catch (Exception e)
@@ -111,6 +113,7 @@ namespace FileWatcher.Service.Workers
                 OriginFolder = path
               }, cancelsource.Token);
 
+              Directory.Delete(newPath, true);
 
             // if (accepted.IsCompletedSuccessfully)
             // {
@@ -123,7 +126,7 @@ namespace FileWatcher.Service.Workers
             //   Console.WriteLine("File Rejected: {0}", response.Message.Reason);
             // }
           }
-
+          
           break;
         } while (true);
       }

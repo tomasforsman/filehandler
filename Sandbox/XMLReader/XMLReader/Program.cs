@@ -20,8 +20,9 @@ namespace XMLReader
     
     static async Task Main(string[] args)
     {
+      Transform("peppol.xml", "GetSVEInvoiceInfo.xslt");
       Transform("peppol.xml", "GetPeppolInvoiceInfo.xslt");
-      Transform("svefakt.xml", "GetSVEInvoiceInfo.xslt");
+      
       Transform("hd_svefakt.xml", "GetSVEInvoiceInfo.xslt");
       // XPathDocument xpathdocument = new XPathDocument(filename);
       // XmlTextWriter writer = new XmlTextWriter(Console.Out);

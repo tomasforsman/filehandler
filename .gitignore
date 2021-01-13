@@ -377,3 +377,17 @@ temptemp/
 data/
 
 FileReader/FileReader.Service/fromblob/
+
+Sandbox/XMLReader/XMLReader/output_hd_svefakt.xml
+
+Sandbox/XMLReader/XMLReader/output_peppol.xml
+
+Sandbox/XMLReader/XMLReader/output_svefakt.xml
+
+Sandbox/XMLReader/XMLReader/output_temp.xlm
+
+Sandbox/XMLReader/XMLReader/output_temp.xml
+
+Sandbox/XMLReader/XMLReader/output.xml
+
+Sandbox/XMLReader/XMLReader/output1.xlm
