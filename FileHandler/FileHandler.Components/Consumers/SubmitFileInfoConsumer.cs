@@ -26,19 +26,19 @@ namespace FileHandler.Components.Consumers
       {
         var ctx = context.Message[i];
 
-        if (ctx.Message.FileName.Contains("TEST"))
-        {
-          if (context.RequestId != null)
-            await context.RespondAsync<FileInfoSubmissionRejected>(new
-            {
-              InVar.Timestamp,
-              ctx.Message.FileId,
-              ctx.Message.FileName,
-              ctx.Message.OriginFolder,
-              Reason = $"Unable to submit File with name containing TEST: {ctx.Message.FileName}"
-            });
-          return;
-        }
+        // if (ctx.Message.FileName.Contains("TEST"))
+        // {
+        //   if (context.RequestId != null)
+        //     await context.RespondAsync<FileInfoSubmissionRejected>(new
+        //     {
+        //       InVar.Timestamp,
+        //       ctx.Message.FileId,
+        //       ctx.Message.FileName,
+        //       ctx.Message.OriginFolder,
+        //       Reason = $"Unable to submit File with name containing TEST: {ctx.Message.FileName}"
+        //     });
+        //   return;
+        // }
 
 
         await context.Publish<FileInfoSubmitted>(new
@@ -58,7 +58,7 @@ namespace FileHandler.Components.Consumers
         {
           ctx.Message.FileId,
           ctx.Message.FileName,
-          __FaultAddress = "queue:file-fault"
+          //__FaultAddress = "queue:file-fault"
         });
         // await context.RespondAsync("Ok");
 

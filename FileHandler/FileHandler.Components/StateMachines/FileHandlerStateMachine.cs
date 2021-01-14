@@ -29,9 +29,10 @@ namespace FileHandler.Components.StateMachines
         }));
       });
       Event(() => FileInfoSubmitted, x => x.CorrelateById(m => m.Message.FileId));
-      Event(() => ReadFileFaulted, x => x
-        .CorrelateById(m => m.Message.Message.FileId) // Fault<T> includes the original message
-        .SelectId(m => m.Message.Message.FileId));
+      Event(() => ReadFileFaulted, x => x.CorrelateBy((instance, context) => 
+      instance.FileId == context.Message.Message.FileId));
+        // .CorrelateById(m => m.Message.Message.FileId) // Fault<T> includes the original message
+        // .SelectId(m => m.Message.Message.FileId));
       Event(() => TransactionReported, x => x.CorrelateById(m => m.Message.FileId));
 
 
@@ -78,8 +79,12 @@ namespace FileHandler.Components.StateMachines
 
       DuringAny(
         When(ReadFileFaulted)
-          .Then(context => { context.Instance.Updated = DateTime.UtcNow; })
-          .TransitionTo(Read_File_Has_Faulted));
+          .Then(context =>
+          {
+            context.Instance.Updated = DateTime.UtcNow;
+            context.Instance.FaultMessage = context.Data.Exceptions;
+          })
+          .TransitionTo(Fault_Has_Occured));
     }
 
     // State
@@ -88,7 +93,7 @@ namespace FileHandler.Components.StateMachines
     public State Ftp_Settings_Has_Been_Retrieved { get; set; }
     public State File_Is_Sent { get; set; }
     public State Job_Result_Is_Reported { get; set; }
-    public State Read_File_Has_Faulted { get; set; }
+    public State Fault_Has_Occured { get; set; }
 
     // Events
     public Event<FileInfoSubmitted> FileInfoSubmitted { get; set; }

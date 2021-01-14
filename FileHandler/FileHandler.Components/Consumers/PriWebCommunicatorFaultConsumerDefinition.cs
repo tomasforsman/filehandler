@@ -5,17 +5,17 @@ using MassTransit.Definition;
 
 namespace FileHandler.Components.Consumers
 {
-  public class FileReadConsumerDefinition :
-    ConsumerDefinition<ReadConsumer>
+  public class PriWebCommunicator_ErrorConsumerDefinition :
+    ConsumerDefinition<PriWebCommunicator_ErrorConsumer>
   {
     
-    public FileReadConsumerDefinition()
+    public PriWebCommunicator_ErrorConsumerDefinition()
     {
       Endpoint(x => x.PrefetchCount = 50);
     }
     
     protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
-      IConsumerConfigurator<ReadConsumer> consumerConfigurator)
+      IConsumerConfigurator<PriWebCommunicator_ErrorConsumer> consumerConfigurator)
     {
       endpointConfigurator.UseMessageRetry(r =>
         r.Intervals(5, 500)); // (number of retries, time between each retry)
