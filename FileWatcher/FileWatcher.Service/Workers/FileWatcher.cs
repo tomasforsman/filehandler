@@ -17,8 +17,8 @@ namespace FileWatcher.Service.Workers
     private Timer _timer;
     private CancellationTokenSource cancelFileSubmitter;
     private bool freeForWork = true;
-    private readonly string path = @"W:\code\dotnet\microservices\filehandler\data\";
-    private string blobContainerName = "Invoice";
+    private readonly string path = @"W:\code\work\filehandler\data\";
+    private string blobContainerName = "abc";
     
     public Task StartAsync(CancellationToken cancellationToken)
     {
@@ -89,7 +89,7 @@ namespace FileWatcher.Service.Workers
 
             var connectionString =
               "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
-            var container = new BlobContainerClient(connectionString, "Invoice");
+            var container = new BlobContainerClient(connectionString, "abc");
             if(!container.Exists())
               await container.CreateAsync(cancellationToken: cancelsource.Token);
             try

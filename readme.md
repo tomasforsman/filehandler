@@ -1,4 +1,4 @@
-﻿# Project name
+﻿# FileHandler
 
 FileHandler is a set of microservices that allows Hantverksdata to send invoices through FTP using the connections between companies set in the PRI Web system.
 

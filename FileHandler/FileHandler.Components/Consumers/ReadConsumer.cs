@@ -19,9 +19,9 @@ namespace FileHandler.Components.Consumers
 
       await endpoint.Send<GetCommunicationSettings>(new
       {
-        context.Message.FileId,
-        context.Message.BuyerId,
-        context.Message.SellerId
+          context.Message.FileId,
+          context.Message.BuyerId,
+          context.Message.SellerId
       });
     }
   }

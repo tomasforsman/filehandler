@@ -8,8 +8,8 @@ registry: tomasforsman
 network: pri
 name: filehandler
 services:
-# - name: filehandler-api
-#   project: FileHandler/FileHandler.Api/FileHandler.Api.csproj
+- name: filehandler-api
+  project: FileHandler/FileHandler.Api/FileHandler.Api.csproj
 - name: filehandler-service
   project: FileHandler/FileHandler.Service/FileHandler.Service.csproj
   replicas: 4
@@ -27,4 +27,33 @@ services:
 # - name: filesender-service
 #   project: FileSender/FileSender.Service/FileSender.Service.csproj
 
+#- name: redis
+#  image: redis
+#  bindings:
+#    - port: 6379
+#      connectionString: ${host}:${port}
+#- name: redis-cli
+#  image: redis
+#  args: "redis-cli -h redis MONITOR"
+- name: mongo
+  image: mongo
+  env:
+    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+      value: root
+    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+      value: example
+  bindings:
+    - port: 27017
+      connectionString: "mongodb://${host}:${port}"
+- name: mongo-express
+  image: mongo-express
+  bindings:
+    - port: 8081
+      containerPort: 8081
+      protocol: http
+  env:
+    - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+      value: root
+    - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+      value: example
 

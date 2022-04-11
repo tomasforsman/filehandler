@@ -10,7 +10,10 @@ namespace FileHandler.Components.StateMachines
     MassTransitStateMachine<FileHandlerState>
   {
     /// <summary>
-    ///   Automatonymous state machine for a MassTransit saga.
+    ///   FileHandlerStateMachine.cs - The saga state machine structure.    
+    ///   FileHandlerState.cs - State data definition.
+    ///   FileHandlerStateMachineExtensions.cs - State event logic
+    ///   
     /// </summary>
     public FileHandlerStateMachine()
     {

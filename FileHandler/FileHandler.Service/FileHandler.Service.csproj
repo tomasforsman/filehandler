@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="MassTransit" Version="7.0.5-develop.2965" />
-    <PackageReference Include="MassTransit.Analyzers" Version="7.0.7-develop.3022" />
+    <PackageReference Include="MassTransit.Analyzers" Version="7.0.7" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2965" />
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2965" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.15.0" />
@@ -29,9 +29,15 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Serilog" Version="2.10.1-dev-01249" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0-dev-00773" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2-dev-00741" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.2.0-dev-00747" />
+    <PackageReference Include="Serilog.Extensions.Hosting" Version="4.0.0-dev-00051" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10281" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.2.0-dev-00264" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
+    <PackageReference Include="Serilog.Sinks.Seq" Version="5.0.0-dev-00174" />
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
 
