@@ -2,8 +2,9 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>netcoreapp3.1</TargetFramework>
         <RootNamespace>Filhandler.Console</RootNamespace>
+        <TargetFrameworks>net6.0;netcoreapp3.1</TargetFrameworks>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

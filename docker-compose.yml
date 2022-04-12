@@ -5,36 +5,18 @@ networks:
 
 services:
   rabbitmq:
-    build:
-      context: ./Containers/rabbitmq
-      dockerfile: Dockerfile
-    container_name: rabbitmq
-    restart: always
+    image: masstransit/rabbitmq:latest
     networks: 
-      - pri
+     - pri
     ports:
-      - "5672:5672"
-      - "15672:15672"
-      - "15692:15692"
+     - "5672:5672"
+     - "15672:15672"
+     - "15692:15692"
     volumes:
-      - ./Containers/rabbitmq/etc/:/etc/rabbitmq/
-      - ./Containers/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
-      - ./Containers/rabbitmq/logs/:/var/log/rabbitmq/
-    environment: 
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-      - RABBITMQ_NODENAME=rabbitnode@localhost
-      - RABBITMQ_USER=rabbit
-      - RABBITMQ_PASSWORD=rabbit
-    healthcheck:
-      timeout: 5s
-      interval: 5s
-      retries: 10
-      test:
-        - "CMD"
-        - "status"
-        - "http://localhost:15672"
-
+     - ./Containers/rabbitmq/etc/:/etc/rabbitmq/
+     - ./Containers/rabbitmq/data/:/var/lib/rabbitmq/mnesia/
+     - ./Containers/rabbitmq/logs/:/var/log/rabbitmq/
+     
   mongodb_container:
     build:
       context: ./Containers/mongodb

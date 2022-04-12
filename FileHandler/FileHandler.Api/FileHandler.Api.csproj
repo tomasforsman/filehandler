@@ -1,33 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>c312d5cb-7570-4189-99c9-38751e395605</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MassTransit.Analyzers" Version="7.0.7" />
-    <PackageReference Include="MassTransit.AspNetCore" Version="7.0.5-develop.2965" />
-    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="7.3.1-develop.340" />
-    <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2965" />
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.15.0" />
-    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.15.0" />
+    <PackageReference Include="MassTransit" Version="8.0.1" />
+    <PackageReference Include="MassTransit.Abstractions" Version="8.0.1" />
+    <PackageReference Include="MassTransit.Analyzers" Version="8.0.1" />
+    <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.1" />
+    <PackageReference Include="MassTransit.Interop.NServiceBus" Version="8.0.1" />
+    <PackageReference Include="MassTransit.MongoDb" Version="8.0.1" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.DependencyCollector" Version="2.20.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.HealthChecks" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.1.20451.14" />
-    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.15.0" />
-    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
-    <PackageReference Include="NSwag.AspNetCore" Version="13.8.1" />
-    <PackageReference Include="NSwag.Generation" Version="13.8.1" />
-    <PackageReference Include="NSwag.Generation.AspNetCore" Version="13.8.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.20.0" />
+    <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="6.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.1" />
+    <PackageReference Include="NSwag.AspNetCore" Version="13.15.10" />
+    <PackageReference Include="NSwag.Generation" Version="13.15.10" />
+    <PackageReference Include="NSwag.Generation.AspNetCore" Version="13.15.10" />
     <PackageReference Include="Serilog" Version="2.10.1-dev-01249" />
-    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10281" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

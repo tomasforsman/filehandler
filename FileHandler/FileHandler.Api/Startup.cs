@@ -1,6 +1,7 @@
+
+
 using System;
 using MassTransit;
-using MassTransit.Definition;
 using MassTransit.MongoDbIntegration.MessageData;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -25,6 +26,7 @@ namespace FileHandler
     }
 
     private IConfiguration Configuration { get; }
+    
 
     public void ConfigureServices(IServiceCollection services)
     {
@@ -38,6 +40,13 @@ namespace FileHandler
       // });
 
       services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
+      
+      services.Configure<MassTransitHostOptions>(options =>
+      {
+        options.WaitUntilStarted = true;
+        options.StartTimeout = TimeSpan.FromSeconds(30);
+        options.StopTimeout = TimeSpan.FromMinutes(1);
+      });
 
       services.AddMassTransit(mt =>
       {
@@ -53,14 +62,13 @@ namespace FileHandler
         mt.AddRequestClient<CheckFileInfo>();
       });
 
+
       services.Configure<HealthCheckPublisherOptions>(options =>
       {
         options.Delay = TimeSpan.FromSeconds(2);
         options.Predicate = check => check.Tags.Contains("ready");
       });
-
-      services.AddMassTransitHostedService();
-
+      
       services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "FileHandler API");
       services.AddControllers();
       //services.AddSwaggerDocument();

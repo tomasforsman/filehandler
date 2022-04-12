@@ -49,10 +49,10 @@
 	</MessageTransmissionDetails>
 	<SellerPartyDetails>
 		<SellerPartyIdentifier>0793559-7</SellerPartyIdentifier>
-		<SellerOrganisationName>TS-Kylmä Oy</SellerOrganisationName>
+		<SellerOrganisationName>TS-KylmÃ¤ Oy</SellerOrganisationName>
 		<SellerOrganisationTaxCode>07935597</SellerOrganisationTaxCode>
 		<SellerPostalAddressDetails>
-			<SellerStreetName>Vinkkiläntie 106</SellerStreetName>
+			<SellerStreetName>VinkkilÃ¤ntie 106</SellerStreetName>
 			<SellerTownName>Sastamala</SellerTownName>
 			<SellerPostCodeIdentifier>38210</SellerPostCodeIdentifier>
 		</SellerPostalAddressDetails>
@@ -95,7 +95,7 @@
 		<InvoiceDate Format="CCYYMMDD">20200806</InvoiceDate>
 		<SellerReferenceIdentifier>10015</SellerReferenceIdentifier>
 		<SellersBuyerIdentifier>1414</SellersBuyerIdentifier>
-		<OrderIdentifier>LK324 / HK10 jäähdytykset</OrderIdentifier>
+		<OrderIdentifier>LK324 / HK10 jÃ¤Ã¤hdytykset</OrderIdentifier>
 		<InvoiceTotalVatExcludedAmount AmountCurrencyIdentifier="EUR">644,43</InvoiceTotalVatExcludedAmount>
 		<InvoiceTotalVatAmount AmountCurrencyIdentifier="EUR">154,66</InvoiceTotalVatAmount>
 		<InvoiceTotalVatIncludedAmount AmountCurrencyIdentifier="EUR">799,09</InvoiceTotalVatIncludedAmount>
@@ -109,14 +109,14 @@
 			<VatRatePercent>24</VatRatePercent>
 			<VatRateAmount AmountCurrencyIdentifier="EUR">59,82</VatRateAmount>
 		</VatSpecificationDetails>
-		<InvoiceFreeText>Kemira Chemicals Äetsä - Sähkötilan jäähdytyslaitteiden huoltotyöt, lauhduttimien pesu/puhdistus.
-Lisätty Sinclair jäähdytyslaitteeseen kylmäainetäytös, koekäyttö ym. tarkistus
+		<InvoiceFreeText>Kemira Chemicals Ã„etsÃ¤ - SÃ¤hkÃ¶tilan jÃ¤Ã¤hdytyslaitteiden huoltotyÃ¶t, lauhduttimien pesu/puhdistus.
+LisÃ¤tty Sinclair jÃ¤Ã¤hdytyslaitteeseen kylmÃ¤ainetÃ¤ytÃ¶s, koekÃ¤yttÃ¶ ym. tarkistus
 </InvoiceFreeText>
 		<PaymentTermsDetails>
 			<PaymentTermsFreeText>10 pv</PaymentTermsFreeText>
 			<InvoiceDueDate Format="CCYYMMDD">20200816</InvoiceDueDate>
 			<PaymentOverDueFineDetails>
-				<PaymentOverDueFineFreeText>Viivästyskorko</PaymentOverDueFineFreeText>
+				<PaymentOverDueFineFreeText>ViivÃ¤styskorko</PaymentOverDueFineFreeText>
 				<PaymentOverDueFinePercent>10.0</PaymentOverDueFinePercent>
 			</PaymentOverDueFineDetails>
 		</PaymentTermsDetails>
@@ -126,7 +126,7 @@ Lisätty Sinclair jäähdytyslaitteeseen kylmäainetäytös, koekäyttö ym. tarkistus
 	</PaymentStatusDetails>
 	<InvoiceRow>
 		<ArticleIdentifier>0011</ArticleIdentifier>
-		<ArticleName>Asennustyö</ArticleName>
+		<ArticleName>AsennustyÃ¶</ArticleName>
 		<DeliveredQuantity>4</DeliveredQuantity>
 		<OrderedQuantity QuantityUnitCode="h">4</OrderedQuantity>
 		<UnitPriceAmount AmountCurrencyIdentifier="EUR">53,00</UnitPriceAmount>
@@ -162,7 +162,7 @@ Lisätty Sinclair jäähdytyslaitteeseen kylmäainetäytös, koekäyttö ym. tarkistus
 	</InvoiceRow>
 	<InvoiceRow>
 		<ArticleIdentifier>RAINE410A10</ArticleIdentifier>
-		<ArticleName>R410A kylmäaine 10kg</ArticleName>
+		<ArticleName>R410A kylmÃ¤aine 10kg</ArticleName>
 		<DeliveredQuantity>3,6</DeliveredQuantity>
 		<OrderedQuantity QuantityUnitCode="kpl">4</OrderedQuantity>
 		<UnitPriceAmount AmountCurrencyIdentifier="EUR">92,90</UnitPriceAmount>
@@ -182,7 +182,7 @@ Lisätty Sinclair jäähdytyslaitteeseen kylmäainetäytös, koekäyttö ym. tarkistus
 				<EpiBfiIdentifier IdentificationSchemeName="BIC">OKOYFIHH</EpiBfiIdentifier>
 			</EpiBfiPartyDetails>
 			<EpiBeneficiaryPartyDetails>
-				<EpiNameAddressDetails>TS-Kylmä Oy</EpiNameAddressDetails>
+				<EpiNameAddressDetails>TS-KylmÃ¤ Oy</EpiNameAddressDetails>
 				<EpiAccountID IdentificationSchemeName="IBAN">FI94 5660 0620 0646 91</EpiAccountID>
 			</EpiBeneficiaryPartyDetails>
 		</EpiPartyDetails>
