@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0-preview.1" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.13.0" />
     <PackageReference Include="MassTransit" Version="7.0.5-develop.2965" />
     <PackageReference Include="MassTransit.Analyzers" Version="7.0.7" />
     <PackageReference Include="MassTransit.Extensions.DependencyInjection" Version="7.0.5-develop.2965" />
@@ -40,7 +40,7 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.2-dev-10281" />
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.0.0-dev-00839" />
-    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
