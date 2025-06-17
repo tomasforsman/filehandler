@@ -1,6 +1,7 @@
 
 
 using System;
+using FileHandler.Contracts.Configuration;
 using MassTransit;
 using MassTransit.MongoDbIntegration.MessageData;
 using Microsoft.AspNetCore.Builder;
@@ -30,6 +31,8 @@ namespace FileHandler
 
     public void ConfigureServices(IServiceCollection services)
     {
+      var appConfig = ConfigurationValidator.GetValidatedConfiguration(Configuration);
+      
       services.AddHealthChecks();
 
       // services.AddApplicationInsightsTelemetry();
@@ -55,10 +58,10 @@ namespace FileHandler
           MessageDataDefaults.ExtraTimeToLive = TimeSpan.FromDays(1);
           MessageDataDefaults.Threshold = 2000;
           MessageDataDefaults.AlwaysWriteToRepository = false;
-          cfg.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
+          cfg.UseMessageData(new MongoDbMessageDataRepository(appConfig.MongoDb.AttachmentsConnectionString, appConfig.MongoDb.AttachmentsDatabaseName));
         });
 
-        mt.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+        mt.AddRequestClient<SubmitFileInfo>(new Uri($"queue:{appConfig.Queues.SubmitFileInfo}"));
         mt.AddRequestClient<CheckFileInfo>();
       });
 
