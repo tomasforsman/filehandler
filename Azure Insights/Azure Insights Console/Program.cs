@@ -1,8 +1,10 @@
 ﻿using System.Net.Http;
 using System.Threading.Tasks;
+using FileHandler.Contracts.Configuration;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DependencyCollector;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.Extensions.Configuration;
 
 namespace ConsoleApp
 {
@@ -10,13 +12,19 @@ namespace ConsoleApp
   {
     private static void Main(string[] args)
     {
-      var configuration = TelemetryConfiguration.CreateDefault();
+      var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: true)
+        .AddEnvironmentVariables()
+        .Build();
 
-      configuration.InstrumentationKey = "05d55b31 - 6ab4 - 40f9 - a226 - a356f41457c5";
-      configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+      var appConfig = ConfigurationValidator.GetValidatedConfiguration(configuration);
+      var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
 
-      var telemetryClient = new TelemetryClient(configuration);
-      using (InitializeDependencyTracking(configuration))
+      telemetryConfiguration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
+      telemetryConfiguration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+
+      var telemetryClient = new TelemetryClient(telemetryConfiguration);
+      using (InitializeDependencyTracking(telemetryConfiguration))
       {
         // run app...
 

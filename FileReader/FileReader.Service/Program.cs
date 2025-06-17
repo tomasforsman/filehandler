@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FileHandler.Contracts.Configuration;
 using FileReader.Components.Consumers;
 using MassTransit;
 using MassTransit.Definition;
@@ -46,10 +47,12 @@ namespace FileReader.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
+          var appConfig = ConfigurationValidator.GetValidatedConfiguration(hostContext.Configuration);
+          
           module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
           configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
+          configuration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
           telemetryClient = new TelemetryClient(configuration);
           module.Initialize(configuration);

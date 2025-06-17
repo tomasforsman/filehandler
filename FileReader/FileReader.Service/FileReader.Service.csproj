@@ -43,6 +43,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\FileReader.Components\FileReader.Components.csproj" />
+      <ProjectReference Include="..\..\FileHandler\FileHandler.Contracts\FileHandler.Contracts.csproj" />
     </ItemGroup>
 
     <ItemGroup>
