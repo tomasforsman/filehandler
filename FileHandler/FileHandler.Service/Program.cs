@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
+using FileHandler.Components.HealthChecks;
+using FileHandler.Components.Observers;
 using FileHandler.Contracts.Configuration;
 using MassTransit;
 using MassTransit.Definition;
@@ -19,6 +21,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -71,6 +74,10 @@ namespace FileHandler.Service
         {
           var appConfig = FileHandler.Contracts.Configuration.ConfigurationValidator.GetValidatedConfiguration(hostContext.Configuration);
           
+          // Add health checks
+          services.AddHealthChecks()
+            .AddCheck<BasicHealthCheck>("basic", HealthStatus.Healthy, new[] { "ready" });
+            
           module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
           configuration = TelemetryConfiguration.CreateDefault();
