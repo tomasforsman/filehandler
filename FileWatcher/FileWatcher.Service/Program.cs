@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FileHandler.Contracts.Configuration;
 using FileWatcher.Components;
 using MassTransit;
 using MassTransit.Definition;
@@ -48,10 +49,12 @@ namespace FileWatcher.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
+          var appConfig = ConfigurationValidator.GetValidatedConfiguration(hostContext.Configuration);
+          
           module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
           configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
+          configuration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
           telemetryClient = new TelemetryClient(configuration);
           module.Initialize(configuration);
@@ -62,7 +65,7 @@ namespace FileWatcher.Service
           {
             cfg.AddConsumer<LocalFileWatcherConsumer>();
             cfg.UsingRabbitMq(ConfigureBus);
-            cfg.AddRequestClient<SubmitFileInfo>(new Uri("queue:submit-file-info"));
+            cfg.AddRequestClient<SubmitFileInfo>(new Uri($"queue:{appConfig.Queues.SubmitFileInfo}"));
           });
 
           services.AddHostedService<MassTransitConsoleHostedService>();

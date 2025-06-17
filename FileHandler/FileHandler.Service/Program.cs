@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FileHandler.Components.Consumers;
 using FileHandler.Components.StateMachines;
+using FileHandler.Contracts.Configuration;
 using MassTransit;
 using MassTransit.Definition;
 using MassTransit.MongoDbIntegration.MessageData;
@@ -69,10 +70,12 @@ namespace FileHandler.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
+          var appConfig = FileHandler.Contracts.Configuration.ConfigurationValidator.GetValidatedConfiguration(hostContext.Configuration);
+          
           module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
           configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "05d55b31-6ab4-40f9-a226-a356f41457c5";
+          configuration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
           configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
           telemetryClient = new TelemetryClient(configuration);
           module.Initialize(configuration);
@@ -84,15 +87,14 @@ namespace FileHandler.Service
 
             cfg.AddSagaStateMachine<FileHandlerStateMachine, FileHandlerState>(
                 typeof(FileHandlerStateMachineDefinition))
-              // .RedisRepository("127.0.0.1");
               .MongoDbRepository(r =>
               {
-                r.Connection = "mongodb://localhost";
-                r.DatabaseName = "filedb";
-                r.CollectionName = "states";
-              }); //.RedisRepository("127.0.0.1");
+                r.Connection = appConfig.MongoDb.ConnectionString;
+                r.DatabaseName = appConfig.MongoDb.DatabaseName;
+                r.CollectionName = appConfig.MongoDb.CollectionName;
+              });
 
-            cfg.UsingRabbitMq(ConfigureBus);
+            cfg.UsingRabbitMq((context, configurator) => ConfigureBus(context, configurator, appConfig));
           });
 
           services.AddHostedService<MassTransitConsoleHostedService>();
@@ -116,10 +118,10 @@ namespace FileHandler.Service
       telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
-    private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
+    private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator, FileHandler.Contracts.Configuration.ApplicationConfiguration appConfig)
     {
-      configurator.UseMessageData(new MongoDbMessageDataRepository("mongodb://127.0.0.1", "attachments"));
-      configurator.UseMessageScheduler(new Uri("queue:quartz"));
+      configurator.UseMessageData(new MongoDbMessageDataRepository(appConfig.MongoDb.AttachmentsConnectionString, appConfig.MongoDb.AttachmentsDatabaseName));
+      configurator.UseMessageScheduler(new Uri($"queue:{appConfig.Queues.Quartz}"));
       configurator.ConfigureEndpoints(context);
     }
   }

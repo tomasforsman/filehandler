@@ -46,6 +46,7 @@
   <ItemGroup>
     <ProjectReference Include="..\FileWatcher.Components\FileWatcher.Components.csproj" />
     <ProjectReference Include="..\FileWatcher.Contracts\FileWatcher.Contracts.csproj" />
+    <ProjectReference Include="..\..\FileHandler\FileHandler.Contracts\FileHandler.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
