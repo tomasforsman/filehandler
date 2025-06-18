@@ -14,24 +14,45 @@ Before you begin, ensure you have met the following requirements:
 * .Net Tye is installed
 * Kubernetes for deployment
 
-## Installing <project_name>
+## Installing FileHandler
 
 To install FileHandler and related services, follow these steps:
 
-Kubernetes:
+### Using Docker Compose
+```bash
+docker-compose up -d
 ```
 
+### Using .NET Tye
+```bash
+tye run
 ```
-<!--- Docker Compose and Tye usage --->
 
-## Using <project_name>
+### Using Kubernetes
+Deploy the application using the provided Kubernetes manifests:
+```bash
+kubectl apply -f ./k8s/
+```
+
+## Using FileHandler
 
 To use FileHandler, follow these steps:
 
-```
+### Starting the Services
+1. Ensure all prerequisites are installed
+2. Start the services using one of the installation methods above
+3. FileWatcher will monitor the configured folder for new XML files
+4. When files are detected, they are automatically uploaded to Azure blob storage
+5. FileHandler processes the files and sends them via FTP based on PRI Web system configuration
 
-```
-<!--- Commands and settings --->
+### Configuration
+Configure the application by updating the `appsettings.json` files in each service project.
+
+### API Endpoints
+The FileHandler API provides the following endpoints:
+- `GET /FileInfo/{id}` - Get file information by ID
+- `POST /FileInfo` - Submit new file information
+- `PUT /FileInfo` - Update file information
 
 
 ## Contributors
