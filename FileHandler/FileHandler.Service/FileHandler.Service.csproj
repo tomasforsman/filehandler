@@ -22,6 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.CommandLine" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0-rc.1.20451.14" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="5.0.0-rc.1.20451.7" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0-rc.1.20451.14" />
     <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.15.0" />

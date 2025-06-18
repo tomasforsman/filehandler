@@ -13,6 +13,7 @@
     <PackageReference Include="MassTransit.RabbitMQ" Version="7.0.5-develop.2965" />
     <PackageReference Include="MassTransit.Redis" Version="7.0.5-develop.2965" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Microsoft.Extensions.WebEncoders" Version="5.0.0-rc.1.20451.17" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
     <PackageReference Include="System.Text.Encodings.Web" Version="5.0.0-rc.1.20451.14" />
