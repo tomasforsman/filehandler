@@ -26,13 +26,9 @@ namespace FileReader.Components.Consumers
       "DefaultEndpointsProtocol=https;AccountName=prifilehandlertest;AccountKey=xAKHtHiV9iuBRRPLO+dA6IFD9jD3MzrMNFgvsvqAp8ol4caBsWR4jzp7JuFMw/Nc07Wh/ntWgmL87gR2l6c/jA==;EndpointSuffix=core.windows.net";
 
 
-    public ReadFileConsumer()
-    {
-    }
-
     public ReadFileConsumer(ILogger<ReadFileConsumer> logger)
     {
-      _logger = logger;
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
 
