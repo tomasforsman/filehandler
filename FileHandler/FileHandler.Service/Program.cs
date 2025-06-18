@@ -38,10 +38,6 @@ namespace FileHandler.Service
     /// <summary>
     ///   Service that receives message and does something with it.
     /// </summary>
-    private static DependencyTrackingTelemetryModule module;
-
-    private static TelemetryClient telemetryClient;
-    private static TelemetryConfiguration configuration;
 
     private static async Task Main(string[] args)
     {
@@ -78,13 +74,18 @@ namespace FileHandler.Service
           services.AddHealthChecks()
             .AddCheck<BasicHealthCheck>("basic", HealthStatus.Healthy, new[] { "ready" });
             
-          module = new DependencyTrackingTelemetryModule();
+          var module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-          configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
-          configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-          telemetryClient = new TelemetryClient(configuration);
-          module.Initialize(configuration);
+          var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+          telemetryConfiguration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
+          telemetryConfiguration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+          var telemetryClient = new TelemetryClient(telemetryConfiguration);
+          module.Initialize(telemetryConfiguration);
+
+          // Register telemetry services for proper disposal
+          services.AddSingleton(telemetryConfiguration);
+          services.AddSingleton(telemetryClient);
+          services.AddSingleton(module);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -102,8 +103,6 @@ namespace FileHandler.Service
 
             cfg.UsingRabbitMq((context, configurator) => ConfigureBus(context, configurator, appConfig));
           });
-
-          services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .UseSerilog()
         .ConfigureLogging((hostingContext, logging) =>
@@ -120,8 +119,6 @@ namespace FileHandler.Service
         await builder.RunConsoleAsync();
       Log.Information("Test");
       
-      module?.Dispose();
-      telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
     private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator, FileHandler.Contracts.Configuration.ApplicationConfiguration appConfig)

@@ -12,13 +12,9 @@ namespace FileSender.Components.Consumers
   {
     private readonly ILogger<SendFileConsumer> _logger;
 
-    public SendFileConsumer()
-    {
-    }
-
     public SendFileConsumer(ILogger<SendFileConsumer> logger)
     {
-      _logger = logger;
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public async Task Consume(ConsumeContext<SendFile> context)

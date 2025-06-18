@@ -22,10 +22,6 @@ namespace FileReader.Service
 {
   public class Program
   {
-    private static DependencyTrackingTelemetryModule module;
-    private static TelemetryClient telemetryClient;
-    private static TelemetryConfiguration configuration;
-
     public static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
@@ -49,13 +45,18 @@ namespace FileReader.Service
         {
           var appConfig = ConfigurationValidator.GetValidatedConfiguration(hostContext.Configuration);
           
-          module = new DependencyTrackingTelemetryModule();
+          var module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-          configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
-          configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-          telemetryClient = new TelemetryClient(configuration);
-          module.Initialize(configuration);
+          var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+          telemetryConfiguration.InstrumentationKey = appConfig.ApplicationInsights.InstrumentationKey;
+          telemetryConfiguration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+          var telemetryClient = new TelemetryClient(telemetryConfiguration);
+          module.Initialize(telemetryConfiguration);
+
+          // Register telemetry services for proper disposal
+          services.AddSingleton(telemetryConfiguration);
+          services.AddSingleton(telemetryClient);
+          services.AddSingleton(module);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -63,8 +64,6 @@ namespace FileReader.Service
             cfg.AddConsumersFromNamespaceContaining<ReadFileConsumer>();
             cfg.UsingRabbitMq(ConfigureBus);
           });
-
-          services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>
         {
@@ -78,16 +77,13 @@ namespace FileReader.Service
       else
         await builder.RunConsoleAsync();
 
-      module?.Dispose();
-      telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
 
     private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
     {
-      var readFileConsumer = new ReadFileConsumer();
       configurator.UseMessageScheduler(new Uri("queue:quartz"));
-      configurator.ReceiveEndpoint("file-reader", e => { e.Instance(readFileConsumer); });
+      configurator.ConfigureEndpoints(context);
     }
   }
 }

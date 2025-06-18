@@ -21,10 +21,6 @@ namespace FileSender.Service
 {
   public class Program
   {
-    private static DependencyTrackingTelemetryModule module;
-    private static TelemetryClient telemetryClient;
-    private static TelemetryConfiguration configuration;
-
     public static async Task Main(string[] args)
     {
       var isService = !(Debugger.IsAttached || args.Contains("--console"));
@@ -46,13 +42,18 @@ namespace FileSender.Service
         })
         .ConfigureServices((hostContext, services) =>
         {
-          module = new DependencyTrackingTelemetryModule();
+          var module = new DependencyTrackingTelemetryModule();
           module.IncludeDiagnosticSourceActivities.Add("MassTransit");
-          configuration = TelemetryConfiguration.CreateDefault();
-          configuration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
-          configuration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
-          telemetryClient = new TelemetryClient(configuration);
-          module.Initialize(configuration);
+          var telemetryConfiguration = TelemetryConfiguration.CreateDefault();
+          telemetryConfiguration.InstrumentationKey = "ba987c06-f3f2-4624-9720-89d441ca5805";
+          telemetryConfiguration.TelemetryInitializers.Add(new HttpDependenciesParsingTelemetryInitializer());
+          var telemetryClient = new TelemetryClient(telemetryConfiguration);
+          module.Initialize(telemetryConfiguration);
+
+          // Register telemetry services for proper disposal
+          services.AddSingleton(telemetryConfiguration);
+          services.AddSingleton(telemetryClient);
+          services.AddSingleton(module);
 
           services.TryAddSingleton(KebabCaseEndpointNameFormatter.Instance);
           services.AddMassTransit(cfg =>
@@ -61,8 +62,6 @@ namespace FileSender.Service
 
             cfg.UsingRabbitMq(ConfigureBus);
           });
-
-          services.AddHostedService<MassTransitConsoleHostedService>();
         })
         .ConfigureLogging((hostingContext, logging) =>
         {
@@ -76,16 +75,13 @@ namespace FileSender.Service
       else
         await builder.RunConsoleAsync();
 
-      module?.Dispose();
-      telemetryClient?.Flush();
       Log.CloseAndFlush();
     }
 
     private static void ConfigureBus(IBusRegistrationContext context, IRabbitMqBusFactoryConfigurator configurator)
     {
-      var sendFileConsumer = new SendFileConsumer();
       configurator.UseMessageScheduler(new Uri("queue:quartz"));
-      configurator.ReceiveEndpoint("file-sender", e => { e.Instance(sendFileConsumer); });
+      configurator.ConfigureEndpoints(context);
     }
   }
 }
