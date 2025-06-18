@@ -8,17 +8,31 @@ using FileHandler.Contracts.Configuration;
 
 namespace FileHandler.Components.HealthChecks
 {
+    /// <summary>
+    /// Health check for MongoDB database connectivity
+    /// </summary>
     public class DatabaseHealthCheck : IHealthCheck
     {
         private readonly ApplicationConfiguration _config;
         private readonly ILogger<DatabaseHealthCheck> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the DatabaseHealthCheck
+        /// </summary>
+        /// <param name="config">Application configuration</param>
+        /// <param name="logger">Logger instance</param>
         public DatabaseHealthCheck(ApplicationConfiguration config, ILogger<DatabaseHealthCheck> logger)
         {
             _config = config ?? throw new ArgumentNullException(nameof(config));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Performs health check by pinging the MongoDB database
+        /// </summary>
+        /// <param name="context">Health check context</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Health check result indicating database connectivity status</returns>
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
             try
