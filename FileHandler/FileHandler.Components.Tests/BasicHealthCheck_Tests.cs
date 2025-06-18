@@ -45,5 +45,25 @@ namespace FileHandler.Components.Tests
             // Assert
             Assert.NotNull(healthCheck);
         }
+
+        [Fact]
+        public async Task Should_return_healthy_status_with_custom_context()
+        {
+            // Arrange
+            var logger = new NullLogger<BasicHealthCheck>();
+            var healthCheck = new BasicHealthCheck(logger);
+            var context = new HealthCheckContext
+            {
+                Registration = new HealthCheckRegistration("test", healthCheck, HealthStatus.Healthy, null)
+            };
+
+            // Act
+            var result = await healthCheck.CheckHealthAsync(context, CancellationToken.None);
+
+            // Assert
+            Assert.Equal(HealthStatus.Healthy, result.Status);
+            Assert.Equal("Service is healthy", result.Description);
+            Assert.Null(result.Exception);
+        }
     }
 }

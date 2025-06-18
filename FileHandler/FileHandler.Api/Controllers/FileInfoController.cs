@@ -7,6 +7,9 @@ using Pri.Contracts;
 
 namespace FileHandler.Api.Controllers
 {
+  /// <summary>
+  /// Controller for managing file information operations
+  /// </summary>
   [ApiController]
   [Route("[controller]")]
   public class FileInfoController : ControllerBase
@@ -17,6 +20,14 @@ namespace FileHandler.Api.Controllers
     private readonly ISendEndpointProvider _sendEndpointProvider;
     private readonly IRequestClient<SubmitFileInfo> _submitFileInfoRequestClient;
 
+    /// <summary>
+    /// Initializes a new instance of the FileInfoController
+    /// </summary>
+    /// <param name="logger">Logger instance</param>
+    /// <param name="submitFileInfoRequestClient">Client for submitting file info requests</param>
+    /// <param name="sendEndpointProvider">Provider for send endpoints</param>
+    /// <param name="checkFileInfoClient">Client for checking file info</param>
+    /// <param name="publishEndpoint">Endpoint for publishing messages</param>
     public FileInfoController(ILogger<FileInfoController> logger,
       IRequestClient<SubmitFileInfo> submitFileInfoRequestClient, ISendEndpointProvider sendEndpointProvider,
       IRequestClient<CheckFileInfo> checkFileInfoClient, IPublishEndpoint publishEndpoint)
@@ -28,6 +39,11 @@ namespace FileHandler.Api.Controllers
       _publishEndpoint = publishEndpoint;
     }
 
+    /// <summary>
+    /// Gets file information by ID
+    /// </summary>
+    /// <param name="id">The file ID to retrieve information for</param>
+    /// <returns>File status information or not found result</returns>
     [HttpGet]
     public async Task<IActionResult> Get(Guid id)
     {
@@ -46,6 +62,13 @@ namespace FileHandler.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Submits new file information for processing
+    /// </summary>
+    /// <param name="id">The file ID</param>
+    /// <param name="fileName">The name of the file</param>
+    /// <param name="folder">The local folder containing the file</param>
+    /// <returns>Accepted result if successful, bad request if rejected</returns>
     [HttpPost]
     public async Task<IActionResult> Post(Guid id, string fileName, string folder)
     {
@@ -70,6 +93,13 @@ namespace FileHandler.Api.Controllers
       }
     }
 
+    /// <summary>
+    /// Updates file information using send endpoint
+    /// </summary>
+    /// <param name="id">The file ID</param>
+    /// <param name="fileName">The name of the file</param>
+    /// <param name="folder">The local folder containing the file</param>
+    /// <returns>Accepted result</returns>
     [HttpPut]
     public async Task<IActionResult> Put(Guid id, string fileName, string folder)
     {

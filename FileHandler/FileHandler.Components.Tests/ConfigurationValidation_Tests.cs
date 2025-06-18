@@ -72,5 +72,17 @@ namespace FileHandler.Components.Tests
             Assert.Equal("submit-file-info", appConfig.Queues.SubmitFileInfo); // Default value
             Assert.Equal("quartz", appConfig.Queues.Quartz); // Default value
         }
+
+        [Fact]
+        public void Should_handle_empty_configuration_gracefully()
+        {
+            // Arrange
+            var configurationBuilder = new ConfigurationBuilder();
+            var configuration = configurationBuilder.Build();
+
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => 
+                ConfigurationValidator.GetValidatedConfiguration(configuration));
+        }
     }
 }

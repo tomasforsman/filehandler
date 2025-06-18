@@ -3,13 +3,13 @@
 <!--
 
 2007-12-11 Martin Landström
-**** IMPORT till PRIWeb ****
-- Mallen som denna XSLT-fil skall arbeta mot måste ha obligatoriska fält för att 
-  att importen skall fungera. 
-- Mallen som används i PRIWeb skall importera XML (SVE-faktura-format). 
-- Numeriska fält skall ha punkt som decimalavskiljare
-- Filen laddas upp till PRIWeb och innan den sparas ned till temporära tabeller
-  transformeras den till PRIWeb-XML-format
+**** IMPORT to PRIWeb ****
+- The template that this XSLT file should work against must have mandatory fields
+  for the import to function properly.
+- The template used in PRIWeb should import XML (Swedish e-invoice format).
+- Numeric fields should use dot as decimal separator
+- The file is uploaded to PRIWeb and before it is saved to temporary tables
+  it is transformed to PRIWeb-XML format
 
 -->
 

@@ -72,7 +72,20 @@ namespace FileHandler
         options.Predicate = check => check.Tags.Contains("ready");
       });
       
-      services.AddOpenApiDocument(cfg => cfg.PostProcess = d => d.Info.Title = "FileHandler API");
+      services.AddOpenApiDocument(cfg => 
+      {
+        cfg.PostProcess = d => 
+        {
+          d.Info.Title = "FileHandler API";
+          d.Info.Description = "API for managing file processing operations in the FileHandler microservices system";
+          d.Info.Version = "1.0.0";
+          d.Info.Contact = new NSwag.OpenApiContact
+          {
+            Name = "FileHandler Team",
+            Email = "tomas.forsman@prihandel.com"
+          };
+        };
+      });
       services.AddControllers();
       //services.AddSwaggerDocument();
     }
